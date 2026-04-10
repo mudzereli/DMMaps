@@ -1258,14 +1258,17 @@ function updateRoomInfoPanel(){
 
 function init(){
   const container = document.getElementById('mapContainer');
-  if (container) container.textContent = 'Choose file: areas.json using the file picker above.';
+  if (container) container.textContent = 'Loading areas from areas.js (edit areas.js and reload to change).';
 }
 
 // single DOMContentLoaded handler to initialize UI wiring
 document.addEventListener('DOMContentLoaded', ()=>{
   init();
-  const input = document.getElementById('fileInput');
-  if (input) input.addEventListener('change', (e)=>{ const f = e.target.files && e.target.files[0]; if (f) handleFile(f); });
+  // Auto-load areas from an included JS file if present (areas.js should set `window.areas` or `window.mapAreas`).
+  try{
+    if (window.areas){ processData(window.areas); document.getElementById('loadedFile') && (document.getElementById('loadedFile').textContent = 'areas.js'); }
+    else if (window.mapAreas){ processData(window.mapAreas); document.getElementById('loadedFile') && (document.getElementById('loadedFile').textContent = 'areas.js'); }
+  }catch(e){ console.warn('Auto-load areas failed', e); }
   const prev = document.getElementById('layerPrev');
   const next = document.getElementById('layerNext');
   if (prev) prev.addEventListener('click', ()=> changeLayer(-1));
