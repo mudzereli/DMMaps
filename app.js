@@ -1,0 +1,1330 @@
+// Mapping demo: local file picker loader and renderer
+
+let currentLayer = 0;
+let currentAreaObj = null;
+let showDebugOverlay = false;
+// interactive selection state
+let selectedRooms = new Set();
+let _dragState = null;
+// preserve viewBox across re-renders when requested
+let preservedViewBox = null;
+// last populated areas for selection from dropdown
+let availableAreas = [];
+
+function handleFile(file){
+  const reader = new FileReader();
+  reader.onerror = (err) => {
+    console.error('File read error', err, file);
+    alert('Failed to read file');
+  };
+  reader.onload = () => {
+    let json;
+    try{
+    json = JSON.parse(reader.result);
+      document.getElementById('loadedFile').textContent = file.name;
+    }catch(e){
+      console.error('JSON parse error', e, reader.result);
+      alert('Invalid JSON: ' + (e && e.message ? e.message : String(e)));
+      return;
+    }
+    try{
+      processData(json);
+    }catch(e){
+      console.error('Error processing loaded JSON', e);
+      alert('Error processing file: ' + (e && e.message ? e.message : String(e)));
+    }
+  };
+  reader.readAsText(file);
+}
+
+function processData(data){
+  const areas = extractAreas(data);
+  // auto-apply terrain coloring if MapColorsJS is available
+  try{ if (typeof MapColorsJS !== 'undefined' && MapColorsJS && typeof MapColorsJS.applyColors === 'function'){
+    areas.forEach(a=>{ try{ MapColorsJS.applyColors(a); }catch(e){} });
+  } }catch(e){}
+  if (areas.length===0) return document.getElementById('mapContainer').textContent = 'No areas/rooms found in JSON.';
+  populateAreaList(areas);
+}
+
+function extractAreas(data) {
+  if (!data) return [];
+  // If source uses top-level `rooms` object keyed by vnum
+  if (data.rooms && typeof data.rooms === 'object' && !Array.isArray(data.rooms)){
+    return areasFromRoomsObject(data.rooms);
+  }
+  // If file already contains an `areas` array
+  if (Array.isArray(data)) return data.map(a=>normalizeArea(a));
+  if (data.areas) return data.areas.map(a=>normalizeArea(a));
+  // fallback: top-level keys with rooms
+  return Object.values(data).filter(v=>v && v.rooms).map(a=>normalizeArea(a));
+}
+
+function normalizeArea(a){
+  return {
+    id: a.id ?? a.name ?? a.areaId ?? Math.random().toString(36).slice(2,8),
+    name: a.name ?? a.id ?? 'Area',
+    rooms: (a.rooms||a.roomsList||[]).map(r=>r)
+  };
+}
+
+function areasFromRoomsObject(roomsObj){
+  // roomsObj: { "1224": { name, area, exits: {...} }, ... }
+  const areas = {};
+  for (const [k,v] of Object.entries(roomsObj)){
+    const areaName = v.area ?? 'Default';
+    if (!areas[areaName]) areas[areaName] = { id: areaName, name: areaName, rooms: [] };
+    const room = {
+      id: k,
+      vnum: Number(k),
+      name: v.name ?? k,
+      exits: v.exits ?? {}
+    };
+    areas[areaName].rooms.push(room);
+  }
+  // For each area, compute layout positions based on exits and z-range
+  return Object.values(areas).map(a=>{
+    const rooms = layoutAreaRooms(a.rooms);
+    const zs = rooms.map(r=>r.z||0);
+    const minZ = zs.length?Math.min(...zs):0;
+    const maxZ = zs.length?Math.max(...zs):0;
+    return {...a, rooms, minZ, maxZ};
+  });
+}
+
+function layoutAreaRooms(rooms, startId){
+  // place rooms using BFS following exits; compute integer grid positions and a level (z) for up/down
+  const dirDelta = { north:[0,-1], south:[0,1], east:[1,0], west:[-1,0] };
+  const cellSize = 120; // base cell size for placement
+  const pos = {}; // vnum -> {x,y}
+  const occupied = new Map(); // key 'x,y,z' -> vnum (allow same x,y on different z levels)
+  const level = {}; // vnum -> z-level (0 baseline)
+
+  const idMap = new Map();
+  rooms.forEach(r=>idMap.set(Number(r.id), r));
+
+  if (rooms.length===0) return rooms;
+
+  // Choose a sensible BFS start. Use provided `startId` if valid; otherwise
+  // prefer a room that has outgoing connectors to other rooms in this area.
+  // If none have outgoing connectors, prefer a room that is referenced by others
+  // (incoming). Fallback to the first room.
+  let start = Number(rooms[0].id);
+  if (startId !== undefined && startId !== null){
+    const asNum = Number(startId);
+    if (!Number.isNaN(asNum) && idMap.has(asNum)) start = asNum;
+  } else {
+    let found = null;
+    for (const r of rooms){
+      const exits = r.exits || {};
+      for (const ex of Object.values(exits)){
+        const tid = Number(ex && (ex.vnum ?? ex));
+        if (tid && idMap.has(tid)) { found = Number(r.id); break; }
+      }
+      if (found) break;
+    }
+    if (!found){
+      const targets = new Set();
+      for (const r of rooms){
+        for (const ex of Object.values(r.exits || {})){
+          const tid = Number(ex && (ex.vnum ?? ex));
+          if (tid && idMap.has(tid)) targets.add(tid);
+        }
+      }
+      if (targets.size) found = Array.from(targets)[0];
+    }
+    if (found) start = Number(found);
+  }
+  pos[start] = {x:0,y:0};
+  level[start] = 0;
+  const startKey = `${pos[start].x},${pos[start].y},${level[start]}`;
+  occupied.set(startKey, start);
+  const q = [start];
+  const visited = new Set([start]);
+
+  // debug map: id -> { from:{x,y}, to:{x,y}, z }
+  const debugMap = new Map();
+  const halfSide = (cellSize - 20) / 2;
+
+  while(q.length){
+    const cur = q.shift();
+    const curRoom = idMap.get(cur);
+    if (!curRoom) continue;
+    const curPos = pos[cur];
+    const exits = curRoom.exits || {};
+    for (const [dir,ex] of Object.entries(exits)){
+      const target = Number(ex.vnum || ex);
+      if (!target || !idMap.has(target)) continue;
+      if (visited.has(target)) continue;
+      // determine target level (z)
+      const curLevel = level[cur] ?? 0;
+      let targetLevel = curLevel;
+      if (dir.toLowerCase() === 'up') targetLevel = curLevel + 1;
+      if (dir.toLowerCase() === 'down') targetLevel = curLevel - 1;
+      // choose delta if cardinal
+      const d = dirDelta[dir.toLowerCase()];
+      // for up/down, place target in same grid cell as source; visual offset will indicate layer
+      let tx = curPos.x + (d?d[0]:0);
+      let ty = curPos.y + (d?d[1]:0);
+      if (dir.toLowerCase() === 'up' || dir.toLowerCase() === 'down'){
+        tx = curPos.x;
+        ty = curPos.y;
+      }
+      // find free spot if occupied on the same z-level (allow overlaps across z)
+      let key = `${tx},${ty},${targetLevel}`;
+      let tries = 0;
+      while(occupied.has(key) && occupied.get(key)!==target && tries<100){
+        // try neighbors clockwise
+        const triesMap = [[1,0],[0,1],[-1,0],[0,-1],[1,1],[-1,-1],[1,-1],[-1,1]];
+        const t = triesMap[tries % triesMap.length];
+        tx = curPos.x + (d?d[0]:0) + t[0]*(Math.floor(tries/triesMap.length)+1);
+        ty = curPos.y + (d?d[1]:0) + t[1]*(Math.floor(tries/triesMap.length)+1);
+        key = `${tx},${ty},${targetLevel}`;
+        tries++;
+      }
+      pos[target] = {x:tx,y:ty};
+      level[target] = targetLevel;
+      occupied.set(key,target);
+      visited.add(target);
+      q.push(target);
+    }
+  }
+
+  // Gentle straighten pass: nudge leaf rooms one cell to better align cardinal connectors
+  function cardinalDegree(id){
+    const r = idMap.get(Number(id));
+    if (!r) return 0;
+    let c=0;
+    for(const [dir,ex] of Object.entries(r.exits||{})){
+      const dl = dir.toLowerCase(); if (dl==='up' || dl==='down') continue;
+      const t = Number(ex && (ex.vnum ?? ex)); if (!t || !idMap.has(t)) continue;
+      c++;
+    }
+    return c;
+  }
+
+  function attemptMoveOne(id, newX, newY, z, preferPush=false){
+    const k = `${newX},${newY},${z}`;
+    if (!occupied.has(k)){
+      const old = pos[id];
+      if (old) occupied.delete(`${old.x},${old.y},${z}`);
+      pos[id] = {x:newX,y:newY};
+      occupied.set(k, id);
+      // record debug move
+      if (old && (old.x !== newX || old.y !== newY)){
+        debugMap.set(String(id), { from: { x: old.x * cellSize + halfSide, y: old.y * cellSize + halfSide }, to: { x: newX * cellSize + halfSide, y: newY * cellSize + halfSide }, z });
+      }
+      return true;
+    }
+    if (!preferPush) return false;
+    const blocker = occupied.get(k);
+    if (!blocker) return false;
+    // only push a blocker if it's a leaf (degree <= 1)
+    if (cardinalDegree(blocker) > 1) return false;
+    // try to push blocker one more step in the same vector
+    const dx = newX - (pos[id] ? pos[id].x : newX);
+    const dy = newY - (pos[id] ? pos[id].y : newY);
+    const pushX = newX + dx;
+    const pushY = newY + dy;
+    const pushKey = `${pushX},${pushY},${z}`;
+    if (occupied.has(pushKey)) return false;
+    // move blocker then move id
+    const oldB = pos[blocker];
+    if (oldB) occupied.delete(`${oldB.x},${oldB.y},${z}`);
+    pos[blocker] = {x:pushX,y:pushY}; occupied.set(pushKey, blocker);
+    // record blocker move
+    if (oldB && (oldB.x !== pushX || oldB.y !== pushY)){
+      debugMap.set(String(blocker), { from: { x: oldB.x * cellSize + halfSide, y: oldB.y * cellSize + halfSide }, to: { x: pushX * cellSize + halfSide, y: pushY * cellSize + halfSide }, z });
+    }
+    const old = pos[id]; if (old) occupied.delete(`${old.x},${old.y},${z}`);
+    pos[id] = {x:newX,y:newY}; occupied.set(k, id);
+    if (old && (old.x !== newX || old.y !== newY)){
+      debugMap.set(String(id), { from: { x: old.x * cellSize + halfSide, y: old.y * cellSize + halfSide }, to: { x: newX * cellSize + halfSide, y: newY * cellSize + halfSide }, z });
+    }
+    return true;
+  }
+
+  // Run a few relaxation passes
+  for (let pass=0; pass<3; pass++){
+    let any=false;
+    for (const r of rooms){
+      const id = Number(r.id);
+      const rp = pos[id];
+      if (!rp) continue;
+      const z = level[id] ?? 0;
+      const exits = r.exits || {};
+      for (const [dir, ex] of Object.entries(exits)){
+        const dl = dir.toLowerCase(); if (dl==='up' || dl==='down') continue;
+        const tid = Number(ex && (ex.vnum ?? ex)); if (!tid || !idMap.has(tid)) continue;
+        if ((level[tid] ?? 0) !== z) continue;
+        const tp = pos[tid]; if (!tp) continue;
+        // if east/west but y mismatch -> try to move the lesser-degree room vertically one step toward the other
+        if ((dl==='east' || dl==='west') && tp.y !== rp.y){
+          const dy = Math.sign(rp.y - tp.y);
+          const degSrc = cardinalDegree(id);
+          const degT = cardinalDegree(tid);
+          // prefer moving the node with lower degree
+          if (degT <= degSrc){
+            if (attemptMoveOne(tid, tp.x, tp.y + dy, z, true)) any = true;
+          } else {
+            if (attemptMoveOne(id, rp.x, rp.y - dy, z, true)) any = true;
+          }
+        }
+        // if north/south but x mismatch -> try to move the lesser-degree room horizontally one step
+        if ((dl==='north' || dl==='south') && tp.x !== rp.x){
+          const dx = Math.sign(rp.x - tp.x);
+          const degSrc = cardinalDegree(id);
+          const degT = cardinalDegree(tid);
+          if (degT <= degSrc){
+            if (attemptMoveOne(tid, tp.x + dx, tp.y, z, true)) any = true;
+          } else {
+            if (attemptMoveOne(id, rp.x - dx, rp.y, z, true)) any = true;
+          }
+        }
+      }
+    }
+    if (!any) break;
+  }
+
+  // map positions into room objects with pixel coords and sizes
+  return rooms.map(r=>{
+    const p = pos[Number(r.id)] ?? {x:0,y:0};
+    const z = level[Number(r.id)] ?? 0;
+    const out = {
+      ...r,
+      x: p.x * cellSize,
+      y: p.y * cellSize,
+      width: cellSize-20,
+      height: cellSize-20,
+      z: z
+    };
+    const dbg = debugMap.get(String(r.id));
+    if (dbg) out._debug = dbg;
+    return out;
+  });
+}
+
+// Redraw currently selected area using the first selected room as BFS start
+function redrawFromSelectedRoom(){
+  if (!currentAreaObj) return alert('No area selected');
+  if (!selectedRooms || selectedRooms.size===0) return alert('No room selected to start from');
+  // use first selected id
+  const sid = Array.from(selectedRooms)[0];
+  try{
+    currentAreaObj.rooms = layoutAreaRooms(currentAreaObj.rooms, sid);
+    const zs = (currentAreaObj.rooms||[]).map(r=>r.z||0);
+    currentAreaObj.minZ = zs.length?Math.min(...zs):0;
+    currentAreaObj.maxZ = zs.length?Math.max(...zs):0;
+    // preserve viewBox across this change
+    try{ const container = document.getElementById('mapContainer'); const svgElem = container && container.querySelector && container.querySelector('svg'); const curVB = svgElem && svgElem.getAttribute && svgElem.getAttribute('viewBox'); if (curVB) preservedViewBox = curVB; }catch(e){}
+    renderArea(currentAreaObj);
+  }catch(e){ console.error('redrawFromSelectedRoom failed', e); alert('Redraw failed: '+(e&&e.message?e.message:String(e))); }
+}
+
+// Redraw only the current z-level (floor) using the first selected room on that level as BFS start
+function redrawFromSelectedLayer(){
+  if (!currentAreaObj) return alert('No area selected');
+  if (!selectedRooms || selectedRooms.size===0) return alert('No room selected to start from');
+  const area = currentAreaObj;
+  const layer = currentLayer;
+  // gather rooms on the current layer
+  const roomsOnLayer = (area.rooms || []).filter(r => (r.z || 0) === layer);
+  if (!roomsOnLayer.length) return alert('No rooms on current floor to redraw');
+  const idsOnLayer = new Set(roomsOnLayer.map(r=>String(r.id)));
+  // choose a start id: prefer a selected room that is on this layer
+  let sid = null;
+  for (const s of selectedRooms){ if (idsOnLayer.has(String(s))){ sid = s; break; } }
+  if (!sid) sid = roomsOnLayer[0].id;
+  try{
+    // layout only the subset; keep other rooms unchanged
+    const subsetCopy = roomsOnLayer.map(r=>({ ...r }));
+    const laid = layoutAreaRooms(subsetCopy, sid);
+    const laidMap = new Map(laid.map(r=>[String(r.id), r]));
+    for (const r of area.rooms){
+      const nr = laidMap.get(String(r.id));
+      if (nr){
+        r.x = nr.x; r.y = nr.y; r.width = nr.width; r.height = nr.height; r.z = layer;
+        if (nr._debug) r._debug = nr._debug; else delete r._debug;
+      }
+    }
+    // update area z-bounds
+    const zs = (area.rooms||[]).map(r=>r.z||0);
+    area.minZ = zs.length?Math.min(...zs):0;
+    area.maxZ = zs.length?Math.max(...zs):0;
+    // preserve viewBox across this change
+    try{ const container = document.getElementById('mapContainer'); const svgElem = container && container.querySelector && container.querySelector('svg'); const curVB = svgElem && svgElem.getAttribute && svgElem.getAttribute('viewBox'); if (curVB) preservedViewBox = curVB; }catch(e){}
+    renderArea(area);
+  }catch(e){ console.error('redrawFromSelectedLayer failed', e); alert('Redraw (layer) failed: '+(e&&e.message?e.message:String(e))); }
+}
+
+function roomBBox(room){
+  // Supports several possible room shapes/schemas
+  if (room.x !== undefined && room.y !== undefined && room.width !== undefined && room.height !== undefined){
+    return {minX: room.x, minY: room.y, maxX: room.x+room.width, maxY: room.y+room.height}
+  }
+  if (room.left!==undefined && room.top!==undefined && room.right!==undefined && room.bottom!==undefined){
+    return {minX: room.left, minY: room.top, maxX: room.right, maxY: room.bottom}
+  }
+  if (room.points && Array.isArray(room.points) && room.points.length){
+    const xs = room.points.map(p=>p.x ?? p[0]);
+    const ys = room.points.map(p=>p.y ?? p[1]);
+    return {minX: Math.min(...xs), minY: Math.min(...ys), maxX: Math.max(...xs), maxY: Math.max(...ys)}
+  }
+  // center-based
+  if ((room.cx!==undefined || room.centerX!==undefined) && (room.cy!==undefined || room.centerY!==undefined)){
+    const cx = room.cx ?? room.centerX;
+    const cy = room.cy ?? room.centerY;
+    const w = room.width ?? room.w ?? 20;
+    const h = room.height ?? room.h ?? 20;
+    return {minX: cx - w/2, minY: cy - h/2, maxX: cx + w/2, maxY: cy + h/2}
+  }
+  return null; // unknown
+}
+
+function fitLabel(text, side){
+  const t = String(text ?? '');
+  const fontSize = Math.max(8, Math.min(14, Math.round(side * 0.12)));
+  const approxCharWidth = fontSize * 0.6;
+  const maxChars = Math.max(1, Math.floor((side - 8) / approxCharWidth));
+  if (t.length <= maxChars) return {text: t, fontSize};
+  return {text: t.slice(0, Math.max(0, maxChars - 1)) + '…', fontSize};
+}
+
+function ensurePositions(rooms){
+  // If some rooms lack coords, place them on a simple grid
+  const withBox = rooms.map(r=>({r,box:roomBBox(r)}));
+  const missing = withBox.filter(x=>!x.box);
+  if (missing.length===0) return withBox;
+  const cols = Math.ceil(Math.sqrt(rooms.length));
+  const size = 80;
+  for (let i=0;i<rooms.length;i++){
+    if (!withBox[i].box){
+      const col = i % cols;
+      const row = Math.floor(i/cols);
+      const minX = col * (size+20);
+      const minY = row * (size+20);
+      withBox[i].box = {minX, minY, maxX: minX+size, maxY: minY+size};
+    }
+  }
+  return withBox;
+}
+
+function areaBounds(boxes){
+  const xs = boxes.flatMap(b=>[b.minX,b.maxX]);
+  const ys = boxes.flatMap(b=>[b.minY,b.maxY]);
+  return {minX: Math.min(...xs), minY: Math.min(...ys), maxX: Math.max(...xs), maxY: Math.max(...ys)};
+}
+
+function renderArea(area){
+  if (!area) return;
+  // prepare svg container and defs
+  const container = document.getElementById('mapContainer');
+  if (!container) return;
+  container.innerHTML = '';
+  const svgNS = 'http://www.w3.org/2000/svg';
+  const svg = document.createElementNS(svgNS,'svg');
+  const defs = document.createElementNS(svgNS,'defs');
+  // Arrow marker - default
+  const markerArrow = document.createElementNS(svgNS,'marker');
+  markerArrow.setAttribute('id','arrow');
+  markerArrow.setAttribute('markerWidth','8');
+  markerArrow.setAttribute('markerHeight','6');
+  markerArrow.setAttribute('refX','6');
+  markerArrow.setAttribute('refY','3');
+  markerArrow.setAttribute('orient','auto');
+  markerArrow.setAttribute('markerUnits','strokeWidth');
+  const arrowPath = document.createElementNS(svgNS,'path');
+  arrowPath.setAttribute('d','M0,0 L0,6 L6,3 z');
+  arrowPath.setAttribute('fill','#374151');
+  markerArrow.appendChild(arrowPath);
+  defs.appendChild(markerArrow);
+  // Connected (highlighted) arrow
+  const markerConn = document.createElementNS(svgNS,'marker');
+  markerConn.setAttribute('id','arrow_connected');
+  markerConn.setAttribute('markerWidth','10');
+  markerConn.setAttribute('markerHeight','8');
+  markerConn.setAttribute('refX','8');
+  markerConn.setAttribute('refY','4');
+  markerConn.setAttribute('orient','auto');
+  markerConn.setAttribute('markerUnits','strokeWidth');
+  const arrowPathConn = document.createElementNS(svgNS,'path');
+  arrowPathConn.setAttribute('d','M0,0 L0,8 L8,4 z');
+  arrowPathConn.setAttribute('fill','#7c3aed');
+  markerConn.appendChild(arrowPathConn);
+  defs.appendChild(markerConn);
+  // Debug arrow
+  const markerDebug = document.createElementNS(svgNS,'marker');
+  markerDebug.setAttribute('id','arrow_debug');
+  markerDebug.setAttribute('markerWidth','10');
+  markerDebug.setAttribute('markerHeight','8');
+  markerDebug.setAttribute('refX','8');
+  markerDebug.setAttribute('refY','4');
+  markerDebug.setAttribute('orient','auto');
+  markerDebug.setAttribute('markerUnits','strokeWidth');
+  const arrowPathDbg = document.createElementNS(svgNS,'path');
+  arrowPathDbg.setAttribute('d','M0,0 L0,8 L8,4 z');
+  arrowPathDbg.setAttribute('fill','#f59e0b');
+  markerDebug.appendChild(arrowPathDbg);
+  defs.appendChild(markerDebug);
+  svg.appendChild(defs);
+  const roomBoxes = ensurePositions(area.rooms);
+  // draw lower layers first so higher layers appear on top
+  roomBoxes.sort((a,b)=> (a.r.z||0) - (b.r.z||0));
+  const boxes = roomBoxes.map(x=>x.box);
+  // map id -> center and side for arrow endpoints
+  const centers = {};
+  const b = areaBounds(boxes);
+  const margin = Math.max((b.maxX - b.minX),(b.maxY - b.minY)) * 0.06 + 20;
+  const viewMinX = b.minX - margin;
+  const viewMinY = b.minY - margin;
+  const viewW = (b.maxX - b.minX) + margin*2;
+  const viewH = (b.maxY - b.minY) + margin*2;
+  if (preservedViewBox){
+    try{ svg.setAttribute('viewBox', preservedViewBox); }catch(e){ svg.setAttribute('viewBox', `${viewMinX} ${viewMinY} ${viewW} ${viewH}`); }
+    preservedViewBox = null;
+  } else {
+    svg.setAttribute('viewBox', `${viewMinX} ${viewMinY} ${viewW} ${viewH}`);
+  }
+
+  const layerOffset = 8;
+  // compute connected rooms (rooms with exits to/from any selected room)
+  const connectedRooms = new Set();
+  if (selectedRooms && selectedRooms.size > 0){
+    const idToRoom = new Map(area.rooms.map(rr=>[String(rr.id), rr]));
+    // outgoing from selected
+    for (const sid of selectedRooms){
+      const sroom = idToRoom.get(String(sid));
+      if (!sroom) continue;
+      for (const ex of Object.values(sroom.exits || {})){
+        const tid = ex && (ex.vnum ?? ex);
+        if (!tid) continue;
+        connectedRooms.add(String(tid));
+      }
+    }
+    // incoming to selected
+    for (const rr of area.rooms){
+      for (const ex of Object.values(rr.exits || {})){
+        const tid = ex && (ex.vnum ?? ex);
+        if (!tid) continue;
+        if (selectedRooms.has(String(tid))) connectedRooms.add(String(rr.id));
+      }
+    }
+    // ensure selected rooms aren't double-marked as connected
+    for (const s of selectedRooms) connectedRooms.delete(String(s));
+  }
+  // We'll render only current layer fully, plus one layer above (outline) and one below (shadow).
+  const adjOffset = 10; // slight offset for adjacent layers
+  const belowRooms = [];
+  const currentRooms = [];
+  const aboveRooms = [];
+  roomBoxes.forEach(({r,box},i)=>{
+    const w = box.maxX - box.minX;
+    const h = box.maxY - box.minY;
+    const side = Math.max(w,h);
+    const cx = (box.minX + box.maxX)/2;
+    const cy = (box.minY + box.maxY)/2;
+    const z = r.z || 0;
+    if (z < currentLayer - 1 || z > currentLayer + 1) return; // skip distant layers
+    if (z === currentLayer - 1) belowRooms.push({r,box,side,cx,cy});
+    else if (z === currentLayer) currentRooms.push({r,box,side,cx,cy});
+    else if (z === currentLayer + 1) aboveRooms.push({r,box,side,cx,cy});
+  });
+
+  // draw shadows for below rooms first
+  belowRooms.forEach(obj=>{
+    const {r,side,cx,cy} = obj;
+    const visCx = cx + adjOffset;
+    const visCy = cy + adjOffset;
+    const visX = visCx - side/2;
+    const visY = visCy - side/2;
+    const rect = document.createElementNS(svgNS,'rect');
+    rect.setAttribute('x', visX);
+    rect.setAttribute('y', visY);
+    rect.setAttribute('width', side);
+    rect.setAttribute('height', side);
+    rect.setAttribute('class','room layer-down');
+    svg.appendChild(rect);
+  });
+
+  // draw outlines for above rooms now so they render under the current floor
+  aboveRooms.forEach(obj=>{
+    const {r,side,cx,cy} = obj;
+    const visCx = cx - adjOffset;
+    const visCy = cy - adjOffset;
+    const visX = visCx - side/2;
+    const visY = visCy - side/2;
+    const rect = document.createElementNS(svgNS,'rect');
+    rect.setAttribute('x', visX);
+    rect.setAttribute('y', visY);
+    rect.setAttribute('width', side);
+    rect.setAttribute('height', side);
+    rect.setAttribute('class','room layer-up');
+    svg.appendChild(rect);
+  });
+
+  // build centers for current layer for connectors
+  currentRooms.forEach(obj=>{
+    const {r,side,cx,cy} = obj;
+    centers[String(r.id)] = {cx,cy,side,z: currentLayer};
+  });
+
+  // draw connectors between rooms on the current layer
+  Object.entries(centers).forEach(([fromId, source])=>{
+    const r = area.rooms.find(rr=>String(rr.id)===fromId);
+    if (!r) return;
+    const exits = r.exits || {};
+    for (const [dir,ex] of Object.entries(exits)){
+      if (dir.toLowerCase()==='up' || dir.toLowerCase()==='down') continue;
+      const targetId = String(ex.vnum || ex);
+      const target = centers[targetId];
+      if (!target) continue;
+      const sCx = source.cx;
+      const sCy = source.cy;
+      const tCx = target.cx;
+      const tCy = target.cy;
+      const dx = tCx - sCx;
+      const dy = tCy - sCy;
+      const dist = Math.sqrt(dx*dx + dy*dy) || 1;
+      const sOff = source.side/2;
+      const tOff = target.side/2;
+      const sx = sCx + (dx/dist) * sOff * 0.85;
+      const sy = sCy + (dy/dist) * sOff * 0.85;
+      const tx = tCx - (dx/dist) * tOff * 0.85;
+      const ty = tCy - (dy/dist) * tOff * 0.85;
+      const line = document.createElementNS(svgNS,'path');
+      line.setAttribute('d', `M ${sx} ${sy} L ${tx} ${ty}`);
+      // highlight line only when the source room is selected (outgoing from selected)
+      const isConnLine = (selectedRooms && selectedRooms.has(String(fromId)));
+      if (isConnLine) {
+        line.setAttribute('class','exit-line connected');
+        line.setAttribute('marker-end','url(#arrow_connected)');
+      } else {
+        line.setAttribute('class','exit-line');
+        line.setAttribute('marker-end','url(#arrow)');
+      }
+      svg.appendChild(line);
+    }
+  });
+
+  // draw current rooms (fill + labels + carets)
+  currentRooms.forEach(obj=>{
+    const {r,side,cx,cy} = obj;
+    const visCx = cx;
+    const visCy = cy;
+    const visX = visCx - side/2;
+    const visY = visCy - side/2;
+    const rect = document.createElementNS(svgNS,'rect');
+    rect.setAttribute('x', visX);
+    rect.setAttribute('y', visY);
+    rect.setAttribute('width', side);
+    rect.setAttribute('height', side);
+    rect.setAttribute('class','room');
+    if (r._color) rect.style.fill = r._color;
+    rect.dataset.roomId = String(r.id);
+    if (selectedRooms.has(String(r.id))) rect.classList.add('selected');
+    if (connectedRooms.has(String(r.id))) rect.classList.add('connected');
+    rect.dataset.index = 0;
+    rect.title = r.name ?? r.id;
+    rect.addEventListener('contextmenu', (ev)=>{ ev.preventDefault(); ev.stopPropagation(); showRoomDetails(r); });
+    // selection (click/shift+click) and dragging
+    rect.addEventListener('mousedown', (ev)=>{
+      if (ev.button !== 0) return;
+      ev.stopPropagation(); ev.preventDefault();
+      const id = String(r.id);
+      if (ev.shiftKey){
+        // add/remove to selection (shift-click)
+        if (selectedRooms.has(id)) selectedRooms.delete(id); else selectedRooms.add(id);
+      } else {
+        if (!selectedRooms.has(id)) { selectedRooms.clear(); selectedRooms.add(id); }
+      }
+      // update DOM selection classes immediately
+      try{
+        const all = svg.querySelectorAll('rect[data-room-id]');
+        all.forEach(el=>{ if (selectedRooms.has(String(el.dataset.roomId))) el.classList.add('selected'); else el.classList.remove('selected'); });
+      }catch(e){}
+      try{ updateRoomInfoPanel(); }catch(e){}
+      // begin drag of selected set
+      startDrag(ev, svg, currentAreaObj);
+    });
+    svg.appendChild(rect);
+    // labels: vnum on its own line above the name
+    const vnumText = (r.vnum !== undefined && r.vnum !== null) ? String(r.vnum) : '';
+    const nameText = r.name ?? (r.id ? String(r.id) : '');
+    const vnumLabel = fitLabel(vnumText, side);
+    const nameLabel = fitLabel(nameText, side);
+    const spacing = Math.max(2, Math.round(side * 0.06));
+    if (vnumText && nameText){
+      const total = vnumLabel.fontSize + spacing + nameLabel.fontSize;
+      const startY = visCy - total/2 + vnumLabel.fontSize/2;
+      const vlabel = document.createElementNS(svgNS,'text');
+      vlabel.setAttribute('x', visCx);
+      vlabel.setAttribute('y', startY);
+      vlabel.setAttribute('text-anchor','middle');
+      vlabel.setAttribute('dominant-baseline','middle');
+      vlabel.setAttribute('font-size', String(vnumLabel.fontSize));
+      vlabel.setAttribute('class','room-label vnum-label');
+      vlabel.textContent = vnumLabel.text;
+      svg.appendChild(vlabel);
+      const nlabel = document.createElementNS(svgNS,'text');
+      nlabel.setAttribute('x', visCx);
+      nlabel.setAttribute('y', startY + vnumLabel.fontSize + spacing);
+      nlabel.setAttribute('text-anchor','middle');
+      nlabel.setAttribute('dominant-baseline','middle');
+      nlabel.setAttribute('font-size', String(nameLabel.fontSize));
+      nlabel.setAttribute('class','room-label');
+      nlabel.textContent = nameLabel.text;
+      svg.appendChild(nlabel);
+    } else if (vnumText){
+      const vlabel = document.createElementNS(svgNS,'text');
+      vlabel.setAttribute('x', visCx);
+      vlabel.setAttribute('y', visCy);
+      vlabel.setAttribute('text-anchor','middle');
+      vlabel.setAttribute('dominant-baseline','middle');
+      vlabel.setAttribute('font-size', String(vnumLabel.fontSize));
+      vlabel.setAttribute('class','room-label vnum-label');
+      vlabel.textContent = vnumLabel.text;
+      svg.appendChild(vlabel);
+    } else if (nameText){
+      const nlabel = document.createElementNS(svgNS,'text');
+      nlabel.setAttribute('x', visCx);
+      nlabel.setAttribute('y', visCy);
+      nlabel.setAttribute('text-anchor','middle');
+      nlabel.setAttribute('dominant-baseline','middle');
+      nlabel.setAttribute('font-size', String(nameLabel.fontSize));
+      nlabel.setAttribute('class','room-label');
+      nlabel.textContent = nameLabel.text;
+      svg.appendChild(nlabel);
+    }
+    // carets (wider, shorter, shaded with black outline)
+    if (r.exits && (r.exits.up || r.exits.down)){
+      const caretW = Math.max(10, side * 0.45); // base width
+      const caretH = Math.max(6, side * 0.18);  // height (shorter)
+      const halfW = caretW/2;
+      const halfH = caretH/2;
+      // pad from top/bottom edges to place carets inside the room rect
+      const caretPad = Math.max(6, Math.round(side * 0.06));
+      if (r.exits.up){
+        const up = document.createElementNS(svgNS,'polygon');
+        const px = visCx;
+        // place caret near the top edge (inside the rect)
+        const py = visY + caretPad + halfH;
+        const points = `${px},${py-halfH} ${px-halfW},${py+halfH} ${px+halfW},${py+halfH}`;
+        up.setAttribute('points', points);
+        up.setAttribute('class','caret-shape caret-up');
+        up.setAttribute('title', `Go to floor ${currentLayer + 1}`);
+        up.addEventListener('click', (ev)=>{ ev.stopPropagation(); changeLayer(1); });
+        svg.appendChild(up);
+      }
+      if (r.exits.down){
+        const down = document.createElementNS(svgNS,'polygon');
+        const px = visCx;
+        // place caret near the bottom edge (inside the rect)
+        const py = visY + side - caretPad - halfH;
+        const points = `${px-halfW},${py-halfH} ${px+halfW},${py-halfH} ${px},${py+halfH}`;
+        down.setAttribute('points', points);
+        down.setAttribute('class','caret-shape caret-down');
+        down.setAttribute('title', `Go to floor ${currentLayer - 1}`);
+        down.addEventListener('click', (ev)=>{ ev.stopPropagation(); changeLayer(-1); });
+        svg.appendChild(down);
+      }
+    }
+  });
+
+  // helper: convert client coords to svg coords
+  function svgPointFromEvent(evt){
+    const pt = svg.createSVGPoint(); pt.x = evt.clientX; pt.y = evt.clientY;
+    const ctm = svg.getScreenCTM(); if (!ctm) return {x:pt.x,y:pt.y};
+    return pt.matrixTransform(ctm.inverse());
+  }
+
+  // drag handlers: attach to window so redraws don't break the interaction
+  function startDrag(ev, svgElem, area){
+    const pt = svgPointFromEvent(ev);
+    const ids = Array.from(selectedRooms);
+    if (!ids.length) return;
+    const initial = new Map();
+    for (const id of ids){
+      const rr = area.rooms.find(x=>String(x.id)===String(id));
+      if (!rr) continue;
+      // ensure numeric x/y exist (use box if needed)
+      if (rr.x === undefined || rr.y === undefined){
+        const b = roomBBox(rr);
+        rr.x = b ? b.minX : (rr.x||0);
+        rr.y = b ? b.minY : (rr.y||0);
+      }
+      initial.set(String(id), { x: Number(rr.x), y: Number(rr.y) });
+    }
+    _dragState = { start: pt, ids, initial };
+    // build overlay group for visual feedback during drag
+    const boxes = ensurePositions(area.rooms);
+    const boxMap = new Map(); boxes.forEach(({r,box})=> boxMap.set(String(r.id), box));
+    let overlay = svgElem.querySelector('#dragOverlay'); if (overlay && overlay.parentNode) overlay.parentNode.removeChild(overlay);
+    overlay = document.createElementNS(svgNS,'g'); overlay.setAttribute('id','dragOverlay'); overlay.setAttribute('pointer-events','none');
+    for (const id of ids){
+      const b = boxMap.get(String(id)); if (!b) continue;
+      const w = b.maxX - b.minX; const h = b.maxY - b.minY;
+      const rEl = document.createElementNS(svgNS,'rect');
+      rEl.setAttribute('x', b.minX); rEl.setAttribute('y', b.minY); rEl.setAttribute('width', w); rEl.setAttribute('height', h);
+      rEl.setAttribute('class','room selected'); overlay.appendChild(rEl);
+    }
+    svgElem.appendChild(overlay);
+
+    function onMove(e){
+      if (!_dragState) return;
+      const cur = svgPointFromEvent(e);
+      const dx = cur.x - _dragState.start.x;
+      const dy = cur.y - _dragState.start.y;
+      overlay.setAttribute('transform', `translate(${dx},${dy})`);
+    }
+    function onUp(e){
+      window.removeEventListener('mousemove', onMove);
+      window.removeEventListener('mouseup', onUp);
+      if (!_dragState) return;
+      const cur = svgPointFromEvent(e);
+      const dx = cur.x - _dragState.start.x;
+      const dy = cur.y - _dragState.start.y;
+      // apply final positions to room data — snap to grid based on configured cellSize
+      const grid = (typeof layoutSettings !== 'undefined' && layoutSettings.cellSize) ? layoutSettings.cellSize : 120;
+      for (const id of _dragState.ids){
+        const rr = area.rooms.find(x=>String(x.id)===String(id)); if (!rr) continue;
+        const init = _dragState.initial.get(String(id)); if (!init) continue;
+        const nx = init.x + dx; const ny = init.y + dy;
+        rr.x = Math.round(nx / grid) * grid;
+        rr.y = Math.round(ny / grid) * grid;
+      }
+      _dragState = null;
+      if (overlay && overlay.parentNode) overlay.parentNode.removeChild(overlay);
+      // preserve current viewBox (pan/zoom) across re-render
+      try{ const curVB = svgElem.getAttribute && svgElem.getAttribute('viewBox'); if (curVB) preservedViewBox = curVB; }catch(e){}
+      // persist moved positions for this area
+      try{ savePositions(area); }catch(e){}
+      // final render
+      try{ renderArea(area); }catch(e){ console.warn('render after drag failed', e); }
+    }
+    window.addEventListener('mousemove', onMove);
+    window.addEventListener('mouseup', onUp);
+  }
+
+  // marquee selection (shift+drag on background)
+  let marqueeRect = null; let marqueeStart = null;
+  // (background click-to-clear handled by pan-with-threshold logic below)
+  function startMarquee(startPt){
+    // clear existing selection when beginning a marquee drag
+    selectedRooms.clear();
+    try{ const all = svg.querySelectorAll('rect[data-room-id]'); all.forEach(el=>el.classList.remove('selected')); }catch(e){}
+    marqueeStart = startPt;
+    marqueeRect = document.createElementNS(svgNS,'rect');
+    marqueeRect.setAttribute('x', marqueeStart.x);
+    marqueeRect.setAttribute('y', marqueeStart.y);
+    marqueeRect.setAttribute('width', 0);
+    marqueeRect.setAttribute('height', 0);
+    marqueeRect.setAttribute('class','marquee');
+    marqueeRect.setAttribute('fill','rgba(59,130,246,0.12)');
+    marqueeRect.setAttribute('stroke','rgba(59,130,246,0.8)');
+    svg.appendChild(marqueeRect);
+    function onMove(e){
+      const p = svgPointFromEvent(e);
+      const x = Math.min(p.x, marqueeStart.x); const y = Math.min(p.y, marqueeStart.y);
+      const w = Math.abs(p.x - marqueeStart.x); const h = Math.abs(p.y - marqueeStart.y);
+      marqueeRect.setAttribute('x', x); marqueeRect.setAttribute('y', y); marqueeRect.setAttribute('width', w); marqueeRect.setAttribute('height', h);
+    }
+    function onUp(e){
+      window.removeEventListener('mousemove', onMove); window.removeEventListener('mouseup', onUp);
+      const p = svgPointFromEvent(e);
+      const x1 = Math.min(p.x, marqueeStart.x); const y1 = Math.min(p.y, marqueeStart.y);
+      const x2 = Math.max(p.x, marqueeStart.x); const y2 = Math.max(p.y, marqueeStart.y);
+      // compute boxes and select rooms intersecting
+      const boxes = ensurePositions(area.rooms);
+      for (const {r,box} of boxes){
+        if (box.maxX < x1 || box.minX > x2 || box.maxY < y1 || box.minY > y2) continue;
+        selectedRooms.add(String(r.id));
+      }
+      if (marqueeRect && marqueeRect.parentNode) marqueeRect.parentNode.removeChild(marqueeRect);
+      marqueeRect = null; marqueeStart = null;
+      try{ renderArea(area); }catch(e){ console.warn('render after marquee failed', e); }
+    }
+    window.addEventListener('mousemove', onMove);
+    window.addEventListener('mouseup', onUp);
+  }
+
+  svg.addEventListener('mousedown', (ev)=>{
+    if (ev.button!==0) return;
+    if (!ev.shiftKey) return; // only marquee with shift
+    ev.preventDefault(); ev.stopPropagation();
+    // start marquee at the mouse point (works whether target is svg or a room)
+    startMarquee(svgPointFromEvent(ev));
+  });
+
+  // debug overlay: draw from->to arrows for small nudges
+  if (showDebugOverlay){
+    const dbgGroup = document.createElementNS(svgNS,'g');
+    dbgGroup.setAttribute('class','debug-overlay');
+    (area.rooms||[]).forEach(r=>{
+      const dbg = r._debug;
+      if (!dbg) return;
+      if ((r.z||0) !== currentLayer) return;
+      const from = dbg.from;
+      const to = dbg.to;
+      const path = document.createElementNS(svgNS,'path');
+      path.setAttribute('d', `M ${from.x} ${from.y} L ${to.x} ${to.y}`);
+      path.setAttribute('stroke','#f59e0b');
+      path.setAttribute('stroke-width','2');
+      path.setAttribute('fill','none');
+      path.setAttribute('stroke-dasharray','6 3');
+      path.setAttribute('marker-end','url(#arrow_debug)');
+      dbgGroup.appendChild(path);
+      const c1 = document.createElementNS(svgNS,'circle');
+      c1.setAttribute('cx', from.x);
+      c1.setAttribute('cy', from.y);
+      c1.setAttribute('r', 4);
+      c1.setAttribute('fill', '#f59e0b');
+      c1.setAttribute('opacity', '0.95');
+      dbgGroup.appendChild(c1);
+      const c2 = document.createElementNS(svgNS,'circle');
+      c2.setAttribute('cx', to.x);
+      c2.setAttribute('cy', to.y);
+      c2.setAttribute('r', 4);
+      c2.setAttribute('fill', '#60a5fa');
+      c2.setAttribute('opacity', '0.95');
+      dbgGroup.appendChild(c2);
+    });
+    svg.appendChild(dbgGroup);
+  }
+  container.appendChild(svg);
+  // enable pan & zoom on the svg
+  // Also allow left-drag on the background to pan (click+drag on empty space)
+  (function enableBgPan(){
+    function getVB(){ const vb = svg.getAttribute('viewBox') || '0 0 100 100'; const [x,y,w,h] = vb.split(/\s+/).map(Number); return {x,y,w,h}; }
+    function setVB(vb){ svg.setAttribute('viewBox', `${vb.x} ${vb.y} ${vb.w} ${vb.h}`); }
+    function clientToSvgPoint(evt){ const pt = svg.createSVGPoint(); pt.x = evt.clientX; pt.y = evt.clientY; const ctm = svg.getScreenCTM(); if (!ctm) return {x:pt.x,y:pt.y}; return pt.matrixTransform(ctm.inverse()); }
+    // We'll delay starting the actual pan until movement exceeds a small threshold
+    function onBgMouseDown(e){
+      if (e.button !== 0) return;
+      if (e.shiftKey || e.ctrlKey || e.metaKey) return; // don't conflict with marquee or ctrl-pan
+      // ignore interactions on elements
+      try{
+        const tgt = e.target;
+        if (tgt.closest && (tgt.closest('[data-room-id]') || tgt.closest('.caret-shape') || tgt.closest('.room-label') || tgt.closest('.exit-line') || tgt.closest('polygon') || tgt.closest('path') || tgt.closest('text') || tgt.closest('circle'))) return;
+      }catch(err){ }
+      e.preventDefault(); e.stopPropagation();
+      const startPt = clientToSvgPoint(e);
+      const vbStart = getVB();
+      let moved = false; let started = false;
+      function onMoveWindow(ev){
+        const p = clientToSvgPoint(ev);
+        const dx = p.x - startPt.x; const dy = p.y - startPt.y;
+        if (!moved && Math.hypot(dx,dy) > 6) moved = true;
+        if (!moved) return;
+        // start panning once threshold passed
+        if (!started){ started = true; svg.classList.add('grabbing'); }
+        setVB({ x: vbStart.x - dx, y: vbStart.y - dy, w: vbStart.w, h: vbStart.h });
+      }
+      function onUpWindow(ev){
+        window.removeEventListener('mousemove', onMoveWindow);
+        window.removeEventListener('mouseup', onUpWindow);
+        if (!moved){
+          // treat as click: clear selection
+          selectedRooms.clear();
+          try{ const all = svg.querySelectorAll('rect[data-room-id]'); all.forEach(el=>el.classList.remove('selected')); }catch(e){}
+          try{ renderArea(area); }catch(e){}
+        } else {
+          if (started) svg.classList.remove('grabbing');
+        }
+      }
+      window.addEventListener('mousemove', onMoveWindow);
+      window.addEventListener('mouseup', onUpWindow);
+    }
+    // If Pointer events are supported we use the pointer-based handler below;
+    // only add the mouse-based handler on older browsers to avoid duplicate handlers.
+    if (typeof window.PointerEvent === 'undefined') {
+      svg.addEventListener('mousedown', onBgMouseDown);
+    }
+  })();
+  attachPanZoom(svg);
+
+  // Robust pointer-based background pan (fallback) — attach once per svg
+  if (!svg._bgPointerPanAttached){
+    svg._bgPointerPanAttached = true;
+    svg.addEventListener('pointerdown', function onPointerDown(ev){
+      if (ev.button !== 0) return;
+      if (ev.shiftKey || ev.ctrlKey || ev.metaKey) return;
+      // ignore if pointer is over interactive elements
+      try{ if (ev.target.closest && (ev.target.closest('[data-room-id]') || ev.target.closest('.caret-shape') || ev.target.closest('.room-label') || ev.target.closest('.exit-line') || ev.target.closest('polygon') || ev.target.closest('path') || ev.target.closest('text') || ev.target.closest('circle'))) return; }catch(e){}
+      ev.preventDefault(); ev.stopPropagation();
+      // pointer-capture based pan to avoid duplicated mouse/pointer handlers
+      try{ svg.setPointerCapture(ev.pointerId); }catch(e){}
+      const toSvgPoint = (clientX, clientY) => { const pt = svg.createSVGPoint(); pt.x = clientX; pt.y = clientY; const ctm = svg.getScreenCTM(); return ctm ? pt.matrixTransform(ctm.inverse()) : {x:pt.x,y:pt.y}; };
+      const startPt = toSvgPoint(ev.clientX, ev.clientY);
+      const vbStart = (function(){ const vb = svg.getAttribute('viewBox')||'0 0 100 100'; const [x,y,w,h] = vb.split(/\s+/).map(Number); return {x,y,w,h}; })();
+      let moved = false; let started = false;
+      function onPointerMove(ev2){ if (ev2.pointerId !== ev.pointerId) return; const p = toSvgPoint(ev2.clientX, ev2.clientY); const dx = p.x - startPt.x; const dy = p.y - startPt.y; if (!moved && Math.hypot(dx,dy) > 6) moved = true; if (!moved) return; if (!started){ started = true; svg.classList.add('grabbing'); } svg.setAttribute('viewBox', `${vbStart.x - dx} ${vbStart.y - dy} ${vbStart.w} ${vbStart.h}`); }
+      function onPointerUp(ev2){ if (ev2.pointerId !== ev.pointerId) return; try{ svg.releasePointerCapture(ev.pointerId); }catch(e){}; svg.removeEventListener('pointermove', onPointerMove); svg.removeEventListener('pointerup', onPointerUp); if (!moved){ selectedRooms.clear(); try{ const all = svg.querySelectorAll('rect[data-room-id]'); all.forEach(el=>el.classList.remove('selected')); }catch(e){} try{ renderArea(area); }catch(e){} } else { if (started) svg.classList.remove('grabbing'); } }
+      svg.addEventListener('pointermove', onPointerMove);
+      svg.addEventListener('pointerup', onPointerUp);
+      svg.classList.add('grabbing');
+    }, {capture:true});
+  }
+  // update sidebar room info after rendering
+  try{ updateRoomInfoPanel(); }catch(e){}
+}
+
+function attachPanZoom(svg){
+  if (!svg) return;
+  svg.classList.add('svg-pan');
+  // parse viewBox
+  function getVB(){
+    const vb = svg.getAttribute('viewBox') || '0 0 100 100';
+    const [x,y,w,h] = vb.split(/\s+/).map(Number);
+    return {x,y,w,h};
+  }
+  function setVB(vb){ svg.setAttribute('viewBox', `${vb.x} ${vb.y} ${vb.w} ${vb.h}`); }
+
+  const initVB = getVB();
+  const minW = initVB.w * 0.02;
+  const maxW = initVB.w * 50;
+
+  let isPanning = false;
+  let panStart = null;
+  let panStartVB = null;
+
+  function clientToSvgPoint(evt){
+    const pt = svg.createSVGPoint();
+    pt.x = evt.clientX; pt.y = evt.clientY;
+    const ctm = svg.getScreenCTM();
+    if (!ctm) return {x:pt.x,y:pt.y};
+    return pt.matrixTransform(ctm.inverse());
+  }
+
+  svg.addEventListener('wheel', (e)=>{
+    e.preventDefault();
+    const vb = getVB();
+    const factor = e.deltaY > 0 ? 1.12 : 0.88; // >1 zoom out, <1 zoom in
+    let newW = vb.w * factor;
+    let newH = vb.h * factor;
+    if (newW < minW) { newW = minW; newH = vb.h * (minW / vb.w); }
+    if (newW > maxW) { newW = maxW; newH = vb.h * (maxW / vb.w); }
+    const p = clientToSvgPoint(e);
+    const nx = p.x - (p.x - vb.x) * (newW / vb.w);
+    const ny = p.y - (p.y - vb.y) * (newH / vb.h);
+    setVB({x: nx, y: ny, w: newW, h: newH});
+  }, {passive:false});
+
+  svg.addEventListener('mousedown', (e)=>{
+    // middle button (1) or ctrl+left start panning
+    if (e.button === 1 || (e.button === 0 && e.ctrlKey)){
+      isPanning = true;
+      svg.classList.add('grabbing');
+      panStart = clientToSvgPoint(e);
+      panStartVB = getVB();
+      e.preventDefault();
+    }
+  });
+
+  window.addEventListener('mousemove', (e)=>{
+    if (!isPanning) return;
+    const p = clientToSvgPoint(e);
+    const dx = p.x - panStart.x;
+    const dy = p.y - panStart.y;
+    setVB({x: panStartVB.x - dx, y: panStartVB.y - dy, w: panStartVB.w, h: panStartVB.h});
+  });
+
+  window.addEventListener('mouseup', (e)=>{
+    if (!isPanning) return;
+    isPanning = false;
+    svg.classList.remove('grabbing');
+  });
+
+  svg.addEventListener('mouseleave', ()=>{ if (isPanning) { isPanning = false; svg.classList.remove('grabbing'); } });
+}
+
+function showRoomDetails(room){
+  try{
+    console.log('showRoomDetails', room && room.id);
+    let modal = document.getElementById('roomModal');
+  if (!modal){
+    modal = document.createElement('div');
+    modal.id = 'roomModal';
+    modal.className = 'modal';
+    modal.innerHTML = `
+      <div class="modal-content">
+        <button class="modal-close" aria-label="Close">×</button>
+        <h3 id="modalTitle"></h3>
+        <div id="modalBody" class="modal-body"></div>
+      </div>`;
+    document.body.appendChild(modal);
+    // close handlers
+    modal.addEventListener('click', (e)=>{
+      if (e.target === modal) modal.classList.add('hidden');
+    });
+    modal.querySelector('.modal-close').addEventListener('click', ()=> modal.classList.add('hidden'));
+    document.addEventListener('keydown', (e)=>{ if (e.key==='Escape') modal.classList.add('hidden'); });
+  }
+  // populate
+  const title = modal.querySelector('#modalTitle');
+  const body = modal.querySelector('#modalBody');
+  title.textContent = room.name ?? (`Room ${room.id}`);
+  const rows = [];
+  rows.push(`<p><strong>id:</strong> ${room.id}</p>`);
+  if (room.vnum !== undefined) rows.push(`<p><strong>vnum:</strong> ${room.vnum}</p>`);
+  if (room.area) rows.push(`<p><strong>area:</strong> ${room.area}</p>`);
+  if (room.exits && Object.keys(room.exits).length){
+    const exitLines = Object.entries(room.exits).map(([dir,ex])=>{
+      const v = ex && (ex.vnum ?? ex) ? (ex.vnum ?? ex) : '0';
+      const door = ex && typeof ex === 'object' ? ` door:${ex.door?'yes':'no'} closed:${ex.closed?'yes':'no'} locked:${ex.locked?'yes':'no'}` : '';
+      return `<li><strong>${dir}</strong>: ${v}${door}</li>`;
+    }).join('');
+    rows.push(`<p><strong>exits:</strong></p><ul>${exitLines}</ul>`);
+  }
+  body.innerHTML = rows.join('');
+    modal.classList.remove('hidden');
+  }catch(e){
+    console.error('showRoomDetails error', e);
+    alert('Failed to show room details — see console for error.');
+  }
+}
+
+function populateAreaList(areas){
+  const list = document.getElementById('areaList');
+  const select = document.getElementById('areaSelect');
+  const countEl = document.getElementById('areaCount');
+  if (list) list.innerHTML = '';
+  if (select) select.innerHTML = '';
+  if (countEl) countEl.textContent = `Areas (${areas.length})`;
+  // keep a reference for dropdown-driven selection (when #areaList may be absent)
+  availableAreas = areas;
+  areas.forEach((area,idx)=>{
+    const li = document.createElement('li');
+    li.textContent = area.name || area.id || `Area ${idx+1}`;
+    li.title = area.name || area.id || '';
+    li.addEventListener('click', ()=> selectAreaIndex(idx));
+    if (list) list.appendChild(li);
+    if (select){
+      const opt = document.createElement('option'); opt.value = String(idx); opt.textContent = li.textContent; select.appendChild(opt);
+    }
+    if (idx===0){
+      if (select) select.value = '0';
+      // select first area via centralized function
+      selectAreaIndex(0);
+    }
+  });
+  // wire select change to trigger corresponding li click
+  if (select){
+    select.addEventListener('change', (e)=>{
+      const idx = Number(e.target.value);
+          /* debug log removed */
+      selectAreaIndex(idx);
+    });
+  }
+  // if there are areas, ensure first is visible/selected
+  if (list && areas.length>0){
+    const first = list.querySelector('li');
+    if (first) first.scrollIntoView({block:'nearest'});
+  } else if (!areas.length){
+    document.getElementById('mapContainer').textContent = 'No areas found in file.';
+  }
+  /* populate debug log removed */
+}
+
+// Select an area by its index from the last-populated areas list
+function selectAreaIndex(idx){
+  const list = document.getElementById('areaList');
+  const select = document.getElementById('areaSelect');
+  const area = (availableAreas && availableAreas.length>idx) ? availableAreas[idx] : null;
+  if (!area) return;
+  /* select debug log removed */
+  // update list active class if present
+  if (list){
+    const items = list.querySelectorAll('li');
+    items.forEach(n=>n.classList.remove('active'));
+    if (items[idx]) items[idx].classList.add('active');
+  }
+  // update title and area state
+  document.getElementById('areaTitle').textContent = area.name || area.id || '';
+  currentAreaObj = area;
+  preservedViewBox = null;
+  const minZ = currentAreaObj.minZ ?? 0;
+  const maxZ = currentAreaObj.maxZ ?? 0;
+  let desired = 0;
+  if (desired < minZ) desired = minZ;
+  if (desired > maxZ) desired = maxZ;
+  currentLayer = desired;
+  updateLayerDisplay();
+  try{ loadSavedPositions(currentAreaObj); }catch(e){}
+  try{ if (typeof MapColorsJS !== 'undefined' && MapColorsJS && typeof MapColorsJS.applyColors === 'function'){ MapColorsJS.applyColors(currentAreaObj); } }catch(e){}
+  try{ if (select) select.value = String(idx); }catch(e){}
+  renderArea(area);
+}
+
+// Update the left sidebar room info panel based on current selection
+function updateRoomInfoPanel(){
+  const panel = document.getElementById('roomInfo');
+  if (!panel) return;
+  panel.innerHTML = '';
+  if (!currentAreaObj) { panel.textContent = 'No area selected.'; return; }
+  if (!selectedRooms || selectedRooms.size===0){ panel.textContent = 'No room selected.'; return; }
+  const sid = Array.from(selectedRooms)[0];
+  const room = (currentAreaObj.rooms||[]).find(r=>String(r.id) === String(sid) || String(r.vnum) === String(sid));
+  if (!room){ panel.textContent = `Selected room ${sid} not found in current area.`; return; }
+  const title = document.createElement('h3'); title.textContent = room.name ?? (`Room ${room.id}`); panel.appendChild(title);
+  const info = document.createElement('div');
+  info.innerHTML = `<p><strong>id:</strong> ${room.id}</p>` + (room.vnum!==undefined?`<p><strong>vnum:</strong> ${room.vnum}</p>`:'') + (room.area?`<p><strong>area:</strong> ${room.area}</p>`:'');
+  panel.appendChild(info);
+  // exits list with names
+  const exits = room.exits || {};
+  const exKeys = Object.keys(exits || {});
+  if (exKeys.length){
+    const exTitle = document.createElement('p'); exTitle.innerHTML = '<strong>exits:</strong>'; panel.appendChild(exTitle);
+    const ul = document.createElement('ul');
+    // build quick lookup by id/vnum
+    const idMap = new Map(); for (const r of currentAreaObj.rooms || []){ idMap.set(String(r.id), r); if (r.vnum!==undefined) idMap.set(String(r.vnum), r); }
+    for (const dir of exKeys){
+      const ex = exits[dir];
+      const tid = ex && (ex.vnum ?? ex) ? (ex.vnum ?? ex) : null;
+      const li = document.createElement('li');
+      if (tid){
+        const target = idMap.get(String(tid));
+        if (target){
+          const a = document.createElement('a'); a.href = '#'; a.textContent = `${String(tid)} — ${target.name || target.id}`; a.style.marginLeft = '8px';
+          a.addEventListener('click',(ev)=>{ ev.preventDefault(); ev.stopPropagation(); selectedRooms.clear(); selectedRooms.add(String(target.id)); renderArea(currentAreaObj); try{ updateRoomInfoPanel(); }catch(e){} });
+          li.innerHTML = `<strong>${dir}</strong>:`; li.appendChild(a);
+        } else {
+          li.innerHTML = `<strong>${dir}</strong>: ${String(tid)}`;
+        }
+      } else {
+        li.innerHTML = `<strong>${dir}</strong>: (unknown)`;
+      }
+      ul.appendChild(li);
+    }
+    panel.appendChild(ul);
+  } else {
+    const p = document.createElement('p'); p.textContent = 'No exits.'; panel.appendChild(p);
+  }
+}
+
+function init(){
+  const container = document.getElementById('mapContainer');
+  if (container) container.textContent = 'Choose file: areas.json using the file picker above.';
+}
+
+// single DOMContentLoaded handler to initialize UI wiring
+document.addEventListener('DOMContentLoaded', ()=>{
+  init();
+  const input = document.getElementById('fileInput');
+  if (input) input.addEventListener('change', (e)=>{ const f = e.target.files && e.target.files[0]; if (f) handleFile(f); });
+  const prev = document.getElementById('layerPrev');
+  const next = document.getElementById('layerNext');
+  if (prev) prev.addEventListener('click', ()=> changeLayer(-1));
+  if (next) next.addEventListener('click', ()=> changeLayer(1));
+  // wire save/export buttons
+  const saveBtn = document.getElementById('savePositions');
+  const exportBtn = document.getElementById('exportArea');
+  if (saveBtn) saveBtn.addEventListener('click', ()=>{ if (currentAreaObj) { try{ savePositions(currentAreaObj); alert('Positions saved locally.'); }catch(e){ alert('Save failed: '+(e&&e.message?e.message:String(e))); } } else alert('No area selected'); });
+  if (exportBtn) exportBtn.addEventListener('click', ()=>{ if (currentAreaObj) { try{ exportArea(currentAreaObj); }catch(e){ alert('Export failed: '+(e&&e.message?e.message:String(e))); } } else alert('No area selected'); });
+  const redrawBtn = document.getElementById('redrawFromSelected'); if (redrawBtn) redrawBtn.addEventListener('click', ()=>{ redrawFromSelectedRoom(); });
+  const redrawLayerBtn = document.getElementById('redrawFromSelectedLayer'); if (redrawLayerBtn) redrawLayerBtn.addEventListener('click', ()=>{ redrawFromSelectedLayer(); });
+  const clearBtn = document.getElementById('clearSavedPositions'); if (clearBtn) clearBtn.addEventListener('click', ()=>{ if (currentAreaObj) { try{ clearSavedPositions(currentAreaObj); }catch(e){ alert('Clear failed: '+(e&&e.message?e.message:String(e))); } } else alert('No area selected'); });
+  // debug overlay toggle
+  const dbgDiv = document.createElement('div');
+  dbgDiv.style.cssText = 'position:fixed;bottom:10px;right:10px;background:rgba(255,255,255,0.95);padding:6px;border:1px solid #ddd;border-radius:6px;z-index:9999;font-size:12px;';
+  dbgDiv.innerHTML = '<label style="cursor:pointer"><input id="debugToggle" type="checkbox" style="margin-right:6px">Debug overlay</label>';
+  document.body.appendChild(dbgDiv);
+  const dbgInput = document.getElementById('debugToggle');
+  if (dbgInput) dbgInput.addEventListener('change', (e)=>{ showDebugOverlay = e.target.checked; if (currentAreaObj) renderArea(currentAreaObj); });
+});
+
+function updateLayerDisplay(){
+  const el = document.getElementById('layerDisplay');
+  if (!el) return;
+  el.textContent = `Floor ${currentLayer}`;
+}
+
+function changeLayer(delta){
+  if (!currentAreaObj) return;
+  const min = currentAreaObj.minZ ?? 0;
+  const max = currentAreaObj.maxZ ?? 0;
+  let next = currentLayer + delta;
+  if (next < min) next = min;
+  if (next > max) next = max;
+  currentLayer = next;
+  updateLayerDisplay();
+  // preserve current viewBox (pan/zoom) when merely changing layers
+  try{
+    const container = document.getElementById('mapContainer');
+    const svgElem = container && container.querySelector && container.querySelector('svg');
+    const curVB = svgElem && svgElem.getAttribute && svgElem.getAttribute('viewBox');
+    if (curVB) preservedViewBox = curVB;
+  }catch(e){}
+  // re-apply coloring (so the newly visible floor will have colors)
+  try{ if (typeof MapColorsJS !== 'undefined' && MapColorsJS && typeof MapColorsJS.applyColors === 'function'){ MapColorsJS.applyColors(currentAreaObj); } }catch(e){}
+  renderArea(currentAreaObj);
+}
+
+// Persistence helpers: save/load per-area room positions to localStorage
+function getPositionsKey(area){
+  const id = (area && (area.id || area.name)) ? (area.id || area.name) : 'area';
+  return `dmaps_positions_${String(id)}`;
+}
+
+function loadSavedPositions(area){
+  if (!area) return;
+  try{
+    const key = getPositionsKey(area);
+    const raw = localStorage.getItem(key);
+    if (!raw) return;
+    const map = JSON.parse(raw);
+    for (const r of area.rooms || []){
+      const p = map[String(r.id)];
+      if (p && typeof p.x === 'number' && typeof p.y === 'number'){
+        r.x = p.x; r.y = p.y; if (p.z !== undefined) r.z = p.z;
+      }
+    }
+  }catch(e){ console.warn('loadSavedPositions failed', e); }
+}
+
+function savePositions(area){
+  if (!area) return;
+  try{
+    const key = getPositionsKey(area);
+    const map = {};
+    for (const r of area.rooms || []){
+      if (typeof r.x === 'number' && typeof r.y === 'number') map[String(r.id)] = { x: r.x, y: r.y, z: r.z };
+    }
+    localStorage.setItem(key, JSON.stringify(map));
+  }catch(e){ console.warn('savePositions failed', e); }
+}
+
+function clearSavedPositions(area){
+  if (!area) return;
+  try{
+    const key = getPositionsKey(area);
+    localStorage.removeItem(key);
+    // clear in-memory saved coordinates
+    for (const r of area.rooms || []){ delete r.x; delete r.y; delete r.z; }
+    // recompute layout and layer bounds
+    area.rooms = layoutAreaRooms(area.rooms);
+    const zs = (area.rooms||[]).map(r=>r.z||0);
+    area.minZ = zs.length?Math.min(...zs):0;
+    area.maxZ = zs.length?Math.max(...zs):0;
+    try{ const container = document.getElementById('mapContainer'); const svgElem = container && container.querySelector && container.querySelector('svg'); const curVB = svgElem && svgElem.getAttribute && svgElem.getAttribute('viewBox'); if (curVB) preservedViewBox = curVB; }catch(e){}
+    renderArea(area);
+    alert('Saved positions cleared for this area.');
+  }catch(e){ console.warn('clearSavedPositions failed', e); alert('Clear failed: '+(e&&e.message?e.message:String(e))); }
+}
+
+function exportArea(area){
+  if (!area) return;
+  try{
+    // create a deep copy to avoid mutating runtime objects
+    const out = JSON.parse(JSON.stringify(area));
+    const blob = new Blob([JSON.stringify(out, null, 2)], { type: 'application/json' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    const name = (out && (out.id || out.name)) ? (out.id || out.name) : 'area';
+    a.download = `${name.replace(/[^a-z0-9_-]/gi,'_')}.json`;
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+    setTimeout(()=>URL.revokeObjectURL(url), 2000);
+  }catch(e){ console.warn('exportArea failed', e); }
+}

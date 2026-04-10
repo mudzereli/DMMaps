@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Areas — Room Map</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div id="app">
+    <aside id="sidebar">
+      <h2>Areas</h2>
+      <select id="areaSelect" aria-label="Select area" style="width:100%;margin-bottom:8px;padding:6px;border-radius:6px"></select>
+      <div id="areaCount" style="margin-bottom:8px;color:var(--muted)"></div>
+      <ul id="areaList"></ul>
+      <div id="roomInfo" style="margin-top:12px;padding-top:8px;border-top:1px solid #eee"></div>
+    </aside>
+    <main id="viewer">
+      <div id="controls">
+        <input id="fileInput" type="file" accept="application/json" />
+        <span id="loadedFile" style="margin-left:12px;color:var(--muted)"></span>
+        <span id="loadedFile" style="margin-left:12px;color:var(--muted)"></span>
+        <div style="width:12px"></div>
+        <div id="layerControls" style="display:inline-flex;align-items:center;gap:6px;margin-left:8px">
+          <button id="layerPrev" title="Previous floor">◀</button>
+          <span id="layerDisplay" style="min-width:48px;text-align:center;color:var(--muted)">Floor 0</span>
+          <button id="layerNext" title="Next floor">▶</button>
+        </div>
+        <div style="flex:1"></div>
+        <span id="areaTitle"></span>
+        <button id="savePositions" style="margin-left:12px">Save Positions</button>
+        <button id="exportArea" style="margin-left:6px">Export Area</button>
+        <button id="clearSavedPositions" style="margin-left:6px">Clear Saved Positions</button>
+        <button id="redrawFromSelected" style="margin-left:6px">Redraw From Selected</button>
+        <button id="redrawFromSelectedLayer" style="margin-left:6px">Redraw Current Floor</button>
+      </div>
+      <div id="mapContainer">
+        <!-- SVG map will be injected here -->
+      </div>
+    </main>
+  </div>
+
+  <script src="mapColors.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
