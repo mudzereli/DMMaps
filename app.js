@@ -546,7 +546,33 @@ function areaBounds(boxes){
 // Compute a viewBox string that fits the whole area with a small margin.
 function computeFitViewBox(area){
   if (!area || !area.rooms || area.rooms.length===0) return null;
-  const roomBoxes = ensurePositions(area.rooms);
+  // hide rooms that have no outgoing exits and are not referenced by any other room
+  const idSet = new Set((area.rooms||[]).map(r=>String(r.id)));
+  const referenced = new Set();
+  const hasOutgoing = new Map();
+  for (const r of (area.rooms||[])){
+    const exits = r.exits || {};
+    let anyOut = false;
+    for (const ex of Object.values(exits)){
+      const tid = ex && (ex.vnum ?? ex);
+      if (!tid) continue;
+      const tstr = String(tid);
+      if (idSet.has(tstr)){
+        referenced.add(tstr);
+        anyOut = true;
+      }
+    }
+    hasOutgoing.set(String(r.id), anyOut);
+  }
+  const roomBoxesAll = ensurePositions(area.rooms);
+  const roomBoxes = roomBoxesAll.filter(({r})=>{
+    const id = String(r.id);
+    // always show if selected
+    if (selectedRooms && selectedRooms.has(id)) return true;
+    const out = hasOutgoing.get(id) || false;
+    const inRef = referenced.has(id);
+    return out || inRef;
+  });
   const boxes = roomBoxes.map(x=>x.box).filter(Boolean);
   if (!boxes.length) return null;
   const b = areaBounds(boxes);
@@ -1459,12 +1485,17 @@ function populateAreaList(areas){
     if (select){
       const opt = document.createElement('option'); opt.value = String(idx); opt.textContent = li.textContent; select.appendChild(opt);
     }
-    if (idx===0){
-      if (select) select.value = '0';
-      // select first area via centralized function
-      selectAreaIndex(0);
-    }
+    // do not auto-select inside the loop; we'll choose a default after building the list
   });
+  // Default: try to select area named 'glyndane' (case-insensitive). Fallback to index 0.
+  try{
+    let defaultIndex = 0;
+    const want = 'glyndane';
+    const found = areas.findIndex(a => String(a.id).toLowerCase() === want || String(a.name).toLowerCase() === want);
+    if (found >= 0) defaultIndex = found;
+    if (select) select.value = String(defaultIndex);
+    selectAreaIndex(defaultIndex);
+  }catch(e){ if (select) { select.value = '0'; selectAreaIndex(0); } }
   // wire select change to trigger corresponding li click
   if (select){
     select.addEventListener('change', (e)=>{
