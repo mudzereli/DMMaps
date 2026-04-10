@@ -146,6 +146,19 @@ function layoutAreaRooms(rooms, startId){
   const idMap = new Map();
   rooms.forEach(r=>idMap.set(Number(r.id), r));
 
+  // build reverse mapping: targetId (string) -> array of { source, dir }
+  const reverseMap = new Map();
+  for (const rr of rooms){
+    const exs = rr.exits || {};
+    for (const [d, ex] of Object.entries(exs)){
+      const tid = Number(ex && (ex.vnum ?? ex));
+      if (!tid) continue;
+      const key = String(tid);
+      if (!reverseMap.has(key)) reverseMap.set(key, []);
+      reverseMap.get(key).push({ source: Number(rr.id), dir: String(d) });
+    }
+  }
+
   if (rooms.length===0) return rooms;
 
   // Choose a sensible BFS start. Use provided `startId` if valid; otherwise
@@ -184,7 +197,9 @@ function layoutAreaRooms(rooms, startId){
   occupied.set(startKey, start);
   const q = [start];
   const visited = new Set([start]);
-
+  // deferred neighbors (rooms that only point to this one) are processed
+  // after the main outgoing-first traversal finishes.
+  let deferred = [];
   // debug map: id -> { from:{x,y}, to:{x,y}, z }
   const debugMap = new Map();
   const halfSide = (cellSize - 20) / 2;
@@ -194,42 +209,86 @@ function layoutAreaRooms(rooms, startId){
     const curRoom = idMap.get(cur);
     if (!curRoom) continue;
     const curPos = pos[cur];
+    // First, process explicit outgoing exits and enqueue them for immediate traversal.
     const exits = curRoom.exits || {};
-    for (const [dir,ex] of Object.entries(exits)){
+    const outgoingSet = new Set();
+    for (const [dir, ex] of Object.entries(exits)){
       const target = Number(ex.vnum || ex);
       if (!target || !idMap.has(target)) continue;
       if (visited.has(target)) continue;
-      // determine target level (z)
+      // mark as outgoing so reverse processing can skip duplicates
+      outgoingSet.add(String(target));
+      // determine placement for this outgoing neighbor
+      const dirStr = String(dir);
       const curLevel = level[cur] ?? 0;
       let targetLevel = curLevel;
-      if (dir.toLowerCase() === 'up') targetLevel = curLevel + 1;
-      if (dir.toLowerCase() === 'down') targetLevel = curLevel - 1;
-      // choose delta if cardinal
-      const d = dirDelta[dir.toLowerCase()];
-      // for up/down, place target in same grid cell as source; visual offset will indicate layer
+      if (dirStr.toLowerCase() === 'up') targetLevel = curLevel + 1;
+      if (dirStr.toLowerCase() === 'down') targetLevel = curLevel - 1;
+      const d = dirDelta[dirStr.toLowerCase()];
       let tx = curPos.x + (d?d[0]:0);
       let ty = curPos.y + (d?d[1]:0);
-      if (dir.toLowerCase() === 'up' || dir.toLowerCase() === 'down'){
-        tx = curPos.x;
-        ty = curPos.y;
+      if (dirStr.toLowerCase() === 'up' || dirStr.toLowerCase() === 'down'){
+        tx = curPos.x; ty = curPos.y;
       }
-      // find free spot if occupied on the same z-level (allow overlaps across z)
       let key = `${tx},${ty},${targetLevel}`;
       let tries = 0;
       while(occupied.has(key) && occupied.get(key)!==target && tries<100){
-        // try neighbors clockwise
         const triesMap = [[1,0],[0,1],[-1,0],[0,-1],[1,1],[-1,-1],[1,-1],[-1,1]];
         const t = triesMap[tries % triesMap.length];
         tx = curPos.x + (d?d[0]:0) + t[0]*(Math.floor(tries/triesMap.length)+1);
         ty = curPos.y + (d?d[1]:0) + t[1]*(Math.floor(tries/triesMap.length)+1);
-        key = `${tx},${ty},${targetLevel}`;
-        tries++;
+        key = `${tx},${ty},${targetLevel}`; tries++;
       }
-      pos[target] = {x:tx,y:ty};
-      level[target] = targetLevel;
-      occupied.set(key,target);
-      visited.add(target);
-      q.push(target);
+      pos[target] = {x:tx,y:ty}; level[target] = targetLevel; occupied.set(key,target); visited.add(target); q.push(target);
+    }
+    // Then defer reverse-only neighbors to be processed after the current BFS wave finishes
+    const revs = reverseMap.get(String(cur)) || [];
+    for (const info of revs){
+      const target = Number(info.source);
+      if (!target || !idMap.has(target)) continue;
+      if (visited.has(target)) continue;
+      if (outgoingSet.has(String(target))) continue; // already handled as outgoing
+      // infer opposite direction for placement bias
+      const dirLower = (info.dir || '').toLowerCase();
+      const opposite = ({ north:'south', south:'north', east:'west', west:'east', up:'down', down:'up' }[dirLower]) || dirLower;
+      // compute placement but do NOT add to main queue; add to deferred list
+      const curLevel = level[cur] ?? 0;
+      let targetLevel = curLevel;
+      if (opposite === 'up') targetLevel = curLevel + 1;
+      if (opposite === 'down') targetLevel = curLevel - 1;
+      const d = dirDelta[opposite];
+      let tx = curPos.x + (d?d[0]:0);
+      let ty = curPos.y + (d?d[1]:0);
+      if (opposite === 'up' || opposite === 'down'){ tx = curPos.x; ty = curPos.y; }
+      let key = `${tx},${ty},${targetLevel}`;
+      let tries = 0;
+      while(occupied.has(key) && occupied.get(key)!==target && tries<100){
+        const triesMap = [[1,0],[0,1],[-1,0],[0,-1],[1,1],[-1,-1],[1,-1],[-1,1]];
+        const t = triesMap[tries % triesMap.length];
+        tx = curPos.x + (d?d[0]:0) + t[0]*(Math.floor(tries/triesMap.length)+1);
+        ty = curPos.y + (d?d[1]:0) + t[1]*(Math.floor(tries/triesMap.length)+1);
+        key = `${tx},${ty},${targetLevel}`; tries++;
+      }
+      // only add to deferred if not already scheduled there
+      if (!deferred.some(x=>x.target===target)){
+        deferred.push({ target, tx, ty, targetLevel, key });
+      }
+    }
+    // If main queue empties, move deferred items into the queue for further traversal
+    if (q.length === 0 && deferred.length > 0){
+      // materialize deferred targets into q (they may have been visited meanwhile)
+      const newQ = [];
+      for (const item of deferred){ if (!visited.has(item.target)){
+          // assign final pos/level now
+          pos[item.target] = { x: item.tx, y: item.ty };
+          level[item.target] = item.targetLevel;
+          occupied.set(item.key, item.target);
+          visited.add(item.target);
+          newQ.push(item.target);
+        }
+      }
+      deferred = [];
+      for (const v of newQ) q.push(v);
     }
   }
 
@@ -903,8 +962,15 @@ function renderArea(area){
       const id = String(r.id);
       // multi-select: use Ctrl (or Cmd on Mac) instead of Shift
       if (ev.ctrlKey || ev.metaKey){
-        // add/remove to selection (ctrl/cmd-click)
-        if (selectedRooms.has(id)) selectedRooms.delete(id); else selectedRooms.add(id);
+        // Restrict multi-select toggles to rooms on the current floor only.
+        const rz = (r.z || 0);
+        if (rz === currentLayer){
+          // add/remove to selection (ctrl/cmd-click)
+          if (selectedRooms.has(id)) selectedRooms.delete(id); else selectedRooms.add(id);
+        } else {
+          // If user ctrl-clicks a room on a different floor, treat as single-select (clear and pick it)
+          selectedRooms.clear(); selectedRooms.add(id);
+        }
       } else {
         if (!selectedRooms.has(id)) { selectedRooms.clear(); selectedRooms.add(id); }
       }
@@ -1102,9 +1168,22 @@ function renderArea(area){
   let marqueeRect = null; let marqueeStart = null;
   // (background click-to-clear handled by pan-with-threshold logic below)
   function startMarquee(startPt){
-    // clear existing selection when beginning a marquee drag
-    selectedRooms.clear();
-    try{ const all = svg.querySelectorAll('rect[data-room-id]'); all.forEach(el=>el.classList.remove('selected')); }catch(e){}
+    // clear existing selection on the current floor only when beginning a marquee drag
+    try{
+      const toRemove = [];
+      for (const s of selectedRooms){
+        const rr = area.rooms.find(x=>String(x.id)===String(s));
+        if (!rr) continue;
+        if ((rr.z||0) === currentLayer) toRemove.push(s);
+      }
+      toRemove.forEach(s=>selectedRooms.delete(s));
+      const all = svg.querySelectorAll('rect[data-room-id]'); all.forEach(el=>{
+        const rid = String(el.dataset.roomId);
+        const rr = area.rooms.find(x=>String(x.id)===rid);
+        if (!rr) return;
+        if ((rr.z||0) === currentLayer) el.classList.remove('selected');
+      });
+    }catch(e){}
     marqueeStart = startPt;
     marqueeRect = document.createElementNS(svgNS,'rect');
     marqueeRect.setAttribute('x', marqueeStart.x);
@@ -1130,6 +1209,8 @@ function renderArea(area){
       const boxes = ensurePositions(area.rooms);
       for (const {r,box} of boxes){
         if (box.maxX < x1 || box.minX > x2 || box.maxY < y1 || box.minY > y2) continue;
+        // only select rooms on the current floor
+        if ((r.z || 0) !== currentLayer) continue;
         selectedRooms.add(String(r.id));
       }
       if (marqueeRect && marqueeRect.parentNode) marqueeRect.parentNode.removeChild(marqueeRect);
@@ -1476,14 +1557,18 @@ function populateAreaList(areas){
   availableAreas = areas;
   areas.forEach((area,idx)=>{
     const li = document.createElement('li');
-    li.textContent = area.name || area.id || `Area ${idx+1}`;
-    li.title = area.name || area.id || '';
+    const roomCount = (area.rooms && Array.isArray(area.rooms)) ? area.rooms.length : 0;
+    const displayName = area.name || area.id || `Area ${idx+1}`;
+    li.textContent = displayName;
+    li.title = `${displayName} (${roomCount} rooms)`;
     // area selection now uses the dropdown (`#areaSelect`) only to avoid
     // accidental area switches from stray clicks while dragging.
     // Keep list items non-interactive (visual only).
     if (list) list.appendChild(li);
     if (select){
-      const opt = document.createElement('option'); opt.value = String(idx); opt.textContent = li.textContent; select.appendChild(opt);
+      const opt = document.createElement('option'); opt.value = String(idx);
+      opt.textContent = `${displayName} (${roomCount})`;
+      select.appendChild(opt);
     }
     // do not auto-select inside the loop; we'll choose a default after building the list
   });
