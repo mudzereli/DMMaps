@@ -334,7 +334,7 @@ function layoutAreaRooms(rooms, startId){
 }
 
 // Redraw currently selected area using the first selected room as BFS start
-function redrawFromSelectedRoom(){
+function redrawFromSelectedRoom(radius){
   if (!currentAreaObj) return alert('No area selected');
   if (!selectedRooms || selectedRooms.size===0) return alert('No room selected to start from');
   // use first selected id
@@ -359,15 +359,45 @@ function redrawFromSelectedRoom(){
         adj.get(tkey).add(key);
       }
     }
-    // BFS to collect connected ids
+    // Determine which z-layers to operate on: keep only the layers of the selected rooms.
+    const allowedLayers = new Set();
+    for (const s of selectedRooms){ const rr = idMap.get(String(s)); if (rr) allowedLayers.add(rr.z ?? 0); }
+    // BFS to collect ids. If a numeric `radius` is provided, limit BFS depth to that many hops.
     const start = String(sid);
-    const q = [start];
     const seen = new Set([start]);
-    while(q.length){
-      const cur = q.shift();
-      const neigh = adj.get(cur);
-      if (!neigh) continue;
-      for (const n of neigh){ if (!seen.has(n)){ seen.add(n); q.push(n); } }
+    if (radius === undefined || radius === null){
+      // unlimited (connected component)
+      const q = [start];
+      while(q.length){
+        const cur = q.shift();
+        const neigh = adj.get(cur);
+        if (!neigh) continue;
+        for (const n of neigh){
+          if (seen.has(n)) continue;
+          const nrRoom = idMap.get(n);
+          // skip rooms on disallowed layers
+          if (!nrRoom) continue;
+          if (!allowedLayers.has(nrRoom.z ?? 0)) continue;
+          seen.add(n); q.push(n);
+        }
+      }
+    } else {
+      const maxDepth = Number(radius);
+      if (Number.isNaN(maxDepth) || maxDepth < 0) return alert('Invalid radius');
+      const q = [{id: start, depth: 0}];
+      while(q.length){
+        const cur = q.shift();
+        if (cur.depth >= maxDepth) continue;
+        const neigh = adj.get(cur.id);
+        if (!neigh) continue;
+        for (const n of neigh){
+          if (seen.has(n)) continue;
+          const nrRoom = idMap.get(n);
+          if (!nrRoom) continue;
+          if (!allowedLayers.has(nrRoom.z ?? 0)) continue;
+          seen.add(n); q.push({id: n, depth: cur.depth + 1});
+        }
+      }
     }
     // subset rooms to layout
     const subset = area.rooms.filter(r=> seen.has(String(r.id)));
@@ -399,7 +429,10 @@ function redrawFromSelectedRoom(){
     for (const r of area.rooms){
       const nr = laidMap.get(String(r.id));
       if (nr){
-        r.x = nr.x; r.y = nr.y; r.width = nr.width; r.height = nr.height; r.z = nr.z;
+        const origZ = r.z;
+        r.x = nr.x; r.y = nr.y; r.width = nr.width; r.height = nr.height;
+        // preserve original floor (z) if present; otherwise use computed value
+        r.z = (origZ !== undefined && origZ !== null) ? origZ : nr.z;
         if (nr._debug) r._debug = nr._debug; else delete r._debug;
       }
     }
@@ -1414,7 +1447,12 @@ document.addEventListener('DOMContentLoaded', ()=>{
   const exportBtn = document.getElementById('exportArea');
   if (saveBtn) saveBtn.addEventListener('click', ()=>{ if (currentAreaObj) { try{ savePositions(currentAreaObj); alert('Positions saved locally.'); }catch(e){ alert('Save failed: '+(e&&e.message?e.message:String(e))); } } else alert('No area selected'); });
   if (exportBtn) exportBtn.addEventListener('click', ()=>{ if (currentAreaObj) { try{ exportArea(currentAreaObj); }catch(e){ alert('Export failed: '+(e&&e.message?e.message:String(e))); } } else alert('No area selected'); });
-  const redrawBtn = document.getElementById('redrawFromSelected'); if (redrawBtn) redrawBtn.addEventListener('click', ()=>{ redrawFromSelectedRoom(); });
+  const redrawBtn = document.getElementById('redrawFromSelected'); if (redrawBtn) redrawBtn.addEventListener('click', ()=>{ 
+    const r = prompt('Enter radius in hops (leave blank for connected component):');
+    if (r === null) return; // cancelled
+    const val = (r.trim()==='') ? null : Number(r);
+    redrawFromSelectedRoom(val);
+  });
   const redrawLayerBtn = document.getElementById('redrawFromSelectedLayer'); if (redrawLayerBtn) redrawLayerBtn.addEventListener('click', ()=>{ redrawFromSelectedLayer(); });
   const clearBtn = document.getElementById('clearSavedPositions'); if (clearBtn) clearBtn.addEventListener('click', ()=>{ if (currentAreaObj) { try{ clearSavedPositions(currentAreaObj); }catch(e){ alert('Clear failed: '+(e&&e.message?e.message:String(e))); } } else alert('No area selected'); });
   // debug overlay toggle
