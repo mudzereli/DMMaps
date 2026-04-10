@@ -40,12 +40,40 @@ function handleFile(file){
 
 function processData(data){
   const areas = extractAreas(data);
+  // Merge numbered area variants (e.g. "Name I", "Name II") into a single base area
+  function mergeNumberedAreas(arr){
+    if (!Array.isArray(arr)) return arr;
+    const groups = new Map();
+    for (const a of arr){
+      const name = String(a.name || a.id || '').trim();
+      const base = name.replace(/\s+(?:I|II|III|IV|V|VI|VII|VIII|IX|X)$/i, '').trim();
+      const key = base || name;
+      if (!groups.has(key)) groups.set(key, []);
+      groups.get(key).push(a);
+    }
+    const out = [];
+    for (const [key, list] of groups.entries()){
+      if (list.length === 1){ out.push(list[0]); continue; }
+      // merge multiple numbered areas into one
+      const merged = { id: key, name: key, rooms: [] };
+      for (const part of list){
+        if (part.rooms && Array.isArray(part.rooms)) merged.rooms = merged.rooms.concat(part.rooms);
+      }
+      // recompute z-bounds if present
+      const zs = merged.rooms.map(r=>r.z||0);
+      merged.minZ = zs.length?Math.min(...zs):0;
+      merged.maxZ = zs.length?Math.max(...zs):0;
+      out.push(merged);
+    }
+    return out;
+  }
+  const mergedAreas = mergeNumberedAreas(areas);
   // auto-apply terrain coloring if MapColorsJS is available
   try{ if (typeof MapColorsJS !== 'undefined' && MapColorsJS && typeof MapColorsJS.applyColors === 'function'){
     areas.forEach(a=>{ try{ MapColorsJS.applyColors(a); }catch(e){} });
   } }catch(e){}
-  if (areas.length===0) return document.getElementById('mapContainer').textContent = 'No areas/rooms found in JSON.';
-  populateAreaList(areas);
+  if (mergedAreas.length===0) return document.getElementById('mapContainer').textContent = 'No areas/rooms found in JSON.';
+  populateAreaList(mergedAreas);
 }
 
 function extractAreas(data) {
