@@ -340,13 +340,75 @@ function redrawFromSelectedRoom(){
   // use first selected id
   const sid = Array.from(selectedRooms)[0];
   try{
-    currentAreaObj.rooms = layoutAreaRooms(currentAreaObj.rooms, sid);
-    const zs = (currentAreaObj.rooms||[]).map(r=>r.z||0);
-    currentAreaObj.minZ = zs.length?Math.min(...zs):0;
-    currentAreaObj.maxZ = zs.length?Math.max(...zs):0;
+    // Layout only the connected component containing the selected room so
+    // unattached rooms keep their positions.
+    const area = currentAreaObj;
+    const idMap = new Map(); area.rooms.forEach(r=>idMap.set(String(r.id), r));
+    // build undirected adjacency map based on exits
+    const adj = new Map();
+    for (const r of area.rooms){
+      const key = String(r.id);
+      if (!adj.has(key)) adj.set(key, new Set());
+      for (const ex of Object.values(r.exits || {})){
+        const tid = ex && (ex.vnum ?? ex);
+        if (!tid) continue;
+        const tkey = String(tid);
+        if (!idMap.has(tkey)) continue;
+        adj.get(key).add(tkey);
+        if (!adj.has(tkey)) adj.set(tkey, new Set());
+        adj.get(tkey).add(key);
+      }
+    }
+    // BFS to collect connected ids
+    const start = String(sid);
+    const q = [start];
+    const seen = new Set([start]);
+    while(q.length){
+      const cur = q.shift();
+      const neigh = adj.get(cur);
+      if (!neigh) continue;
+      for (const n of neigh){ if (!seen.has(n)){ seen.add(n); q.push(n); } }
+    }
+    // subset rooms to layout
+    const subset = area.rooms.filter(r=> seen.has(String(r.id)));
+    if (subset.length===0) return;
+    const subsetCopy = subset.map(r=>({ ...r }));
+    // preserve the starting room's current position if present
+    const startRoomOrig = area.rooms.find(r=>String(r.id)===String(sid));
+    let startPos = null;
+    if (startRoomOrig){
+      if (typeof startRoomOrig.x === 'number' && typeof startRoomOrig.y === 'number') startPos = { x: startRoomOrig.x, y: startRoomOrig.y };
+      else {
+        const b = roomBBox(startRoomOrig);
+        if (b) startPos = { x: b.minX, y: b.minY };
+      }
+    }
+    const laid = layoutAreaRooms(subsetCopy, sid);
+    // If we have an original start position, shift the laid layout so the start keeps its original grid position
+    if (startPos){
+      const laidStart = laid.find(r=>String(r.id)===String(sid));
+      if (laidStart && typeof laidStart.x === 'number' && typeof laidStart.y === 'number'){
+        const dx = startPos.x - laidStart.x;
+        const dy = startPos.y - laidStart.y;
+        if (dx !== 0 || dy !== 0){
+          for (const r of laid){ if (typeof r.x === 'number') r.x += dx; if (typeof r.y === 'number') r.y += dy; }
+        }
+      }
+    }
+    const laidMap = new Map(laid.map(r=>[String(r.id), r]));
+    for (const r of area.rooms){
+      const nr = laidMap.get(String(r.id));
+      if (nr){
+        r.x = nr.x; r.y = nr.y; r.width = nr.width; r.height = nr.height; r.z = nr.z;
+        if (nr._debug) r._debug = nr._debug; else delete r._debug;
+      }
+    }
+    const zs = (area.rooms||[]).map(r=>r.z||0);
+    area.minZ = zs.length?Math.min(...zs):0;
+    area.maxZ = zs.length?Math.max(...zs):0;
     // preserve viewBox across this change
     try{ const container = document.getElementById('mapContainer'); const svgElem = container && container.querySelector && container.querySelector('svg'); const curVB = svgElem && svgElem.getAttribute && svgElem.getAttribute('viewBox'); if (curVB) preservedViewBox = curVB; }catch(e){}
-    renderArea(currentAreaObj);
+    renderArea(area);
   }catch(e){ console.error('redrawFromSelectedRoom failed', e); alert('Redraw failed: '+(e&&e.message?e.message:String(e))); }
 }
 
@@ -367,7 +429,28 @@ function redrawFromSelectedLayer(){
   try{
     // layout only the subset; keep other rooms unchanged
     const subsetCopy = roomsOnLayer.map(r=>({ ...r }));
+    // preserve the starting room's current position if present
+    const startRoomOrig = area.rooms.find(r=>String(r.id)===String(sid));
+    let startPos = null;
+    if (startRoomOrig){
+      if (typeof startRoomOrig.x === 'number' && typeof startRoomOrig.y === 'number') startPos = { x: startRoomOrig.x, y: startRoomOrig.y };
+      else {
+        const b = roomBBox(startRoomOrig);
+        if (b) startPos = { x: b.minX, y: b.minY };
+      }
+    }
     const laid = layoutAreaRooms(subsetCopy, sid);
+    // shift laid positions so the start room keeps its original grid position
+    if (startPos){
+      const laidStart = laid.find(r=>String(r.id)===String(sid));
+      if (laidStart && typeof laidStart.x === 'number' && typeof laidStart.y === 'number'){
+        const dx = startPos.x - laidStart.x;
+        const dy = startPos.y - laidStart.y;
+        if (dx !== 0 || dy !== 0){
+          for (const r of laid){ if (typeof r.x === 'number') r.x += dx; if (typeof r.y === 'number') r.y += dy; }
+        }
+      }
+    }
     const laidMap = new Map(laid.map(r=>[String(r.id), r]));
     for (const r of area.rooms){
       const nr = laidMap.get(String(r.id));
@@ -888,13 +971,16 @@ function renderArea(area){
     window.addEventListener('mouseup', onUp);
   }
 
-  svg.addEventListener('mousedown', (ev)=>{
-    if (ev.button!==0) return;
-    if (!ev.shiftKey) return; // only marquee with shift
-    ev.preventDefault(); ev.stopPropagation();
-    // start marquee at the mouse point (works whether target is svg or a room)
-    startMarquee(svgPointFromEvent(ev));
-  });
+  if (!svg._marqueeMousedownAttached){
+    svg._marqueeMousedownAttached = true;
+    svg.addEventListener('mousedown', (ev)=>{
+      if (ev.button!==0) return;
+      if (!ev.shiftKey) return; // only marquee with shift
+      ev.preventDefault(); ev.stopPropagation();
+      // start marquee at the mouse point (works whether target is svg or a room)
+      startMarquee(svgPointFromEvent(ev));
+    });
+  }
 
   // debug overlay: draw from->to arrows for small nudges
   if (showDebugOverlay){
