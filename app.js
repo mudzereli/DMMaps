@@ -330,7 +330,7 @@ function layoutAreaRooms(rooms, startId){
   }
 
   // map positions into room objects with pixel coords and sizes
-  return rooms.map(r=>{
+  const outRooms = rooms.map(r=>{
     const p = pos[Number(r.id)] ?? {x:0,y:0};
     const z = level[Number(r.id)] ?? 0;
     const out = {
@@ -345,78 +345,31 @@ function layoutAreaRooms(rooms, startId){
     if (dbg) out._debug = dbg;
     return out;
   });
+  // Normalize z-levels so the lowest floor is 0
+  try{
+    const zs = outRooms.map(r=>r.z || 0);
+    if (zs.length){
+      const minZ = Math.min(...zs);
+      if (minZ !== 0){
+        outRooms.forEach(r=>{ if (typeof r.z === 'number') r.z = r.z - minZ; });
+      }
+    }
+  }catch(e){}
+  return outRooms;
 }
 
 // Redraw currently selected area using the first selected room as BFS start
-function redrawFromSelectedRoom(radius){
+function redrawFromSelectedRoom(){
   if (!currentAreaObj) return alert('No area selected');
   if (!selectedRooms || selectedRooms.size===0) return alert('No room selected to start from');
-  // use first selected id
   const sid = Array.from(selectedRooms)[0];
   try{
-    // Layout only the connected component containing the selected room so
-    // unattached rooms keep their positions.
+    // Relayout the entire area using the selected room as the BFS start.
+    // This ensures the traversal begins at the selected room but all rooms
+    // in the area are re-laid out.
     const area = currentAreaObj;
-    const idMap = new Map(); area.rooms.forEach(r=>idMap.set(String(r.id), r));
-    // build undirected adjacency map based on exits
-    const adj = new Map();
-    for (const r of area.rooms){
-      const key = String(r.id);
-      if (!adj.has(key)) adj.set(key, new Set());
-      for (const ex of Object.values(r.exits || {})){
-        const tid = ex && (ex.vnum ?? ex);
-        if (!tid) continue;
-        const tkey = String(tid);
-        if (!idMap.has(tkey)) continue;
-        adj.get(key).add(tkey);
-        if (!adj.has(tkey)) adj.set(tkey, new Set());
-        adj.get(tkey).add(key);
-      }
-    }
-    // Determine which z-layers to operate on: keep only the layers of the selected rooms.
-    const allowedLayers = new Set();
-    for (const s of selectedRooms){ const rr = idMap.get(String(s)); if (rr) allowedLayers.add(rr.z ?? 0); }
-    // BFS to collect ids. If a numeric `radius` is provided, limit BFS depth to that many hops.
-    const start = String(sid);
-    const seen = new Set([start]);
-    if (radius === undefined || radius === null){
-      // unlimited (connected component)
-      const q = [start];
-      while(q.length){
-        const cur = q.shift();
-        const neigh = adj.get(cur);
-        if (!neigh) continue;
-        for (const n of neigh){
-          if (seen.has(n)) continue;
-          const nrRoom = idMap.get(n);
-          // skip rooms on disallowed layers
-          if (!nrRoom) continue;
-          if (!allowedLayers.has(nrRoom.z ?? 0)) continue;
-          seen.add(n); q.push(n);
-        }
-      }
-    } else {
-      const maxDepth = Number(radius);
-      if (Number.isNaN(maxDepth) || maxDepth < 0) return alert('Invalid radius');
-      const q = [{id: start, depth: 0}];
-      while(q.length){
-        const cur = q.shift();
-        if (cur.depth >= maxDepth) continue;
-        const neigh = adj.get(cur.id);
-        if (!neigh) continue;
-        for (const n of neigh){
-          if (seen.has(n)) continue;
-          const nrRoom = idMap.get(n);
-          if (!nrRoom) continue;
-          if (!allowedLayers.has(nrRoom.z ?? 0)) continue;
-          seen.add(n); q.push({id: n, depth: cur.depth + 1});
-        }
-      }
-    }
-    // subset rooms to layout
-    const subset = area.rooms.filter(r=> seen.has(String(r.id)));
-    if (subset.length===0) return;
-    const subsetCopy = subset.map(r=>({ ...r }));
+    // copy rooms for layout so layoutAreaRooms can mutate safely
+    const roomsCopy = (area.rooms || []).map(r => ({ ...r }));
     // preserve the starting room's current position if present
     const startRoomOrig = area.rooms.find(r=>String(r.id)===String(sid));
     let startPos = null;
@@ -427,7 +380,7 @@ function redrawFromSelectedRoom(radius){
         if (b) startPos = { x: b.minX, y: b.minY };
       }
     }
-    const laid = layoutAreaRooms(subsetCopy, sid);
+    const laid = layoutAreaRooms(roomsCopy, sid);
     // If we have an original start position, shift the laid layout so the start keeps its original grid position
     if (startPos){
       const laidStart = laid.find(r=>String(r.id)===String(sid));
@@ -443,16 +396,15 @@ function redrawFromSelectedRoom(radius){
     for (const r of area.rooms){
       const nr = laidMap.get(String(r.id));
       if (nr){
-        const origZ = r.z;
-        r.x = nr.x; r.y = nr.y; r.width = nr.width; r.height = nr.height;
-        // preserve original floor (z) if present; otherwise use computed value
-        r.z = (origZ !== undefined && origZ !== null) ? origZ : nr.z;
+        r.x = nr.x; r.y = nr.y; r.width = nr.width; r.height = nr.height; r.z = nr.z;
         if (nr._debug) r._debug = nr._debug; else delete r._debug;
       }
     }
     const zs = (area.rooms||[]).map(r=>r.z||0);
     area.minZ = zs.length?Math.min(...zs):0;
     area.maxZ = zs.length?Math.max(...zs):0;
+    // persist updated positions so reload uses the relaid layout
+    try{ savePositions(area); }catch(e){}
     // preserve viewBox across this change
     try{ const container = document.getElementById('mapContainer'); const svgElem = container && container.querySelector && container.querySelector('svg'); const curVB = svgElem && svgElem.getAttribute && svgElem.getAttribute('viewBox'); if (curVB && !preservedViewBox) preservedViewBox = curVB; }catch(e){}
     renderArea(area);
@@ -460,7 +412,7 @@ function redrawFromSelectedRoom(radius){
 }
 
 // Redraw only the current z-level (floor) using the first selected room on that level as BFS start
-function redrawFromSelectedLayer(){
+function redrawFromSelectedLayer(radius){
   if (!currentAreaObj) return alert('No area selected');
   if (!selectedRooms || selectedRooms.size===0) return alert('No room selected to start from');
   const area = currentAreaObj;
@@ -474,8 +426,23 @@ function redrawFromSelectedLayer(){
   for (const s of selectedRooms){ if (idsOnLayer.has(String(s))){ sid = s; break; } }
   if (!sid) sid = roomsOnLayer[0].id;
   try{
-    // layout only the subset; keep other rooms unchanged
-    const subsetCopy = roomsOnLayer.map(r=>({ ...r }));
+    // build adjacency limited to this layer
+    const idMap = new Map(); area.rooms.forEach(r=>idMap.set(String(r.id), r));
+    const adj = new Map();
+    for (const r of roomsOnLayer){ const key = String(r.id); if (!adj.has(key)) adj.set(key, new Set()); for (const ex of Object.values(r.exits || {})){ const tid = ex && (ex.vnum ?? ex); if (!tid) continue; if (!idMap.has(String(tid))) continue; const tr = idMap.get(String(tid)); if ((tr.z||0) !== layer) continue; adj.get(key).add(String(tid)); if (!adj.has(String(tid))) adj.set(String(tid), new Set()); adj.get(String(tid)).add(key); } }
+    // BFS on this layer with optional radius to collect subset
+    const start = String(sid);
+    const seen = new Set([start]);
+    if (radius === undefined || radius === null){
+      const q = [start];
+      while(q.length){ const cur = q.shift(); const neigh = adj.get(cur); if (!neigh) continue; for (const n of neigh) if (!seen.has(n)){ seen.add(n); q.push(n); } }
+    } else {
+      const maxDepth = Number(radius);
+      if (Number.isNaN(maxDepth) || maxDepth < 0) return alert('Invalid radius');
+      const q = [{id: start, depth: 0}];
+      while(q.length){ const cur = q.shift(); if (cur.depth >= maxDepth) continue; const neigh = adj.get(cur.id); if (!neigh) continue; for (const n of neigh){ if (seen.has(n)) continue; seen.add(n); q.push({id: n, depth: cur.depth + 1}); } }
+    }
+    const subsetCopy = Array.from(seen).map(id=>({ ...idMap.get(String(id)) }));
     // preserve the starting room's current position if present
     const startRoomOrig = area.rooms.find(r=>String(r.id)===String(sid));
     let startPos = null;
@@ -510,6 +477,8 @@ function redrawFromSelectedLayer(){
     const zs = (area.rooms||[]).map(r=>r.z||0);
     area.minZ = zs.length?Math.min(...zs):0;
     area.maxZ = zs.length?Math.max(...zs):0;
+    // persist updated positions so reload uses the relaid layout
+    try{ savePositions(area); }catch(e){}
     // preserve viewBox across this change
     try{ const container = document.getElementById('mapContainer'); const svgElem = container && container.querySelector && container.querySelector('svg'); const curVB = svgElem && svgElem.getAttribute && svgElem.getAttribute('viewBox'); if (curVB && !preservedViewBox) preservedViewBox = curVB; }catch(e){}
     renderArea(area);
@@ -804,6 +773,30 @@ function renderArea(area){
         // external target: draw an outward red arrow and attach click handler to jump to that area/room
         const found = dxUnit.found;
         if (!found) continue;
+        // If the found target is in the same area but not on the current layer,
+        // treat it as an intra-area connector (do not mark red as an external area exit).
+        if (found.idx === currentAreaIndex){
+          // target is in the same area (different layer). Find its box and draw a regular connector
+          const targetRoomId = found.roomId;
+          const tbEntry = roomBoxes.find(x=> String(x.r.id) === String(targetRoomId));
+          if (tbEntry && tbEntry.box){
+            const tCx = (tbEntry.box.minX + tbEntry.box.maxX)/2;
+            const tCy = (tbEntry.box.minY + tbEntry.box.maxY)/2;
+            const dx = tCx - sCx; const dy = tCy - sCy; const dist = Math.sqrt(dx*dx + dy*dy) || 1;
+            const sOff = source.side/2; const tOff = (tbEntry.box.maxX - tbEntry.box.minX)/2 || 20;
+            const sx = sCx + (dx/dist) * sOff * 0.85;
+            const sy = sCy + (dy/dist) * sOff * 0.85;
+            const tx = tCx - (dx/dist) * tOff * 0.85;
+            const ty = tCy - (dy/dist) * tOff * 0.85;
+            const smallLine = document.createElementNS(svgNS,'path');
+            smallLine.setAttribute('d', `M ${sx} ${sy} L ${tx} ${ty}`);
+            smallLine.setAttribute('class','exit-line');
+            smallLine.setAttribute('marker-end','url(#arrow)');
+            svg.appendChild(smallLine);
+            continue;
+          }
+          // if we couldn't find the target box, fallthrough to external arrow behavior
+        }
         // direction: use exit direction (if cardinal) to bias arrow; fallback to small offset
         const targetDir = (String(dir||'').toLowerCase());
         const len = Math.max(40, source.side * 0.9);
@@ -1464,6 +1457,9 @@ function selectAreaIndex(idx, roomToSelect){
   // update title and area state
   document.getElementById('areaTitle').textContent = area.name || area.id || '';
   currentAreaObj = area;
+  currentAreaObj = area;
+  // Load any saved positions first so min/max z reflect persisted layout
+  try{ loadSavedPositions(currentAreaObj); }catch(e){}
   const minZ = currentAreaObj.minZ ?? 0;
   const maxZ = currentAreaObj.maxZ ?? 0;
   let desired = 0;
@@ -1478,7 +1474,6 @@ function selectAreaIndex(idx, roomToSelect){
     currentLayer = desired;
   }
   updateLayerDisplay();
-  try{ loadSavedPositions(currentAreaObj); }catch(e){}
   try{ if (typeof MapColorsJS !== 'undefined' && MapColorsJS && typeof MapColorsJS.applyColors === 'function'){ MapColorsJS.applyColors(currentAreaObj); } }catch(e){}
   // compute a fitting viewBox and preserve it so renderArea will apply it once
   try{ preservedViewBox = computeFitViewBox(currentAreaObj); }catch(e){ preservedViewBox = null; }
@@ -1554,13 +1549,13 @@ document.addEventListener('DOMContentLoaded', ()=>{
   const exportBtn = document.getElementById('exportArea');
   if (saveBtn) saveBtn.addEventListener('click', ()=>{ if (currentAreaObj) { try{ savePositions(currentAreaObj); alert('Positions saved locally.'); }catch(e){ alert('Save failed: '+(e&&e.message?e.message:String(e))); } } else alert('No area selected'); });
   if (exportBtn) exportBtn.addEventListener('click', ()=>{ if (currentAreaObj) { try{ exportArea(currentAreaObj); }catch(e){ alert('Export failed: '+(e&&e.message?e.message:String(e))); } } else alert('No area selected'); });
-  const redrawBtn = document.getElementById('redrawFromSelected'); if (redrawBtn) redrawBtn.addEventListener('click', ()=>{ 
-    const r = prompt('Enter radius in hops (leave blank for connected component):');
-    if (r === null) return; // cancelled
+  const redrawBtn = document.getElementById('redrawFromSelected'); if (redrawBtn) redrawBtn.addEventListener('click', ()=>{ redrawFromSelectedRoom(); });
+  const redrawLayerBtn = document.getElementById('redrawFromSelectedLayer'); if (redrawLayerBtn) redrawLayerBtn.addEventListener('click', ()=>{
+    const r = prompt('Enter radius in hops (leave blank for full floor):');
+    if (r === null) return;
     const val = (r.trim()==='') ? null : Number(r);
-    redrawFromSelectedRoom(val);
+    redrawFromSelectedLayer(val);
   });
-  const redrawLayerBtn = document.getElementById('redrawFromSelectedLayer'); if (redrawLayerBtn) redrawLayerBtn.addEventListener('click', ()=>{ redrawFromSelectedLayer(); });
   const clearBtn = document.getElementById('clearSavedPositions'); if (clearBtn) clearBtn.addEventListener('click', ()=>{ if (currentAreaObj) { try{ clearSavedPositions(currentAreaObj); }catch(e){ alert('Clear failed: '+(e&&e.message?e.message:String(e))); } } else alert('No area selected'); });
   // debug overlay toggle
   const dbgDiv = document.createElement('div');
@@ -1619,6 +1614,22 @@ function loadSavedPositions(area){
         r.x = p.x; r.y = p.y; if (p.z !== undefined) r.z = p.z;
       }
     }
+    // Normalize loaded z-levels so bottom layer is 0
+    try{
+      const zs = (area.rooms||[]).map(r=>r.z||0);
+      if (zs.length){
+        const minZ = Math.min(...zs);
+        if (minZ !== 0){
+          for (const r of area.rooms || []){ if (typeof r.z === 'number') r.z = r.z - minZ; }
+        }
+      }
+    }catch(e){}
+    // Update area's z-bounds to reflect loaded positions
+    try{
+      const zs2 = (area.rooms||[]).map(r=>r.z||0);
+      area.minZ = zs2.length?Math.min(...zs2):0;
+      area.maxZ = zs2.length?Math.max(...zs2):0;
+    }catch(e){}
   }catch(e){ console.warn('loadSavedPositions failed', e); }
 }
 
