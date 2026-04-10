@@ -8,6 +8,7 @@ let selectedRooms = new Set();
 let _dragState = null;
 // preserve viewBox across re-renders when requested
 let preservedViewBox = null;
+let activeSvgCleanup = null;
 // last populated areas for selection from dropdown
 let availableAreas = [];
 
@@ -420,9 +421,21 @@ function renderArea(area){
   // prepare svg container and defs
   const container = document.getElementById('mapContainer');
   if (!container) return;
-  container.innerHTML = '';
   const svgNS = 'http://www.w3.org/2000/svg';
-  const svg = document.createElementNS(svgNS,'svg');
+  // Try to reuse an existing SVG to avoid tearing down pan listeners and
+  // reduce DOM churn (major cause of jitter during pan).
+  const existingSvg = container.querySelector && container.querySelector('svg');
+  let svg;
+  const isNewSvg = !existingSvg;
+  if (existingSvg){
+    svg = existingSvg;
+    // preserve current viewBox so subsequent layout changes don't jump
+    try{ const curVB = svg.getAttribute && svg.getAttribute('viewBox'); if (curVB) preservedViewBox = curVB; }catch(e){}
+    // clear previous contents but keep the same SVG element and its listeners
+    while (svg.firstChild) svg.removeChild(svg.firstChild);
+  } else {
+    svg = document.createElementNS(svgNS,'svg');
+  }
   const defs = document.createElementNS(svgNS,'defs');
   // Arrow marker - default
   const markerArrow = document.createElementNS(svgNS,'marker');
@@ -890,12 +903,30 @@ function renderArea(area){
     });
     svg.appendChild(dbgGroup);
   }
-  container.appendChild(svg);
+  if (isNewSvg) container.appendChild(svg);
+  // Install a requestAnimationFrame-backed scheduler for viewBox writes
+  // so rapid pan/zoom events are batched to one DOM update per frame.
+  if (!svg._vbScheduler){
+    svg._vbPending = null;
+    svg._vbRaf = null;
+    svg.scheduleSetViewBox = function(vb){
+      svg._vbPending = vb;
+      if (!svg._vbRaf){
+        svg._vbRaf = requestAnimationFrame(function(){
+          if (!svg._vbPending){ svg._vbRaf = null; return; }
+          try{ svg.setAttribute('viewBox', `${svg._vbPending.x} ${svg._vbPending.y} ${svg._vbPending.w} ${svg._vbPending.h}`); }catch(e){}
+          svg._vbPending = null;
+          svg._vbRaf = null;
+        });
+      }
+    };
+    svg._vbScheduler = true;
+  }
   // enable pan & zoom on the svg
   // Also allow left-drag on the background to pan (click+drag on empty space)
   (function enableBgPan(){
     function getVB(){ const vb = svg.getAttribute('viewBox') || '0 0 100 100'; const [x,y,w,h] = vb.split(/\s+/).map(Number); return {x,y,w,h}; }
-    function setVB(vb){ svg.setAttribute('viewBox', `${vb.x} ${vb.y} ${vb.w} ${vb.h}`); }
+    function setVB(vb){ if (svg.scheduleSetViewBox) svg.scheduleSetViewBox(vb); else svg.setAttribute('viewBox', `${vb.x} ${vb.y} ${vb.w} ${vb.h}`); }
     function clientToSvgPoint(evt){ const pt = svg.createSVGPoint(); pt.x = evt.clientX; pt.y = evt.clientY; const ctm = svg.getScreenCTM(); if (!ctm) return {x:pt.x,y:pt.y}; return pt.matrixTransform(ctm.inverse()); }
     // We'll delay starting the actual pan until movement exceeds a small threshold
     function onBgMouseDown(e){
@@ -907,16 +938,20 @@ function renderArea(area){
         if (tgt.closest && (tgt.closest('[data-room-id]') || tgt.closest('.caret-shape') || tgt.closest('.room-label') || tgt.closest('.exit-line') || tgt.closest('polygon') || tgt.closest('path') || tgt.closest('text') || tgt.closest('circle'))) return;
       }catch(err){ }
       e.preventDefault(); e.stopPropagation();
-      const startPt = clientToSvgPoint(e);
       const vbStart = getVB();
+      // capture client start and pixel->svg scale once to avoid per-move layout reads
+      const startClient = { x: e.clientX, y: e.clientY };
       let moved = false; let started = false;
+      const rect = svg.getBoundingClientRect();
+      const pxToSvgX = vbStart.w / (rect.width || 1);
+      const pxToSvgY = vbStart.h / (rect.height || 1);
       function onMoveWindow(ev){
-        const p = clientToSvgPoint(ev);
-        const dx = p.x - startPt.x; const dy = p.y - startPt.y;
-        if (!moved && Math.hypot(dx,dy) > 6) moved = true;
+        const dxPx = ev.clientX - startClient.x; const dyPx = ev.clientY - startClient.y;
+        if (!moved && Math.hypot(dxPx,dyPx) > 6) moved = true;
         if (!moved) return;
         // start panning once threshold passed
         if (!started){ started = true; svg.classList.add('grabbing'); }
+        const dx = dxPx * pxToSvgX; const dy = dyPx * pxToSvgY;
         setVB({ x: vbStart.x - dx, y: vbStart.y - dy, w: vbStart.w, h: vbStart.h });
       }
       function onUpWindow(ev){
@@ -926,7 +961,7 @@ function renderArea(area){
           // treat as click: clear selection
           selectedRooms.clear();
           try{ const all = svg.querySelectorAll('rect[data-room-id]'); all.forEach(el=>el.classList.remove('selected')); }catch(e){}
-          try{ renderArea(area); }catch(e){}
+          try{ updateRoomInfoPanel(); }catch(e){}
         } else {
           if (started) svg.classList.remove('grabbing');
         }
@@ -940,8 +975,6 @@ function renderArea(area){
       svg.addEventListener('mousedown', onBgMouseDown);
     }
   })();
-  attachPanZoom(svg);
-
   // Robust pointer-based background pan (fallback) — attach once per svg
   if (!svg._bgPointerPanAttached){
     svg._bgPointerPanAttached = true;
@@ -954,11 +987,14 @@ function renderArea(area){
       // pointer-capture based pan to avoid duplicated mouse/pointer handlers
       try{ svg.setPointerCapture(ev.pointerId); }catch(e){}
       const toSvgPoint = (clientX, clientY) => { const pt = svg.createSVGPoint(); pt.x = clientX; pt.y = clientY; const ctm = svg.getScreenCTM(); return ctm ? pt.matrixTransform(ctm.inverse()) : {x:pt.x,y:pt.y}; };
-      const startPt = toSvgPoint(ev.clientX, ev.clientY);
+      const startClient = { x: ev.clientX, y: ev.clientY };
       const vbStart = (function(){ const vb = svg.getAttribute('viewBox')||'0 0 100 100'; const [x,y,w,h] = vb.split(/\s+/).map(Number); return {x,y,w,h}; })();
+      const rect = svg.getBoundingClientRect();
+      const pxToSvgX = vbStart.w / (rect.width || 1);
+      const pxToSvgY = vbStart.h / (rect.height || 1);
       let moved = false; let started = false;
-      function onPointerMove(ev2){ if (ev2.pointerId !== ev.pointerId) return; const p = toSvgPoint(ev2.clientX, ev2.clientY); const dx = p.x - startPt.x; const dy = p.y - startPt.y; if (!moved && Math.hypot(dx,dy) > 6) moved = true; if (!moved) return; if (!started){ started = true; svg.classList.add('grabbing'); } svg.setAttribute('viewBox', `${vbStart.x - dx} ${vbStart.y - dy} ${vbStart.w} ${vbStart.h}`); }
-      function onPointerUp(ev2){ if (ev2.pointerId !== ev.pointerId) return; try{ svg.releasePointerCapture(ev.pointerId); }catch(e){}; svg.removeEventListener('pointermove', onPointerMove); svg.removeEventListener('pointerup', onPointerUp); if (!moved){ selectedRooms.clear(); try{ const all = svg.querySelectorAll('rect[data-room-id]'); all.forEach(el=>el.classList.remove('selected')); }catch(e){} try{ renderArea(area); }catch(e){} } else { if (started) svg.classList.remove('grabbing'); } }
+      function onPointerMove(ev2){ if (ev2.pointerId !== ev.pointerId) return; const dxPx = ev2.clientX - startClient.x; const dyPx = ev2.clientY - startClient.y; if (!moved && Math.hypot(dxPx,dyPx) > 6) moved = true; if (!moved) return; if (!started){ started = true; svg.classList.add('grabbing'); } const dx = dxPx * pxToSvgX; const dy = dyPx * pxToSvgY; if (svg.scheduleSetViewBox) svg.scheduleSetViewBox({ x: vbStart.x - dx, y: vbStart.y - dy, w: vbStart.w, h: vbStart.h }); else svg.setAttribute('viewBox', `${vbStart.x - dx} ${vbStart.y - dy} ${vbStart.w} ${vbStart.h}`); }
+      function onPointerUp(ev2){ if (ev2.pointerId !== ev.pointerId) return; try{ svg.releasePointerCapture(ev.pointerId); }catch(e){}; svg.removeEventListener('pointermove', onPointerMove); svg.removeEventListener('pointerup', onPointerUp); if (!moved){ selectedRooms.clear(); try{ const all = svg.querySelectorAll('rect[data-room-id]'); all.forEach(el=>el.classList.remove('selected')); }catch(e){} try{ updateRoomInfoPanel(); }catch(e){} } else { if (started) svg.classList.remove('grabbing'); } }
       svg.addEventListener('pointermove', onPointerMove);
       svg.addEventListener('pointerup', onPointerUp);
       svg.classList.add('grabbing');
@@ -966,6 +1002,12 @@ function renderArea(area){
   }
   // update sidebar room info after rendering
   try{ updateRoomInfoPanel(); }catch(e){}
+
+  // Attach pan/zoom handlers only when creating a new SVG. Reusing the SVG
+  // preserves listeners and avoids accumulating handlers.
+  if (isNewSvg){
+    activeSvgCleanup = attachPanZoom(svg);
+  }
 }
 
 function attachPanZoom(svg){
@@ -977,7 +1019,7 @@ function attachPanZoom(svg){
     const [x,y,w,h] = vb.split(/\s+/).map(Number);
     return {x,y,w,h};
   }
-  function setVB(vb){ svg.setAttribute('viewBox', `${vb.x} ${vb.y} ${vb.w} ${vb.h}`); }
+  function setVB(vb){ if (svg.scheduleSetViewBox) svg.scheduleSetViewBox(vb); else svg.setAttribute('viewBox', `${vb.x} ${vb.y} ${vb.w} ${vb.h}`); }
 
   const initVB = getVB();
   const minW = initVB.w * 0.02;
@@ -995,7 +1037,7 @@ function attachPanZoom(svg){
     return pt.matrixTransform(ctm.inverse());
   }
 
-  svg.addEventListener('wheel', (e)=>{
+  const onWheel = (e)=>{
     e.preventDefault();
     const vb = getVB();
     const factor = e.deltaY > 0 ? 1.12 : 0.88; // >1 zoom out, <1 zoom in
@@ -1007,9 +1049,10 @@ function attachPanZoom(svg){
     const nx = p.x - (p.x - vb.x) * (newW / vb.w);
     const ny = p.y - (p.y - vb.y) * (newH / vb.h);
     setVB({x: nx, y: ny, w: newW, h: newH});
-  }, {passive:false});
+  };
+  svg.addEventListener('wheel', onWheel, {passive:false});
 
-  svg.addEventListener('mousedown', (e)=>{
+  const onMouseDown = (e)=>{
     // middle button (1) or ctrl+left start panning
     if (e.button === 1 || (e.button === 0 && e.ctrlKey)){
       isPanning = true;
@@ -1018,23 +1061,35 @@ function attachPanZoom(svg){
       panStartVB = getVB();
       e.preventDefault();
     }
-  });
+  };
+  svg.addEventListener('mousedown', onMouseDown);
 
-  window.addEventListener('mousemove', (e)=>{
+  const onMouseMove = (e)=>{
     if (!isPanning) return;
     const p = clientToSvgPoint(e);
     const dx = p.x - panStart.x;
     const dy = p.y - panStart.y;
     setVB({x: panStartVB.x - dx, y: panStartVB.y - dy, w: panStartVB.w, h: panStartVB.h});
-  });
+  };
+  window.addEventListener('mousemove', onMouseMove);
 
-  window.addEventListener('mouseup', (e)=>{
+  const onMouseUp = (e)=>{
     if (!isPanning) return;
     isPanning = false;
     svg.classList.remove('grabbing');
-  });
+  };
+  window.addEventListener('mouseup', onMouseUp);
 
-  svg.addEventListener('mouseleave', ()=>{ if (isPanning) { isPanning = false; svg.classList.remove('grabbing'); } });
+  const onMouseLeave = ()=>{ if (isPanning) { isPanning = false; svg.classList.remove('grabbing'); } };
+  svg.addEventListener('mouseleave', onMouseLeave);
+
+  return ()=>{
+    svg.removeEventListener('wheel', onWheel, {passive:false});
+    svg.removeEventListener('mousedown', onMouseDown);
+    window.removeEventListener('mousemove', onMouseMove);
+    window.removeEventListener('mouseup', onMouseUp);
+    svg.removeEventListener('mouseleave', onMouseLeave);
+  };
 }
 
 function showRoomDetails(room){
