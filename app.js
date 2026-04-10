@@ -407,7 +407,7 @@ function redrawFromSelectedRoom(){
     area.minZ = zs.length?Math.min(...zs):0;
     area.maxZ = zs.length?Math.max(...zs):0;
     // preserve viewBox across this change
-    try{ const container = document.getElementById('mapContainer'); const svgElem = container && container.querySelector && container.querySelector('svg'); const curVB = svgElem && svgElem.getAttribute && svgElem.getAttribute('viewBox'); if (curVB) preservedViewBox = curVB; }catch(e){}
+    try{ const container = document.getElementById('mapContainer'); const svgElem = container && container.querySelector && container.querySelector('svg'); const curVB = svgElem && svgElem.getAttribute && svgElem.getAttribute('viewBox'); if (curVB && !preservedViewBox) preservedViewBox = curVB; }catch(e){}
     renderArea(area);
   }catch(e){ console.error('redrawFromSelectedRoom failed', e); alert('Redraw failed: '+(e&&e.message?e.message:String(e))); }
 }
@@ -464,7 +464,7 @@ function redrawFromSelectedLayer(){
     area.minZ = zs.length?Math.min(...zs):0;
     area.maxZ = zs.length?Math.max(...zs):0;
     // preserve viewBox across this change
-    try{ const container = document.getElementById('mapContainer'); const svgElem = container && container.querySelector && container.querySelector('svg'); const curVB = svgElem && svgElem.getAttribute && svgElem.getAttribute('viewBox'); if (curVB) preservedViewBox = curVB; }catch(e){}
+    try{ const container = document.getElementById('mapContainer'); const svgElem = container && container.querySelector && container.querySelector('svg'); const curVB = svgElem && svgElem.getAttribute && svgElem.getAttribute('viewBox'); if (curVB && !preservedViewBox) preservedViewBox = curVB; }catch(e){}
     renderArea(area);
   }catch(e){ console.error('redrawFromSelectedLayer failed', e); alert('Redraw (layer) failed: '+(e&&e.message?e.message:String(e))); }
 }
@@ -527,6 +527,21 @@ function areaBounds(boxes){
   return {minX: Math.min(...xs), minY: Math.min(...ys), maxX: Math.max(...xs), maxY: Math.max(...ys)};
 }
 
+// Compute a viewBox string that fits the whole area with a small margin.
+function computeFitViewBox(area){
+  if (!area || !area.rooms || area.rooms.length===0) return null;
+  const roomBoxes = ensurePositions(area.rooms);
+  const boxes = roomBoxes.map(x=>x.box).filter(Boolean);
+  if (!boxes.length) return null;
+  const b = areaBounds(boxes);
+  const margin = Math.max((b.maxX - b.minX),(b.maxY - b.minY)) * 0.06 + 20;
+  const viewMinX = b.minX - margin;
+  const viewMinY = b.minY - margin;
+  const viewW = (b.maxX - b.minX) + margin*2;
+  const viewH = (b.maxY - b.minY) + margin*2;
+  return `${viewMinX} ${viewMinY} ${viewW} ${viewH}`;
+}
+
 function renderArea(area){
   if (!area) return;
   // prepare svg container and defs
@@ -541,7 +556,7 @@ function renderArea(area){
   if (existingSvg){
     svg = existingSvg;
     // preserve current viewBox so subsequent layout changes don't jump
-    try{ const curVB = svg.getAttribute && svg.getAttribute('viewBox'); if (curVB) preservedViewBox = curVB; }catch(e){}
+    try{ const curVB = svg.getAttribute && svg.getAttribute('viewBox'); if (curVB && !preservedViewBox) preservedViewBox = curVB; }catch(e){}
     // clear previous contents but keep the same SVG element and its listeners
     while (svg.firstChild) svg.removeChild(svg.firstChild);
   } else {
@@ -919,7 +934,7 @@ function renderArea(area){
       _dragState = null;
       if (overlay && overlay.parentNode) overlay.parentNode.removeChild(overlay);
       // preserve current viewBox (pan/zoom) across re-render
-      try{ const curVB = svgElem.getAttribute && svgElem.getAttribute('viewBox'); if (curVB) preservedViewBox = curVB; }catch(e){}
+      try{ const curVB = svgElem.getAttribute && svgElem.getAttribute('viewBox'); if (curVB && !preservedViewBox) preservedViewBox = curVB; }catch(e){}
       // persist moved positions for this area
       try{ savePositions(area); }catch(e){}
       // final render
@@ -971,16 +986,21 @@ function renderArea(area){
     window.addEventListener('mouseup', onUp);
   }
 
-  if (!svg._marqueeMousedownAttached){
-    svg._marqueeMousedownAttached = true;
-    svg.addEventListener('mousedown', (ev)=>{
-      if (ev.button!==0) return;
-      if (!ev.shiftKey) return; // only marquee with shift
-      ev.preventDefault(); ev.stopPropagation();
-      // start marquee at the mouse point (works whether target is svg or a room)
-      startMarquee(svgPointFromEvent(ev));
-    });
-  }
+  // Always (re)attach a marquee mousedown handler that calls the
+  // current `startMarquee` closure. We store the handler on the SVG so
+  // we can remove it before replacing to avoid stale closures that
+  // reference a previous `area` value.
+  try{
+    if (svg._marqueeMousedown) svg.removeEventListener('mousedown', svg._marqueeMousedown);
+  }catch(e){}
+  svg._marqueeMousedown = function(ev){
+    if (ev.button!==0) return;
+    if (!ev.shiftKey) return; // only marquee with shift
+    ev.preventDefault(); ev.stopPropagation();
+    // start marquee at the mouse point (works whether target is svg or a room)
+    startMarquee(svgPointFromEvent(ev));
+  };
+  svg.addEventListener('mousedown', svg._marqueeMousedown);
 
   // debug overlay: draw from->to arrows for small nudges
   if (showDebugOverlay){
@@ -1265,7 +1285,9 @@ function populateAreaList(areas){
     const li = document.createElement('li');
     li.textContent = area.name || area.id || `Area ${idx+1}`;
     li.title = area.name || area.id || '';
-    li.addEventListener('click', ()=> selectAreaIndex(idx));
+    // area selection now uses the dropdown (`#areaSelect`) only to avoid
+    // accidental area switches from stray clicks while dragging.
+    // Keep list items non-interactive (visual only).
     if (list) list.appendChild(li);
     if (select){
       const opt = document.createElement('option'); opt.value = String(idx); opt.textContent = li.textContent; select.appendChild(opt);
@@ -1280,7 +1302,6 @@ function populateAreaList(areas){
   if (select){
     select.addEventListener('change', (e)=>{
       const idx = Number(e.target.value);
-          /* debug log removed */
       selectAreaIndex(idx);
     });
   }
@@ -1310,7 +1331,6 @@ function selectAreaIndex(idx){
   // update title and area state
   document.getElementById('areaTitle').textContent = area.name || area.id || '';
   currentAreaObj = area;
-  preservedViewBox = null;
   const minZ = currentAreaObj.minZ ?? 0;
   const maxZ = currentAreaObj.maxZ ?? 0;
   let desired = 0;
@@ -1320,6 +1340,8 @@ function selectAreaIndex(idx){
   updateLayerDisplay();
   try{ loadSavedPositions(currentAreaObj); }catch(e){}
   try{ if (typeof MapColorsJS !== 'undefined' && MapColorsJS && typeof MapColorsJS.applyColors === 'function'){ MapColorsJS.applyColors(currentAreaObj); } }catch(e){}
+  // compute a fitting viewBox and preserve it so renderArea will apply it once
+  try{ preservedViewBox = computeFitViewBox(currentAreaObj); }catch(e){ preservedViewBox = null; }
   try{ if (select) select.value = String(idx); }catch(e){}
   renderArea(area);
 }
@@ -1402,6 +1424,8 @@ document.addEventListener('DOMContentLoaded', ()=>{
   document.body.appendChild(dbgDiv);
   const dbgInput = document.getElementById('debugToggle');
   if (dbgInput) dbgInput.addEventListener('change', (e)=>{ showDebugOverlay = e.target.checked; if (currentAreaObj) renderArea(currentAreaObj); });
+
+  // end DOMContentLoaded
 });
 
 function updateLayerDisplay(){
@@ -1420,11 +1444,11 @@ function changeLayer(delta){
   currentLayer = next;
   updateLayerDisplay();
   // preserve current viewBox (pan/zoom) when merely changing layers
-  try{
+    try{
     const container = document.getElementById('mapContainer');
     const svgElem = container && container.querySelector && container.querySelector('svg');
     const curVB = svgElem && svgElem.getAttribute && svgElem.getAttribute('viewBox');
-    if (curVB) preservedViewBox = curVB;
+    if (curVB && !preservedViewBox) preservedViewBox = curVB;
   }catch(e){}
   // re-apply coloring (so the newly visible floor will have colors)
   try{ if (typeof MapColorsJS !== 'undefined' && MapColorsJS && typeof MapColorsJS.applyColors === 'function'){ MapColorsJS.applyColors(currentAreaObj); } }catch(e){}
@@ -1477,7 +1501,7 @@ function clearSavedPositions(area){
     const zs = (area.rooms||[]).map(r=>r.z||0);
     area.minZ = zs.length?Math.min(...zs):0;
     area.maxZ = zs.length?Math.max(...zs):0;
-    try{ const container = document.getElementById('mapContainer'); const svgElem = container && container.querySelector && container.querySelector('svg'); const curVB = svgElem && svgElem.getAttribute && svgElem.getAttribute('viewBox'); if (curVB) preservedViewBox = curVB; }catch(e){}
+    try{ const container = document.getElementById('mapContainer'); const svgElem = container && container.querySelector && container.querySelector('svg'); const curVB = svgElem && svgElem.getAttribute && svgElem.getAttribute('viewBox'); if (curVB && !preservedViewBox) preservedViewBox = curVB; }catch(e){}
     renderArea(area);
     alert('Saved positions cleared for this area.');
   }catch(e){ console.warn('clearSavedPositions failed', e); alert('Clear failed: '+(e&&e.message?e.message:String(e))); }

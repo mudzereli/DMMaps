@@ -1,0 +1,22 @@
+node_modules/
+build/
+dist/
+docs/
+.parcel-cache/
+.cache/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.DS_Store
+.env
+.env.local
+.env.*.local
+.vscode/
+coverage/
+/.idea/
+/.history/
+*.tgz
+/.temp/
+# lockfiles should be kept
+!package-lock.json
+!yarn.lock
