@@ -1599,6 +1599,81 @@ function updateRoomInfoPanel(){
   }
 }
 
+// Keyboard traversal: n/e/s/w/u/d and arrow keys to move selection along exits
+function findExitTarget(room, dirKey){
+  if (!room || !room.exits) return null;
+  const exits = room.exits || {};
+  const lookup = (k) => { if (exits[k] !== undefined) return exits[k]; return undefined; };
+  const aliases = {
+    'n': ['north','n'],
+    's': ['south','s'],
+    'e': ['east','e'],
+    'w': ['west','w'],
+    'u': ['up','u'],
+    'd': ['down','d']
+  };
+  const keys = (aliases[dirKey] || [dirKey]);
+  for (const k of keys){
+    const ex = lookup(k) || lookup(k.toLowerCase());
+    if (ex !== undefined && ex !== null) return { tid: (ex.vnum ?? ex), dir: k };
+  }
+  // fallback: try any exit whose name starts with the key (e.g. 'northwest' for 'n')
+  for (const [k,v] of Object.entries(exits)){
+    if (!k) continue;
+    if (k.toLowerCase().startsWith(dirKey)) return { tid: (v && (v.vnum ?? v)), dir: k };
+  }
+  return null;
+}
+
+function traverseSelectionByDir(dirKey){
+  try{
+    if (!currentAreaObj) return;
+    if (!selectedRooms || selectedRooms.size === 0) return;
+    const sid = Array.from(selectedRooms)[0];
+    const room = (currentAreaObj.rooms||[]).find(r=>String(r.id)===String(sid) || String(r.vnum)===String(sid));
+    if (!room) return;
+    const ex = findExitTarget(room, dirKey);
+    if (!ex || !ex.tid) {
+      // If no explicit exit but user pressed up/down, try to change layer instead
+      if (dirKey === 'u' || dirKey === 'up') { if (typeof changeLayer === 'function') changeLayer(1); else { currentLayer = Math.min(currentAreaObj.maxZ||currentLayer, currentLayer+1); renderArea(currentAreaObj); } }
+      if (dirKey === 'd' || dirKey === 'down') { if (typeof changeLayer === 'function') changeLayer(-1); else { currentLayer = Math.max(currentAreaObj.minZ||currentLayer, currentLayer-1); renderArea(currentAreaObj); } }
+      return;
+    }
+    const targetTid = ex.tid;
+    if (!targetTid) return;
+    const found = findAreaIndexAndRoomForTarget(targetTid);
+    const currentAreaIndex = availableAreas.findIndex(a=> (a && (a.id || a.name)) ? (a.id === currentAreaObj.id || a.name === currentAreaObj.name) : false);
+    if (found && found.idx !== -1 && found.idx !== currentAreaIndex){
+      // jump to external area/room
+      selectAreaIndex(found.idx, found.roomId);
+      return;
+    }
+    // same-area target: select it and switch layer if needed
+    const targetRoom = (currentAreaObj.rooms||[]).find(r=> String(r.id)===String(targetTid) || String(r.vnum)===String(targetTid));
+    if (targetRoom){
+      selectedRooms.clear(); selectedRooms.add(String(targetRoom.id));
+      if (typeof targetRoom.z === 'number') currentLayer = targetRoom.z;
+      renderArea(currentAreaObj);
+      try{ updateRoomInfoPanel(); }catch(e){}
+    }
+  }catch(e){ console.warn('traverseSelectionByDir failed', e); }
+}
+
+// Global key handler for navigation
+document.addEventListener('keydown', function(ev){
+  try{
+    const active = document.activeElement;
+    if (active && (active.tagName === 'INPUT' || active.tagName === 'TEXTAREA' || active.isContentEditable)) return;
+    const raw = String(ev.key || '').toLowerCase();
+    const arrowMap = { 'arrowup':'n', 'arrowdown':'s', 'arrowleft':'w', 'arrowright':'e' };
+    const k = arrowMap[raw] || raw;
+    if (!['n','e','s','w','u','d','up','down'].includes(k)) return;
+    // prevent page scrolling on arrow navigation
+    if (raw.startsWith('arrow') || ['n','e','s','w','u','d'].includes(k)) ev.preventDefault();
+    traverseSelectionByDir(k);
+  }catch(e){ }
+});
+
 function init(){
   const container = document.getElementById('mapContainer');
   if (container) container.textContent = 'Loading areas from areas.js (edit areas.js and reload to change).';
