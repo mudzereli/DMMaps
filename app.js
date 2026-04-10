@@ -610,14 +610,14 @@ function renderArea(area){
   // External arrow (red)
   const markerExternal = document.createElementNS(svgNS,'marker');
   markerExternal.setAttribute('id','arrow_external');
-  markerExternal.setAttribute('markerWidth','12');
-  markerExternal.setAttribute('markerHeight','10');
-  markerExternal.setAttribute('refX','10');
-  markerExternal.setAttribute('refY','5');
+  markerExternal.setAttribute('markerWidth','34');
+  markerExternal.setAttribute('markerHeight','24');
+  markerExternal.setAttribute('refX','26');
+  markerExternal.setAttribute('refY','12');
   markerExternal.setAttribute('orient','auto');
-  markerExternal.setAttribute('markerUnits','strokeWidth');
+  markerExternal.setAttribute('markerUnits','userSpaceOnUse');
   const arrowPathExt = document.createElementNS(svgNS,'path');
-  arrowPathExt.setAttribute('d','M0,0 L0,10 L12,5 z');
+  arrowPathExt.setAttribute('d','M0,0 L0,24 L34,12 z');
   arrowPathExt.setAttribute('fill','#ef4444');
   markerExternal.appendChild(arrowPathExt);
   defs.appendChild(markerExternal);
@@ -629,7 +629,7 @@ function renderArea(area){
   markerDebug.setAttribute('refX','8');
   markerDebug.setAttribute('refY','4');
   markerDebug.setAttribute('orient','auto');
-  markerDebug.setAttribute('markerUnits','strokeWidth');
+  markerDebug.setAttribute('markerUnits','userSpaceOnUse');
   const arrowPathDbg = document.createElementNS(svgNS,'path');
   arrowPathDbg.setAttribute('d','M0,0 L0,8 L8,4 z');
   arrowPathDbg.setAttribute('fill','#f59e0b');
@@ -760,14 +760,10 @@ function renderArea(area){
         const ty = tCy - (dy/dist) * tOff * 0.85;
         const line = document.createElementNS(svgNS,'path');
         line.setAttribute('d', `M ${sx} ${sy} L ${tx} ${ty}`);
-        const isConnLine = (selectedRooms && selectedRooms.has(String(fromId)));
-        if (isConnLine) {
-          line.setAttribute('class','exit-line connected');
-          line.setAttribute('marker-end','url(#arrow_connected)');
-        } else {
-          line.setAttribute('class','exit-line');
-          line.setAttribute('marker-end','url(#arrow)');
-        }
+        line.setAttribute('class','exit-line');
+        line.setAttribute('data-from', String(fromId));
+        line.setAttribute('data-to', String(targetId));
+        line.setAttribute('marker-end','url(#arrow)');
         svg.appendChild(line);
       } else {
         // external target: draw an outward red arrow and attach click handler to jump to that area/room
@@ -788,11 +784,13 @@ function renderArea(area){
             const sy = sCy + (dy/dist) * sOff * 0.85;
             const tx = tCx - (dx/dist) * tOff * 0.85;
             const ty = tCy - (dy/dist) * tOff * 0.85;
-            const smallLine = document.createElementNS(svgNS,'path');
-            smallLine.setAttribute('d', `M ${sx} ${sy} L ${tx} ${ty}`);
-            smallLine.setAttribute('class','exit-line');
-            smallLine.setAttribute('marker-end','url(#arrow)');
-            svg.appendChild(smallLine);
+              const smallLine = document.createElementNS(svgNS,'path');
+              smallLine.setAttribute('d', `M ${sx} ${sy} L ${tx} ${ty}`);
+              smallLine.setAttribute('class','exit-line');
+              smallLine.setAttribute('data-from', String(fromId));
+              smallLine.setAttribute('data-to', String(targetRoomId));
+              smallLine.setAttribute('marker-end','url(#arrow)');
+              svg.appendChild(smallLine);
             continue;
           }
           // if we couldn't find the target box, fallthrough to external arrow behavior
@@ -813,6 +811,8 @@ function renderArea(area){
         const line = document.createElementNS(svgNS,'path');
         line.setAttribute('d', `M ${sx} ${sy} L ${tx} ${ty}`);
         line.setAttribute('class','exit-line-external no-pan');
+        line.setAttribute('data-from', String(fromId));
+        line.setAttribute('data-to', String(found.roomId));
         line.setAttribute('marker-end','url(#arrow_external)');
         line.style.cursor = 'pointer';
         try{ line.setAttribute('pointer-events','none'); }catch(e){}
@@ -875,8 +875,9 @@ function renderArea(area){
       if (ev.button !== 0) return;
       ev.stopPropagation(); ev.preventDefault();
       const id = String(r.id);
-      if (ev.shiftKey){
-        // add/remove to selection (shift-click)
+      // multi-select: use Ctrl (or Cmd on Mac) instead of Shift
+      if (ev.ctrlKey || ev.metaKey){
+        // add/remove to selection (ctrl/cmd-click)
         if (selectedRooms.has(id)) selectedRooms.delete(id); else selectedRooms.add(id);
       } else {
         if (!selectedRooms.has(id)) { selectedRooms.clear(); selectedRooms.add(id); }
@@ -886,6 +887,7 @@ function renderArea(area){
         const all = svg.querySelectorAll('rect[data-room-id]');
         all.forEach(el=>{ if (selectedRooms.has(String(el.dataset.roomId))) el.classList.add('selected'); else el.classList.remove('selected'); });
       }catch(e){}
+      try{ updateConnectorSelectionVisuals(svg); }catch(e){}
       try{ updateRoomInfoPanel(); }catch(e){}
       // begin drag of selected set
       startDrag(ev, svg, currentAreaObj);
@@ -1222,6 +1224,8 @@ function renderArea(area){
           selectedRooms.clear();
           try{ const all = svg.querySelectorAll('rect[data-room-id]'); all.forEach(el=>el.classList.remove('selected')); }catch(e){}
           try{ updateRoomInfoPanel(); }catch(e){}
+          try{ clearSelectionVisuals(); }catch(e){}
+          try{ updateConnectorSelectionVisuals(svg); }catch(e){}
         } else {
           if (started) svg.classList.remove('grabbing');
         }
@@ -1254,7 +1258,7 @@ function renderArea(area){
       const pxToSvgY = vbStart.h / (rect.height || 1);
       let moved = false; let started = false;
       function onPointerMove(ev2){ if (ev2.pointerId !== ev.pointerId) return; const dxPx = ev2.clientX - startClient.x; const dyPx = ev2.clientY - startClient.y; if (!moved && Math.hypot(dxPx,dyPx) > 6) moved = true; if (!moved) return; if (!started){ started = true; svg.classList.add('grabbing'); } const dx = dxPx * pxToSvgX; const dy = dyPx * pxToSvgY; if (svg.scheduleSetViewBox) svg.scheduleSetViewBox({ x: vbStart.x - dx, y: vbStart.y - dy, w: vbStart.w, h: vbStart.h }); else svg.setAttribute('viewBox', `${vbStart.x - dx} ${vbStart.y - dy} ${vbStart.w} ${vbStart.h}`); }
-      function onPointerUp(ev2){ if (ev2.pointerId !== ev.pointerId) return; try{ svg.releasePointerCapture(ev.pointerId); }catch(e){}; svg.removeEventListener('pointermove', onPointerMove); svg.removeEventListener('pointerup', onPointerUp); if (!moved){ selectedRooms.clear(); try{ const all = svg.querySelectorAll('rect[data-room-id]'); all.forEach(el=>el.classList.remove('selected')); }catch(e){} try{ updateRoomInfoPanel(); }catch(e){} } else { if (started) svg.classList.remove('grabbing'); } }
+      function onPointerUp(ev2){ if (ev2.pointerId !== ev.pointerId) return; try{ svg.releasePointerCapture(ev.pointerId); }catch(e){}; svg.removeEventListener('pointermove', onPointerMove); svg.removeEventListener('pointerup', onPointerUp); if (!moved){ selectedRooms.clear(); try{ const all = svg.querySelectorAll('rect[data-room-id]'); all.forEach(el=>el.classList.remove('selected')); }catch(e){} try{ updateRoomInfoPanel(); }catch(e){} try{ clearSelectionVisuals(); }catch(e){} try{ updateConnectorSelectionVisuals(svg); }catch(e){} } else { if (started) svg.classList.remove('grabbing'); } }
       svg.addEventListener('pointermove', onPointerMove);
       svg.addEventListener('pointerup', onPointerUp);
       svg.classList.add('grabbing');
@@ -1263,11 +1267,48 @@ function renderArea(area){
   // update sidebar room info after rendering
   try{ updateRoomInfoPanel(); }catch(e){}
 
+  // ensure connector visuals reflect any current selection without a full re-render
+  try{ updateConnectorSelectionVisuals(svg); }catch(e){}
+
   // Attach pan/zoom handlers only when creating a new SVG. Reusing the SVG
   // preserves listeners and avoids accumulating handlers.
   if (isNewSvg){
     activeSvgCleanup = attachPanZoom(svg);
   }
+}
+
+// Remove visual artifacts related to selection without re-rendering entire SVG.
+function clearSelectionVisuals(){
+  try{
+    const container = document.getElementById('mapContainer');
+    const svg = container && container.querySelector && container.querySelector('svg');
+    if (!svg) return;
+    // remove connected classes from connectors and rooms
+    try{
+      const lines = svg.querySelectorAll('.exit-line.connected');
+      lines.forEach(l=>l.classList.remove('connected'));
+    }catch(e){}
+    try{ const rects = svg.querySelectorAll('rect[data-room-id].connected'); rects.forEach(r=>r.classList.remove('connected')); }catch(e){}
+  }catch(e){ console.warn('clearSelectionVisuals failed', e); }
+}
+
+// Toggle connected class on connector paths based on `selectedRooms` set
+function updateConnectorSelectionVisuals(svg){
+  if (!svg) return;
+  try{
+    const paths = svg.querySelectorAll('path.exit-line');
+    paths.forEach(p=>{
+      const from = p.getAttribute('data-from');
+      const to = p.getAttribute('data-to');
+      if ((from && selectedRooms.has(String(from))) || (to && selectedRooms.has(String(to)))){
+        p.classList.add('connected');
+        p.setAttribute('marker-end','url(#arrow_connected)');
+      } else {
+        p.classList.remove('connected');
+        p.setAttribute('marker-end','url(#arrow)');
+      }
+    });
+  }catch(e){ console.warn('updateConnectorSelectionVisuals failed', e); }
 }
 
 function attachPanZoom(svg){
