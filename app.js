@@ -388,6 +388,46 @@ function layoutAreaRooms(rooms, startId){
     if (!any) break;
   }
 
+  // Place any rooms that were never visited/positioned by the BFS onto
+  // a neat grid on floor 0 outside the existing occupied area so they
+  // don't all stack at the origin. This happens before mapping into
+  // pixel coords so the subsequent viewBox calculation includes them.
+  try{
+    const allPlaced = new Set(Object.values(pos).map(p=>`${p.x},${p.y}`));
+    const placedIds = new Set(Object.values(pos).map(p=>p && typeof p.id !== 'undefined' ? String(p.id) : null));
+    // compute current grid bounds
+    const xs = Object.values(pos).map(p=>p.x||0);
+    const ys = Object.values(pos).map(p=>p.y||0);
+    const maxX = xs.length?Math.max(...xs):0;
+    const minY = ys.length?Math.min(...ys):0;
+    // find rooms without positions
+    const unplaced = rooms.filter(r=>{ return !Object.prototype.hasOwnProperty.call(pos, Number(r.id)); });
+    if (unplaced.length){
+      const cols = Math.max(1, Math.ceil(Math.sqrt(unplaced.length)));
+      // start a few cells to the right of current max to keep them visually separated
+      const startX = maxX + 3;
+      const gap = 2; // grid gap in cell units
+      for (let i=0;i<unplaced.length;i++){
+        const r = unplaced[i];
+        const col = i % cols;
+        const row = Math.floor(i/cols);
+        let tx = startX + col * gap;
+        let ty = minY + row * gap;
+        let key = `${tx},${ty},0`;
+        let tries = 0;
+        while(occupied.has(key) && tries < 200){
+          // advance to next cell to avoid collisions
+          tx += 1; ty += (tries % 2 === 0 ? 0 : 1);
+          key = `${tx},${ty},0`;
+          tries++;
+        }
+        pos[Number(r.id)] = { x: tx, y: ty };
+        level[Number(r.id)] = 0;
+        occupied.set(key, Number(r.id));
+      }
+    }
+  }catch(e){ /* non-fatal */ }
+
   // map positions into room objects with pixel coords and sizes
   const outRooms = rooms.map(r=>{
     const p = pos[Number(r.id)] ?? {x:0,y:0};
@@ -1110,7 +1150,7 @@ function renderArea(area){
       const x1 = Math.min(p.x, marqueeStart.x); const y1 = Math.min(p.y, marqueeStart.y);
       const x2 = Math.max(p.x, marqueeStart.x); const y2 = Math.max(p.y, marqueeStart.y);
       // compute boxes and select rooms intersecting
-      const boxes = ensurePositions(area.rooms);
+      const boxes = Utils.ensurePositions(area.rooms);
       for (const {r,box} of boxes){
         if (box.maxX < x1 || box.minX > x2 || box.maxY < y1 || box.minY > y2) continue;
         // only select rooms on the current floor
@@ -1520,7 +1560,7 @@ function selectAreaIndex(idx, roomToSelect){
   currentAreaObj = area;
   currentAreaObj = area;
   // Load any saved positions first so min/max z reflect persisted layout
-  try{ loadSavedPositions(currentAreaObj); }catch(e){}
+  try{ const had = loadSavedPositions(currentAreaObj); const ind = document.getElementById('savedIndicator'); if (ind) { ind.style.display = had ? 'inline' : 'none'; } }catch(e){}
   const minZ = currentAreaObj.minZ ?? 0;
   const maxZ = currentAreaObj.maxZ ?? 0;
   let desired = 0;
@@ -1683,7 +1723,10 @@ document.addEventListener('DOMContentLoaded', ()=>{
   // wire save/export buttons
   const saveBtn = document.getElementById('savePositions');
   const exportBtn = document.getElementById('exportArea');
-  if (saveBtn) saveBtn.addEventListener('click', ()=>{ if (currentAreaObj) { try{ savePositions(currentAreaObj); alert('Positions saved locally.'); }catch(e){ alert('Save failed: '+(e&&e.message?e.message:String(e))); } } else alert('No area selected'); });
+  if (saveBtn) saveBtn.addEventListener('click', ()=>{
+    if (!currentAreaObj) return alert('No area selected');
+    try{ savePositions(currentAreaObj); alert('Positions saved locally.'); const ind = document.getElementById('savedIndicator'); if (ind) ind.style.display = 'inline'; }catch(e){ alert('Save failed: '+(e&&e.message?e.message:String(e))); }
+  });
   if (exportBtn) exportBtn.addEventListener('click', ()=>{ if (currentAreaObj) { try{ exportArea(currentAreaObj); }catch(e){ alert('Export failed: '+(e&&e.message?e.message:String(e))); } } else alert('No area selected'); });
   const redrawBtn = document.getElementById('redrawFromSelected'); if (redrawBtn) redrawBtn.addEventListener('click', ()=>{ redrawFromSelectedRoom(); });
   const redrawLayerBtn = document.getElementById('redrawFromSelectedLayer'); if (redrawLayerBtn) redrawLayerBtn.addEventListener('click', ()=>{
@@ -1742,7 +1785,7 @@ function loadSavedPositions(area){
   try{
     const key = getPositionsKey(area);
     const raw = localStorage.getItem(key);
-    if (!raw) return;
+    if (!raw) return false;
     const map = JSON.parse(raw);
     for (const r of area.rooms || []){
       const p = map[String(r.id)];
@@ -1766,8 +1809,11 @@ function loadSavedPositions(area){
       area.minZ = zs2.length?Math.min(...zs2):0;
       area.maxZ = zs2.length?Math.max(...zs2):0;
     }catch(e){}
+    return true;
   }catch(e){ console.warn('loadSavedPositions failed', e); }
+  return false;
 }
+
 
 function savePositions(area){
   if (!area) return;
@@ -1796,6 +1842,7 @@ function clearSavedPositions(area){
     try{ const container = document.getElementById('mapContainer'); const svgElem = container && container.querySelector && container.querySelector('svg'); const curVB = svgElem && svgElem.getAttribute && svgElem.getAttribute('viewBox'); if (curVB && !preservedViewBox) preservedViewBox = curVB; }catch(e){}
     renderArea(area);
     alert('Saved positions cleared for this area.');
+    try{ const ind = document.getElementById('savedIndicator'); if (ind) ind.style.display = 'none'; }catch(e){}
   }catch(e){ console.warn('clearSavedPositions failed', e); alert('Clear failed: '+(e&&e.message?e.message:String(e))); }
 }
 
