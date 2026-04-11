@@ -54,9 +54,15 @@ function handleFile(file){
 
 function processData(data){
   const areas = extractAreas(data);
-  // Merge numbered area variants (e.g. "Name I", "Name II") into a single base area
-  function mergeNumberedAreas(arr){
-    if (!Array.isArray(arr)) return arr;
+    // sort areas alphabetically by name/id (case-insensitive) for dropdown/list
+    const sortedAreas = (areas || []).slice().sort((a,b)=>{
+      const na = String(a.name || a.id || '').toLowerCase();
+      const nb = String(b.name || b.id || '').toLowerCase();
+      return na.localeCompare(nb);
+    });
+    // Merge numbered area variants (e.g. "Name I", "Name II") into a single base area
+    function mergeNumberedAreas(arr){
+      if (!Array.isArray(arr)) return arr;
     const groups = new Map();
     for (const a of arr){
       const name = String(a.name || a.id || '').trim();
@@ -81,7 +87,7 @@ function processData(data){
     }
     return out;
   }
-  const mergedAreas = mergeNumberedAreas(areas);
+    const mergedAreas = mergeNumberedAreas(sortedAreas);
   // auto-apply terrain coloring if MapColorsJS is available
   try{ if (typeof MapColorsJS !== 'undefined' && MapColorsJS && typeof MapColorsJS.applyColors === 'function'){
     areas.forEach(a=>{ try{ MapColorsJS.applyColors(a); }catch(e){} });

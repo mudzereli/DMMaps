@@ -80,6 +80,7 @@ const MapColorsJS = (function(){
     { word: 'evil', terrain: Terrain.CORRUPTED },
     { word: 'shadowy', terrain: Terrain.SHADOWY },
     { word: 'floor', terrain: Terrain.INTERIOR },
+    { word: 'seafloor', terrain: Terrain.SANDY },
 
     { word: 'mountain', terrain: Terrain.STONY }, { word: 'rocky', terrain: Terrain.STONY },
     { word: 'bluff', terrain: Terrain.STONY }, { word: 'cliff', terrain: Terrain.STONY },
@@ -261,7 +262,8 @@ const MapColorsJS = (function(){
     { word: 'over windreach', terrain: Terrain.MISTY },
     { word: 'river bank', terrain: Terrain.MUDDY },
     { word: 'the banks', terrain: Terrain.MUDDY },
-    { word: 'bank of the', terrain: Terrain.MUDDY }
+    { word: 'bank of the', terrain: Terrain.MUDDY },
+    { word: 'feet below the surface', terrain: Terrain.DEEP_WATER },
   ];
 
   const ConnectorWords = new Set(['row','cross','landing','intersection','bend','turn','junction','border','lane','boulevard','causeway','crossing','ramp','end','corner','point']);
