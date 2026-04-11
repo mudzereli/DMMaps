@@ -894,16 +894,33 @@ function renderArea(area){
     const visCy = cy;
     const visX = visCx - side/2;
     const visY = visCy - side/2;
-    const rect = document.createElementNS(svgNS,'rect');
-    rect.setAttribute('x', visX);
-    rect.setAttribute('y', visY);
-    rect.setAttribute('width', side);
-    rect.setAttribute('height', side);
-    rect.setAttribute('class','room');
-    if (r._color) rect.style.fill = r._color;
-    rect.dataset.roomId = String(r.id);
-    if (selectedRooms.has(String(r.id))) rect.classList.add('selected');
-    if (connectedRooms.has(String(r.id))) rect.classList.add('connected');
+    // Use a circle element only when exactly one room is selected; for multi-selection
+    // leave rooms as rects but still apply the `.selected` class for styling.
+    const isAnySelected = selectedRooms.has(String(r.id));
+    const isSingleSelected = (selectedRooms && selectedRooms.size === 1);
+    const useCircle = isAnySelected && isSingleSelected;
+    let shapeEl;
+    if (useCircle){
+      shapeEl = document.createElementNS(svgNS,'circle');
+      shapeEl.setAttribute('cx', String(visCx));
+      shapeEl.setAttribute('cy', String(visCy));
+      shapeEl.setAttribute('r', String(side/2));
+    } else {
+      shapeEl = document.createElementNS(svgNS,'rect');
+      shapeEl.setAttribute('x', String(visX));
+      shapeEl.setAttribute('y', String(visY));
+      shapeEl.setAttribute('width', String(side));
+      shapeEl.setAttribute('height', String(side));
+    }
+    shapeEl.setAttribute('class','room');
+    if (r._color) shapeEl.style.fill = r._color;
+    shapeEl.dataset.roomId = String(r.id);
+    if (isAnySelected){
+      shapeEl.classList.add('selected');
+      if (isSingleSelected) shapeEl.classList.add('single-selected');
+      else shapeEl.classList.add('multi-selected');
+    }
+    if (connectedRooms.has(String(r.id))) shapeEl.classList.add('connected');
     // detect external vertical exits (up/down pointing to rooms in other areas)
     try{
       const exs = r.exits || {};
@@ -918,11 +935,11 @@ function renderArea(area){
       }
       // don't color the whole room; we'll color the caret itself if the vertical exit points externally
     }catch(e){}
-    rect.dataset.index = 0;
-    rect.title = r.name ?? r.id;
-    rect.addEventListener('contextmenu', (ev)=>{ ev.preventDefault(); ev.stopPropagation(); showRoomDetails(r); });
+    shapeEl.dataset.index = 0;
+    shapeEl.title = r.name ?? r.id;
+    shapeEl.addEventListener('contextmenu', (ev)=>{ ev.preventDefault(); ev.stopPropagation(); showRoomDetails(r); });
     // selection (click/shift+click) and dragging
-    rect.addEventListener('mousedown', (ev)=>{
+    shapeEl.addEventListener('mousedown', (ev)=>{
       if (ev.button !== 0) return;
       ev.stopPropagation(); ev.preventDefault();
       const id = String(r.id);
@@ -940,17 +957,26 @@ function renderArea(area){
       } else {
         if (!selectedRooms.has(id)) { selectedRooms.clear(); selectedRooms.add(id); }
       }
-      // update DOM selection classes immediately
+      // update DOM selection classes immediately (support rects and circles)
       try{
-        const all = svg.querySelectorAll('rect[data-room-id]');
-        all.forEach(el=>{ if (selectedRooms.has(String(el.dataset.roomId))) el.classList.add('selected'); else el.classList.remove('selected'); });
+        const all = svg.querySelectorAll('[data-room-id]');
+        all.forEach(el=>{
+          const rid = String(el.dataset.roomId);
+          if (selectedRooms.has(rid)){
+            el.classList.add('selected');
+            if (selectedRooms.size === 1){ el.classList.add('single-selected'); el.classList.remove('multi-selected'); }
+            else { el.classList.add('multi-selected'); el.classList.remove('single-selected'); }
+          } else {
+            el.classList.remove('selected'); el.classList.remove('single-selected'); el.classList.remove('multi-selected');
+          }
+        });
       }catch(e){}
       try{ updateConnectorSelectionVisuals(svg); }catch(e){}
       try{ updateRoomInfoPanel(); }catch(e){}
       // begin drag of selected set
       startDrag(ev, svg, currentAreaObj);
     });
-    svg.appendChild(rect);
+    svg.appendChild(shapeEl);
     // labels: vnum on its own line above the name
     const vnumText = (r.vnum !== undefined && r.vnum !== null) ? String(r.vnum) : '';
     const nameText = r.name ?? (r.id ? String(r.id) : '');
@@ -1143,11 +1169,11 @@ function renderArea(area){
         if ((rr.z||0) === currentLayer) toRemove.push(s);
       }
       toRemove.forEach(s=>selectedRooms.delete(s));
-      const all = svg.querySelectorAll('rect[data-room-id]'); all.forEach(el=>{
+      const all = svg.querySelectorAll('[data-room-id]'); all.forEach(el=>{
         const rid = String(el.dataset.roomId);
         const rr = area.rooms.find(x=>String(x.id)===rid);
         if (!rr) return;
-        if ((rr.z||0) === currentLayer) el.classList.remove('selected');
+        if ((rr.z||0) === currentLayer) { el.classList.remove('selected'); el.classList.remove('single-selected'); el.classList.remove('multi-selected'); }
       });
     }catch(e){}
     marqueeStart = startPt;
@@ -1295,10 +1321,11 @@ function renderArea(area){
         if (!moved){
           // treat as click: clear selection
           selectedRooms.clear();
-          try{ const all = svg.querySelectorAll('rect[data-room-id]'); all.forEach(el=>el.classList.remove('selected')); }catch(e){}
+          try{ const all = svg.querySelectorAll('[data-room-id]'); all.forEach(el=>{ el.classList.remove('selected'); el.classList.remove('single-selected'); el.classList.remove('multi-selected'); }); }catch(e){}
           try{ updateRoomInfoPanel(); }catch(e){}
           try{ clearSelectionVisuals(); }catch(e){}
           try{ updateConnectorSelectionVisuals(svg); }catch(e){}
+          try{ renderArea(currentAreaObj); }catch(e){}
         } else {
           if (started) svg.classList.remove('grabbing');
         }
@@ -1331,7 +1358,7 @@ function renderArea(area){
       const pxToSvgY = vbStart.h / (rect.height || 1);
       let moved = false; let started = false;
       function onPointerMove(ev2){ if (ev2.pointerId !== ev.pointerId) return; const dxPx = ev2.clientX - startClient.x; const dyPx = ev2.clientY - startClient.y; if (!moved && Math.hypot(dxPx,dyPx) > 6) moved = true; if (!moved) return; if (!started){ started = true; svg.classList.add('grabbing'); } const dx = dxPx * pxToSvgX; const dy = dyPx * pxToSvgY; if (svg.scheduleSetViewBox) svg.scheduleSetViewBox({ x: vbStart.x - dx, y: vbStart.y - dy, w: vbStart.w, h: vbStart.h }); else svg.setAttribute('viewBox', `${vbStart.x - dx} ${vbStart.y - dy} ${vbStart.w} ${vbStart.h}`); }
-      function onPointerUp(ev2){ if (ev2.pointerId !== ev.pointerId) return; try{ svg.releasePointerCapture(ev.pointerId); }catch(e){}; svg.removeEventListener('pointermove', onPointerMove); svg.removeEventListener('pointerup', onPointerUp); if (!moved){ selectedRooms.clear(); try{ const all = svg.querySelectorAll('rect[data-room-id]'); all.forEach(el=>el.classList.remove('selected')); }catch(e){} try{ updateRoomInfoPanel(); }catch(e){} try{ clearSelectionVisuals(); }catch(e){} try{ updateConnectorSelectionVisuals(svg); }catch(e){} } else { if (started) svg.classList.remove('grabbing'); } }
+      function onPointerUp(ev2){ if (ev2.pointerId !== ev.pointerId) return; try{ svg.releasePointerCapture(ev.pointerId); }catch(e){}; svg.removeEventListener('pointermove', onPointerMove); svg.removeEventListener('pointerup', onPointerUp); if (!moved){ selectedRooms.clear(); try{ const all = svg.querySelectorAll('[data-room-id]'); all.forEach(el=>{ el.classList.remove('selected'); el.classList.remove('single-selected'); el.classList.remove('multi-selected'); }); }catch(e){} try{ updateRoomInfoPanel(); }catch(e){} try{ clearSelectionVisuals(); }catch(e){} try{ updateConnectorSelectionVisuals(svg); }catch(e){} try{ renderArea(currentAreaObj); }catch(e){} } else { if (started) svg.classList.remove('grabbing'); } }
       svg.addEventListener('pointermove', onPointerMove);
       svg.addEventListener('pointerup', onPointerUp);
       svg.classList.add('grabbing');
@@ -1361,7 +1388,7 @@ function clearSelectionVisuals(){
       const lines = svg.querySelectorAll('.exit-line.connected');
       lines.forEach(l=>l.classList.remove('connected'));
     }catch(e){}
-    try{ const rects = svg.querySelectorAll('rect[data-room-id].connected'); rects.forEach(r=>r.classList.remove('connected')); }catch(e){}
+    try{ const rects = svg.querySelectorAll('[data-room-id].connected'); rects.forEach(r=>r.classList.remove('connected')); }catch(e){}
   }catch(e){ console.warn('clearSelectionVisuals failed', e); }
 }
 

@@ -23,7 +23,20 @@ main#viewer{flex:1;padding:12px;display:flex;flex-direction:column}
 svg{width:100%;height:100%}
 .room{fill:#e6f0ff;stroke:#000;stroke-width:2;cursor:pointer}
 .room:hover{fill:#dbeafe}
-.room.selected{stroke:#ef4444;stroke-width:5;fill:#fee2e2}
+.room.selected{
+	/* Multi-selection: keep the previous red highlight for selected rooms */
+	stroke: #ef4444;
+	stroke-width: 5;
+	fill: #fee2e2;
+}
+
+/* Single-selected override: circular, thicker black border */
+.room.single-selected{
+	stroke: #000;
+	stroke-width: 2;
+	fill: #fee2e2;
+	vector-effect: non-scaling-stroke;
+}
 .room.connected{fill:#efe7ff;stroke:#7c3aed;stroke-width:5}
 .exit-line.connected{ color: #7c3aed; opacity:1 }
 .room-label{font-size:10px;pointer-events:none;fill:#0b1220}
