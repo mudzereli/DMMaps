@@ -463,48 +463,64 @@ function redrawFromSelectedRoom(){
   if (!selectedRooms || selectedRooms.size===0) return alert('No room selected to start from');
   const sid = Array.from(selectedRooms)[0];
   try{
-    // Relayout the entire area using the selected room as the BFS start.
-    // This ensures the traversal begins at the selected room but all rooms
-    // in the area are re-laid out.
     const area = currentAreaObj;
-    // copy rooms for layout so layoutAreaRooms can mutate safely
+    // If multiple rooms are selected, relayout only that subset and apply positions
+    if (selectedRooms.size > 1){
+      const sel = Array.from(selectedRooms);
+      const idMap = new Map(); area.rooms.forEach(r=>idMap.set(String(r.id), r));
+      const subsetCopy = sel.map(id => ({ ...idMap.get(String(id)) }));
+      const startId = sel[0];
+      // preserve start position when possible
+      const startRoomOrig = area.rooms.find(r=>String(r.id)===String(startId));
+      let startPos = null;
+      if (startRoomOrig){
+        if (typeof startRoomOrig.x === 'number' && typeof startRoomOrig.y === 'number') startPos = { x: startRoomOrig.x, y: startRoomOrig.y };
+        else { const b = Utils.roomBBox(startRoomOrig); if (b) startPos = { x: b.minX, y: b.minY }; }
+      }
+      const laid = layoutAreaRooms(subsetCopy, startId);
+      // shift so the start keeps its original grid position
+      if (startPos){
+        const laidStart = laid.find(r=>String(r.id)===String(startId));
+        if (laidStart && typeof laidStart.x === 'number' && typeof laidStart.y === 'number'){
+          const dx = startPos.x - laidStart.x;
+          const dy = startPos.y - laidStart.y;
+          if (dx !== 0 || dy !== 0){ for (const r of laid){ if (typeof r.x === 'number') r.x += dx; if (typeof r.y === 'number') r.y += dy; } }
+        }
+      }
+      const laidMap = new Map(laid.map(r=>[String(r.id), r]));
+      for (const id of sel){
+        const nr = laidMap.get(String(id));
+        if (!nr) continue;
+        const rr = area.rooms.find(x=>String(x.id)===String(id));
+        if (!rr) continue;
+        rr.x = nr.x; rr.y = nr.y; rr.width = nr.width; rr.height = nr.height;
+        // preserve existing z (floor) for multi-selected rooms if present
+        rr.z = (typeof rr.z === 'number') ? rr.z : nr.z;
+        if (nr._debug) rr._debug = nr._debug; else delete rr._debug;
+      }
+      // update area's z-bounds
+      const zs = (area.rooms||[]).map(r=>r.z||0);
+      area.minZ = zs.length?Math.min(...zs):0; area.maxZ = zs.length?Math.max(...zs):0;
+      try{ savePositions(area); }catch(e){}
+      try{ const container = document.getElementById('mapContainer'); const svgElem = container && container.querySelector && container.querySelector('svg'); const curVB = svgElem && svgElem.getAttribute && svgElem.getAttribute('viewBox'); if (curVB && !preservedViewBox) preservedViewBox = curVB; }catch(e){}
+      renderArea(area);
+      return;
+    }
+    // Fallback: single-selection behavior (original) — relayout entire area from selected room
     const roomsCopy = (area.rooms || []).map(r => ({ ...r }));
-    // preserve the starting room's current position if present
     const startRoomOrig = area.rooms.find(r=>String(r.id)===String(sid));
     let startPos = null;
     if (startRoomOrig){
       if (typeof startRoomOrig.x === 'number' && typeof startRoomOrig.y === 'number') startPos = { x: startRoomOrig.x, y: startRoomOrig.y };
-      else {
-        const b = Utils.roomBBox(startRoomOrig);
-        if (b) startPos = { x: b.minX, y: b.minY };
-      }
+      else { const b = Utils.roomBBox(startRoomOrig); if (b) startPos = { x: b.minX, y: b.minY }; }
     }
     const laid = layoutAreaRooms(roomsCopy, sid);
-    // If we have an original start position, shift the laid layout so the start keeps its original grid position
-    if (startPos){
-      const laidStart = laid.find(r=>String(r.id)===String(sid));
-      if (laidStart && typeof laidStart.x === 'number' && typeof laidStart.y === 'number'){
-        const dx = startPos.x - laidStart.x;
-        const dy = startPos.y - laidStart.y;
-        if (dx !== 0 || dy !== 0){
-          for (const r of laid){ if (typeof r.x === 'number') r.x += dx; if (typeof r.y === 'number') r.y += dy; }
-        }
-      }
-    }
+    if (startPos){ const laidStart = laid.find(r=>String(r.id)===String(sid)); if (laidStart && typeof laidStart.x === 'number' && typeof laidStart.y === 'number'){ const dx = startPos.x - laidStart.x; const dy = startPos.y - laidStart.y; if (dx !== 0 || dy !== 0){ for (const r of laid){ if (typeof r.x === 'number') r.x += dx; if (typeof r.y === 'number') r.y += dy; } } } }
     const laidMap = new Map(laid.map(r=>[String(r.id), r]));
-    for (const r of area.rooms){
-      const nr = laidMap.get(String(r.id));
-      if (nr){
-        r.x = nr.x; r.y = nr.y; r.width = nr.width; r.height = nr.height; r.z = nr.z;
-        if (nr._debug) r._debug = nr._debug; else delete r._debug;
-      }
-    }
+    for (const r of area.rooms){ const nr = laidMap.get(String(r.id)); if (nr){ r.x = nr.x; r.y = nr.y; r.width = nr.width; r.height = nr.height; r.z = nr.z; if (nr._debug) r._debug = nr._debug; else delete r._debug; } }
     const zs = (area.rooms||[]).map(r=>r.z||0);
-    area.minZ = zs.length?Math.min(...zs):0;
-    area.maxZ = zs.length?Math.max(...zs):0;
-    // persist updated positions so reload uses the relaid layout
+    area.minZ = zs.length?Math.min(...zs):0; area.maxZ = zs.length?Math.max(...zs):0;
     try{ savePositions(area); }catch(e){}
-    // preserve viewBox across this change
     try{ const container = document.getElementById('mapContainer'); const svgElem = container && container.querySelector && container.querySelector('svg'); const curVB = svgElem && svgElem.getAttribute && svgElem.getAttribute('viewBox'); if (curVB && !preservedViewBox) preservedViewBox = curVB; }catch(e){}
     renderArea(area);
   }catch(e){ console.error('redrawFromSelectedRoom failed', e); alert('Redraw failed: '+(e&&e.message?e.message:String(e))); }
