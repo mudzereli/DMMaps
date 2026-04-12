@@ -974,7 +974,7 @@ function renderArea(area){
     }catch(e){}
     shapeEl.dataset.index = 0;
     shapeEl.title = r.name ?? r.id;
-    shapeEl.addEventListener('contextmenu', (ev)=>{ ev.preventDefault(); ev.stopPropagation(); showRoomDetails(r); });
+    // right-click handler removed — custom right-click menu not needed
     // selection (click/shift+click) and dragging
     shapeEl.addEventListener('mousedown', (ev)=>{
       if (ev.button !== 0) return;
@@ -1765,9 +1765,7 @@ function traverseSelectionByDir(dirKey){
     if (!room) return;
     const ex = findExitTarget(room, dirKey);
     if (!ex || !ex.tid) {
-      // If no explicit exit but user pressed up/down, try to change layer instead
-      if (dirKey === 'u' || dirKey === 'up') { if (typeof changeLayer === 'function') changeLayer(1); else { currentLayer = Math.min(currentAreaObj.maxZ||currentLayer, currentLayer+1); renderArea(currentAreaObj); } }
-      if (dirKey === 'd' || dirKey === 'down') { if (typeof changeLayer === 'function') changeLayer(-1); else { currentLayer = Math.max(currentAreaObj.minZ||currentLayer, currentLayer-1); renderArea(currentAreaObj); } }
+      // No exit in that direction — do not change z-level without a connector
       return;
     }
     const targetTid = ex.tid;
