@@ -1649,7 +1649,23 @@ function selectAreaIndex(idx, roomToSelect){
   try{ const had = loadSavedPositions(currentAreaObj); const ind = document.getElementById('savedIndicator'); if (ind) { ind.style.display = had ? 'inline' : 'none'; } }catch(e){}
   const minZ = currentAreaObj.minZ ?? 0;
   const maxZ = currentAreaObj.maxZ ?? 0;
+  // prefer the lowest floor that has an exit to another area
   let desired = 0;
+  try{
+    const externalFloors = new Set();
+    for (const r of currentAreaObj.rooms || []){
+      const exits = r.exits || {};
+      for (const ex of Object.values(exits)){
+        const tid = ex && (ex.vnum ?? ex);
+        if (!tid) continue;
+        const found = findAreaIndexAndRoomForTarget(tid);
+        if (found && typeof found.idx === 'number' && found.idx !== idx){
+          externalFloors.add(typeof r.z === 'number' ? r.z : 0);
+        }
+      }
+    }
+    if (externalFloors.size){ desired = Math.min(...Array.from(externalFloors)); }
+  }catch(e){ desired = 0; }
   if (desired < minZ) desired = minZ;
   if (desired > maxZ) desired = maxZ;
   // if a target room is provided, prefer its z-layer and select it
@@ -1935,8 +1951,18 @@ function clearSavedPositions(area){
 function exportArea(area){
   if (!area) return;
   try{
-    // create a deep copy to avoid mutating runtime objects
-    const out = JSON.parse(JSON.stringify(area));
+    // Export a minimal adjustments-style area: only id/name and per-room id/vnum + x/y/z
+    const out = { id: area.id || area.name || 'area', name: area.name || area.id || '', rooms: [] };
+    for (const r of area.rooms || []){
+      const entry = {};
+      // prefer vnum when present, otherwise id
+      if (r.vnum !== undefined) entry.vnum = r.vnum; else entry.id = String(r.id);
+      if (typeof r.x === 'number') entry.x = r.x;
+      if (typeof r.y === 'number') entry.y = r.y;
+      if (typeof r.z === 'number') entry.z = r.z;
+      // only include rooms that have at least x and y defined
+      if (typeof entry.x === 'number' && typeof entry.y === 'number') out.rooms.push(entry);
+    }
     const blob = new Blob([JSON.stringify(out, null, 2)], { type: 'application/json' });
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
