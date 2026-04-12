@@ -88,6 +88,16 @@ function processData(data){
     return out;
   }
     const mergedAreas = mergeNumberedAreas(sortedAreas);
+    // If the page provided `window.areaAdjustments` (via a dropped JS file), apply those adjustments now.
+    try{ if (typeof window !== 'undefined' && Array.isArray(window.areaAdjustments)) applyAreaAdjustments(mergedAreas, window.areaAdjustments); }catch(e){}
+    // Ensure area z-bounds reflect any adjusted room `z` values so layer controls work correctly.
+    try{
+      for (const a of mergedAreas){
+        const zs = (a.rooms||[]).map(r=> (typeof r.z === 'number') ? r.z : 0 );
+        a.minZ = zs.length?Math.min(...zs):0;
+        a.maxZ = zs.length?Math.max(...zs):0;
+      }
+    }catch(e){}
   // auto-apply terrain coloring if MapColorsJS is available
   try{ if (typeof MapColorsJS !== 'undefined' && MapColorsJS && typeof MapColorsJS.applyColors === 'function'){
     areas.forEach(a=>{ try{ MapColorsJS.applyColors(a); }catch(e){} });
@@ -115,6 +125,33 @@ function normalizeArea(a){
     name: a.name ?? a.id ?? 'Area',
     rooms: (a.rooms||a.roomsList||[]).map(r=>r)
   };
+}
+
+// Apply adjustments from an array of area-like objects onto our areas in-place.
+function applyAreaAdjustments(areas, adjustments){
+  if (!Array.isArray(adjustments) || adjustments.length===0) return;
+  const byKey = new Map();
+  for (const adj of adjustments){
+    const key = String(adj.id || adj.name || '').toLowerCase();
+    if (!key) continue;
+    byKey.set(key, adj);
+  }
+  for (const a of areas){
+    const key = String(a.id || a.name || '').toLowerCase();
+    const adj = byKey.get(key);
+    if (!adj || !Array.isArray(adj.rooms)) continue;
+    const adjMap = new Map();
+    for (const r of adj.rooms){ adjMap.set(String(r.id ?? r.vnum ?? ''), r); }
+    for (const r of a.rooms){
+      const found = adjMap.get(String(r.id)) || adjMap.get(String(r.vnum ?? ''));
+      if (!found) continue;
+      if (typeof found.x === 'number') r.x = found.x;
+      if (typeof found.y === 'number') r.y = found.y;
+      if (typeof found.z === 'number') r.z = found.z;
+      if (typeof found.width === 'number') r.width = found.width;
+      if (typeof found.height === 'number') r.height = found.height;
+    }
+  }
 }
 
 function areasFromRoomsObject(roomsObj){
