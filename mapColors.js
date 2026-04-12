@@ -21,38 +21,93 @@ const MapColorsJS = (function(){
     return '#'+[r,g,b].map(v=>Math.max(0,Math.min(255,Math.round(v))).toString(16).padStart(2,'0')).join('');
   }
 
-  // color palette used in Lua version (approximated)
+  // Historical full palette (kept for reference):
+  /*
   const TerrainColor = {
-    [Terrain.CLEAR_WATER]: rgbToHex([0,191,255]),
-    [Terrain.CALM_WATER]: rgbToHex([32,178,170]),
-    [Terrain.SWAMP_WATER]: rgbToHex([46,139,87]),
-    [Terrain.DEEP_WATER]: rgbToHex([25,25,112]),
-    [Terrain.STONY]: rgbToHex([112,128,144]),
-    [Terrain.STONY_PATH]: rgbToHex([176,196,222]),
-    [Terrain.SNOWY]: rgbToHex([245,250,255]),
-    [Terrain.VALLEY]: rgbToHex([119,110,110]),
-    [Terrain.TUNNEL]: rgbToHex([70,70,70]),
-    [Terrain.CAVE]: rgbToHex([60,65,70]),
-    [Terrain.MISTY]: rgbToHex([224,255,255]),
-    [Terrain.CORRUPTED]: rgbToHex([72,61,139]),
-    [Terrain.THICK_WOODS]: rgbToHex([0,100,0]),
-    [Terrain.LIGHT_WOODS]: rgbToHex([50,205,50]),
-    [Terrain.GRASSY]: rgbToHex([124,252,0]),
-    [Terrain.PLAINS]: rgbToHex([189,183,107]),
-    [Terrain.WOODEN]: rgbToHex([160,82,45]),
-    [Terrain.SANDY]: rgbToHex([255,250,205]),
-    [Terrain.MUDDY]: rgbToHex([101,67,33]),
-    [Terrain.METAL]: rgbToHex([169,169,169]),
-    [Terrain.HOLY]: rgbToHex([255,255,255]),
-    [Terrain.INTERIOR]: rgbToHex([230,240,230]),
-    [Terrain.INTERIOR_POI]: rgbToHex([255,215,0]),
-    [Terrain.SHADOWY]: rgbToHex([47,79,79]),
-    [Terrain.ENCAMPMENT]: rgbToHex([85,107,47]),
-    [Terrain.REGAL]: rgbToHex([147,112,219]),
-    [Terrain.BLOODY]: rgbToHex([128,0,0]),
-    [Terrain.FIERY]: rgbToHex([255,140,0]),
-    [Terrain.NOEXIT]: rgbToHex([255,20,147]),
-    [Terrain.STONE_WHITE]: rgbToHex([227,226,225])
+    [Terrain.CLEAR_WATER]: '#00bfff',
+    [Terrain.CALM_WATER]: '#20b2aa',
+    [Terrain.SWAMP_WATER]: '#2e8b57',
+    [Terrain.DEEP_WATER]: '#191970',
+    [Terrain.STONY]: '#708090',
+    [Terrain.STONY_PATH]: '#b0c4de',
+    [Terrain.SNOWY]: '#f5faff',
+    [Terrain.VALLEY]: '#776e6e',
+    [Terrain.TUNNEL]: '#464646',
+    [Terrain.CAVE]: '#3c4146',
+    [Terrain.MISTY]: '#e0ffff',
+    [Terrain.CORRUPTED]: '#483d8b',
+    [Terrain.THICK_WOODS]: '#006400',
+    [Terrain.LIGHT_WOODS]: '#32cd32',
+    [Terrain.GRASSY]: '#7cfc00',
+    [Terrain.PLAINS]: '#bdb76b',
+    [Terrain.WOODEN]: '#a0522d',
+    [Terrain.SANDY]: '#fffacd',
+    [Terrain.MUDDY]: '#654321',
+    [Terrain.METAL]: '#a9a9a9',
+    [Terrain.HOLY]: '#ffffff',
+    [Terrain.INTERIOR]: '#e6f0e6',
+    [Terrain.INTERIOR_POI]: '#ffd700',
+    [Terrain.SHADOWY]: '#2f4f4f',
+    [Terrain.ENCAMPMENT]: '#556b2f',
+    [Terrain.REGAL]: '#9370db',
+    [Terrain.BLOODY]: '#800000',
+    [Terrain.FIERY]: '#ff8c00',
+    [Terrain.NOEXIT]: '#ff1493',
+    [Terrain.STONE_WHITE]: '#e3e2e1'
+  };
+  */
+
+  // Reduced pastel palette (slightly darker for better contrast with black text)
+  const TerrainColor = {
+    // Blue: all water types (darker pastel)
+    [Terrain.CLEAR_WATER]: '#99ccff',
+    [Terrain.CALM_WATER]: '#99ccff',
+    [Terrain.SWAMP_WATER]: '#99ccff',
+    [Terrain.DEEP_WATER]: '#99ccff',
+
+    // Grey: stony / structural / metal / noexit
+    [Terrain.STONY]: '#bfbfbf',
+    [Terrain.STONY_PATH]: '#bfbfbf',
+    [Terrain.METAL]: '#bfbfbf',
+    [Terrain.NOEXIT]: '#bfbfbf',
+    [Terrain.STONE_WHITE]: '#bfbfbf',
+
+    // Dark grey: valley / tunnel / cave / shadowy (underground types)
+    [Terrain.VALLEY]: '#999999',
+    [Terrain.TUNNEL]: '#999999',
+    [Terrain.CAVE]: '#999999',
+    [Terrain.SHADOWY]: '#999999',
+
+    // Off-white: snowy, holy, interior-like neutral (slightly warm)
+    [Terrain.SNOWY]: '#f7f7f7',
+    [Terrain.HOLY]: '#f7f7f7',
+    [Terrain.INTERIOR]: '#f7f7f7',
+
+    // Purple: corrupted, regal
+    [Terrain.CORRUPTED]: '#c99bff',
+    [Terrain.REGAL]: '#c99bff',
+
+    // Green: woods, grassy, plains, encampment
+    [Terrain.THICK_WOODS]: '#99dd99',
+    [Terrain.LIGHT_WOODS]: '#99dd99',
+    [Terrain.GRASSY]: '#99dd99',
+    [Terrain.PLAINS]: '#99dd99',
+    [Terrain.ENCAMPMENT]: '#99dd99',
+
+    // Orange: wooden / muddy / warm earth
+    [Terrain.WOODEN]: '#ffc299',
+    [Terrain.MUDDY]: '#ffc299',
+
+    // Yellow: sandy / interior POI / points of interest
+    [Terrain.SANDY]: '#ffec99',
+    [Terrain.INTERIOR_POI]: '#ffec99',
+
+    // Red: bloody / fiery
+    [Terrain.BLOODY]: '#ff9999',
+    [Terrain.FIERY]: '#ff9999',
+
+    // Fallbacks for any omitted keys
+    [Terrain.MISTY]: '#f7f7f7',
   };
 
   const AreaOverrides = {
