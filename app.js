@@ -1720,10 +1720,8 @@ function traverseSelectionByDir(dirKey){
     const room = (currentAreaObj.rooms||[]).find(r=>String(r.id)===String(sid) || String(r.vnum)===String(sid));
     if (!room) return;
     const ex = findExitTarget(room, dirKey);
+    // If no explicit exit, do not change layer — require an up/down exit to move floors
     if (!ex || !ex.tid) {
-      // If no explicit exit but user pressed up/down, try to change layer instead
-      if (dirKey === 'u' || dirKey === 'up') { if (typeof changeLayer === 'function') changeLayer(1); else { currentLayer = Math.min(currentAreaObj.maxZ||currentLayer, currentLayer+1); renderArea(currentAreaObj); } }
-      if (dirKey === 'd' || dirKey === 'down') { if (typeof changeLayer === 'function') changeLayer(-1); else { currentLayer = Math.max(currentAreaObj.minZ||currentLayer, currentLayer-1); renderArea(currentAreaObj); } }
       return;
     }
     const targetTid = ex.tid;
