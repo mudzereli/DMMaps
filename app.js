@@ -1219,22 +1219,23 @@ function renderArea(area){
 
   // marquee selection (shift+drag on background)
   let marqueeRect = null; let marqueeStart = null;
+  let marqueeAllowCrossLayer = false;
   // (background click-to-clear handled by pan-with-threshold logic below)
   function startMarquee(startPt){
-    // clear existing selection on the current floor only when beginning a marquee drag
+    // clear existing selection: current floor only unless cross-layer marquee requested
     try{
       const toRemove = [];
       for (const s of selectedRooms){
         const rr = area.rooms.find(x=>String(x.id)===String(s));
         if (!rr) continue;
-        if ((rr.z||0) === currentLayer) toRemove.push(s);
+        if (marqueeAllowCrossLayer || ((rr.z||0) === currentLayer)) toRemove.push(s);
       }
       toRemove.forEach(s=>selectedRooms.delete(s));
       const all = svg.querySelectorAll('[data-room-id]'); all.forEach(el=>{
         const rid = String(el.dataset.roomId);
         const rr = area.rooms.find(x=>String(x.id)===rid);
         if (!rr) return;
-        if ((rr.z||0) === currentLayer) { el.classList.remove('selected'); el.classList.remove('single-selected'); el.classList.remove('multi-selected'); }
+        if (marqueeAllowCrossLayer || ((rr.z||0) === currentLayer)) { el.classList.remove('selected'); el.classList.remove('single-selected'); el.classList.remove('multi-selected'); }
       });
     }catch(e){}
     marqueeStart = startPt;
@@ -1262,12 +1263,13 @@ function renderArea(area){
       const boxes = Utils.ensurePositions(area.rooms);
       for (const {r,box} of boxes){
         if (box.maxX < x1 || box.minX > x2 || box.maxY < y1 || box.minY > y2) continue;
-        // only select rooms on the current floor
-        if ((r.z || 0) !== currentLayer) continue;
+        // only select rooms on the current floor unless cross-layer marquee was requested
+        if (!marqueeAllowCrossLayer && ((r.z || 0) !== currentLayer)) continue;
         selectedRooms.add(String(r.id));
       }
       if (marqueeRect && marqueeRect.parentNode) marqueeRect.parentNode.removeChild(marqueeRect);
       marqueeRect = null; marqueeStart = null;
+      marqueeAllowCrossLayer = false;
       try{ renderArea(area); }catch(e){ console.warn('render after marquee failed', e); }
     }
     window.addEventListener('mousemove', onMove);
@@ -1285,6 +1287,8 @@ function renderArea(area){
     if (ev.button!==0) return;
     if (!ev.shiftKey) return; // only marquee with shift
     ev.preventDefault(); ev.stopPropagation();
+    // allow Alt+Shift+drag to select across z-layers
+    marqueeAllowCrossLayer = !!ev.altKey;
     // start marquee at the mouse point (works whether target is svg or a room)
     startMarquee(svgPointFromEvent(ev));
   };
