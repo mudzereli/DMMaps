@@ -513,28 +513,23 @@ function redrawFromSelectedRoom(){
     if (selectedRooms.size > 1){
       const sel = Array.from(selectedRooms);
       const idMap = new Map(); area.rooms.forEach(r=>idMap.set(String(r.id), r));
-      // Build bidirectional adjacency across all z-levels so we can traverse vertical links
-      const adj = new Map();
-      for (const r of area.rooms || []){
-        const key = String(r.id);
-        if (!adj.has(key)) adj.set(key, new Set());
-        for (const ex of Object.values(r.exits || {})){
-          const tid = ex && (ex.vnum ?? ex);
-          if (!tid) continue;
-          const tkey = String(tid);
-          if (!idMap.has(tkey)) continue;
-          adj.get(key).add(tkey);
-          if (!adj.has(tkey)) adj.set(tkey, new Set());
-          adj.get(tkey).add(key);
-        }
-      }
-      // BFS from all selected rooms to collect the connected closure (across z)
-      const seen = new Set();
-      const q = [];
-      for (const id of sel){ const k = String(id); if (idMap.has(k) && !seen.has(k)){ seen.add(k); q.push(k); } }
-      while(q.length){ const cur = q.shift(); const neigh = adj.get(cur); if (!neigh) continue; for (const n of neigh){ if (!seen.has(n)){ seen.add(n); q.push(n); } } }
-      const subsetIds = Array.from(seen);
+      // Only relayout the explicitly-selected rooms (do not expand to neighbors)
+      const subsetIds = sel.map(s=>String(s));
       const subsetCopy = subsetIds.map(id => ({ ...idMap.get(String(id)) }));
+      const subsetSet = new Set(subsetIds.map(String));
+      // detect if selection contains vertical (up/down) links among the selected rooms
+      let hasVerticalTraversal = false;
+      for (const id of subsetIds){
+        const r = idMap.get(String(id));
+        if (!r) continue;
+        for (const [dir, ex] of Object.entries(r.exits || {})){
+          const dl = String(dir||'').toLowerCase();
+          if (dl !== 'up' && dl !== 'down') continue;
+          const tid = String(ex && (ex.vnum ?? ex));
+          if (subsetSet.has(tid)) { hasVerticalTraversal = true; break; }
+        }
+        if (hasVerticalTraversal) break;
+      }
       const startId = sel[0];
       // preserve start position when possible
       const startRoomOrig = area.rooms.find(r=>String(r.id)===String(startId));
@@ -561,8 +556,10 @@ function redrawFromSelectedRoom(){
         const rr = area.rooms.find(x=>String(x.id)===String(id));
         if (!rr) continue;
         rr.x = nr.x; rr.y = nr.y; rr.width = nr.width; rr.height = nr.height;
-        // use the computed z from the layout so up/down exits determine layer
-        rr.z = (typeof nr.z === 'number') ? nr.z : (typeof rr.z === 'number' ? rr.z : 0);
+        // only apply layout-computed z when selected subset includes up/down traversal;
+        // otherwise preserve original room z when present
+        if (hasVerticalTraversal){ rr.z = (typeof nr.z === 'number') ? nr.z : (typeof rr.z === 'number' ? rr.z : 0); }
+        else { rr.z = (typeof rr.z === 'number') ? rr.z : (typeof nr.z === 'number' ? nr.z : 0); }
         if (nr._debug) rr._debug = nr._debug; else delete rr._debug;
       }
       // update area's z-bounds
