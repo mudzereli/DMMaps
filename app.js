@@ -974,7 +974,7 @@ function renderArea(area){
     }catch(e){}
     shapeEl.dataset.index = 0;
     shapeEl.title = r.name ?? r.id;
-    // right-click handler removed — custom right-click menu not needed
+    // right-click handler removed: modal not used
     // selection (click/shift+click) and dragging
     shapeEl.addEventListener('mousedown', (ev)=>{
       if (ev.button !== 0) return;
@@ -1530,51 +1530,7 @@ function attachPanZoom(svg){
   };
 }
 
-function showRoomDetails(room){
-  try{
-    console.log('showRoomDetails', room && room.id);
-    let modal = document.getElementById('roomModal');
-  if (!modal){
-    modal = document.createElement('div');
-    modal.id = 'roomModal';
-    modal.className = 'modal';
-    modal.innerHTML = `
-      <div class="modal-content">
-        <button class="modal-close" aria-label="Close">×</button>
-        <h3 id="modalTitle"></h3>
-        <div id="modalBody" class="modal-body"></div>
-      </div>`;
-    document.body.appendChild(modal);
-    // close handlers
-    modal.addEventListener('click', (e)=>{
-      if (e.target === modal) modal.classList.add('hidden');
-    });
-    modal.querySelector('.modal-close').addEventListener('click', ()=> modal.classList.add('hidden'));
-    document.addEventListener('keydown', (e)=>{ if (e.key==='Escape') modal.classList.add('hidden'); });
-  }
-  // populate
-  const title = modal.querySelector('#modalTitle');
-  const body = modal.querySelector('#modalBody');
-  title.textContent = room.name ?? (`Room ${room.id}`);
-  const rows = [];
-  rows.push(`<p><strong>id:</strong> ${room.id}</p>`);
-  if (room.vnum !== undefined) rows.push(`<p><strong>vnum:</strong> ${room.vnum}</p>`);
-  if (room.area) rows.push(`<p><strong>area:</strong> ${room.area}</p>`);
-  if (room.exits && Object.keys(room.exits).length){
-    const exitLines = Object.entries(room.exits).map(([dir,ex])=>{
-      const v = ex && (ex.vnum ?? ex) ? (ex.vnum ?? ex) : '0';
-      const door = ex && typeof ex === 'object' ? ` door:${ex.door?'yes':'no'} closed:${ex.closed?'yes':'no'} locked:${ex.locked?'yes':'no'}` : '';
-      return `<li><strong>${dir}</strong>: ${v}${door}</li>`;
-    }).join('');
-    rows.push(`<p><strong>exits:</strong></p><ul>${exitLines}</ul>`);
-  }
-  body.innerHTML = rows.join('');
-    modal.classList.remove('hidden');
-  }catch(e){
-    console.error('showRoomDetails error', e);
-    alert('Failed to show room details — see console for error.');
-  }
-}
+// `showRoomDetails` modal removed — no modal functionality remains.
 
 function populateAreaList(areas){
   const list = document.getElementById('areaList');
@@ -1765,7 +1721,9 @@ function traverseSelectionByDir(dirKey){
     if (!room) return;
     const ex = findExitTarget(room, dirKey);
     if (!ex || !ex.tid) {
-      // No exit in that direction — do not change z-level without a connector
+      // If no explicit exit but user pressed up/down, try to change layer instead
+      if (dirKey === 'u' || dirKey === 'up') { if (typeof changeLayer === 'function') changeLayer(1); else { currentLayer = Math.min(currentAreaObj.maxZ||currentLayer, currentLayer+1); renderArea(currentAreaObj); } }
+      if (dirKey === 'd' || dirKey === 'down') { if (typeof changeLayer === 'function') changeLayer(-1); else { currentLayer = Math.max(currentAreaObj.minZ||currentLayer, currentLayer-1); renderArea(currentAreaObj); } }
       return;
     }
     const targetTid = ex.tid;
