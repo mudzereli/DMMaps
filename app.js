@@ -513,7 +513,28 @@ function redrawFromSelectedRoom(){
     if (selectedRooms.size > 1){
       const sel = Array.from(selectedRooms);
       const idMap = new Map(); area.rooms.forEach(r=>idMap.set(String(r.id), r));
-      const subsetCopy = sel.map(id => ({ ...idMap.get(String(id)) }));
+      // Build bidirectional adjacency across all z-levels so we can traverse vertical links
+      const adj = new Map();
+      for (const r of area.rooms || []){
+        const key = String(r.id);
+        if (!adj.has(key)) adj.set(key, new Set());
+        for (const ex of Object.values(r.exits || {})){
+          const tid = ex && (ex.vnum ?? ex);
+          if (!tid) continue;
+          const tkey = String(tid);
+          if (!idMap.has(tkey)) continue;
+          adj.get(key).add(tkey);
+          if (!adj.has(tkey)) adj.set(tkey, new Set());
+          adj.get(tkey).add(key);
+        }
+      }
+      // BFS from all selected rooms to collect the connected closure (across z)
+      const seen = new Set();
+      const q = [];
+      for (const id of sel){ const k = String(id); if (idMap.has(k) && !seen.has(k)){ seen.add(k); q.push(k); } }
+      while(q.length){ const cur = q.shift(); const neigh = adj.get(cur); if (!neigh) continue; for (const n of neigh){ if (!seen.has(n)){ seen.add(n); q.push(n); } } }
+      const subsetIds = Array.from(seen);
+      const subsetCopy = subsetIds.map(id => ({ ...idMap.get(String(id)) }));
       const startId = sel[0];
       // preserve start position when possible
       const startRoomOrig = area.rooms.find(r=>String(r.id)===String(startId));
@@ -533,14 +554,15 @@ function redrawFromSelectedRoom(){
         }
       }
       const laidMap = new Map(laid.map(r=>[String(r.id), r]));
-      for (const id of sel){
+      // Apply laid positions to the entire traversed subset (may span z-levels)
+      for (const id of subsetIds){
         const nr = laidMap.get(String(id));
         if (!nr) continue;
         const rr = area.rooms.find(x=>String(x.id)===String(id));
         if (!rr) continue;
         rr.x = nr.x; rr.y = nr.y; rr.width = nr.width; rr.height = nr.height;
-        // preserve existing z (floor) for multi-selected rooms if present
-        rr.z = (typeof rr.z === 'number') ? rr.z : nr.z;
+        // use the computed z from the layout so up/down exits determine layer
+        rr.z = (typeof nr.z === 'number') ? nr.z : (typeof rr.z === 'number' ? rr.z : 0);
         if (nr._debug) rr._debug = nr._debug; else delete rr._debug;
       }
       // update area's z-bounds
