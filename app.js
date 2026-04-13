@@ -11,6 +11,8 @@ let preservedViewBox = null;
 let activeSvgCleanup = null;
 // last populated areas for selection from dropdown
 let availableAreas = [];
+// whether we've attempted to restore the last-selected area this page load
+let _restoredLastArea = false;
 
 // Find an area index and room id for a given target identifier (id or vnum)
 function findAreaIndexAndRoomForTarget(target){
@@ -1541,6 +1543,12 @@ function populateAreaList(areas){
   if (countEl) countEl.textContent = `Areas (${areas.length})`;
   // keep a reference for dropdown-driven selection (when #areaList may be absent)
   availableAreas = areas;
+  // Attempt to restore the previously-selected area (area id or name).
+  let _restoreAreaKey = null;
+  if (!_restoredLastArea){
+    try{ _restoreAreaKey = localStorage.getItem('dmaps_last_area'); }catch(e){}
+    _restoredLastArea = true;
+  }
   areas.forEach((area,idx)=>{
     const li = document.createElement('li');
     const roomCount = (area.rooms && Array.isArray(area.rooms)) ? area.rooms.length : 0;
@@ -1558,14 +1566,22 @@ function populateAreaList(areas){
     }
     // do not auto-select inside the loop; we'll choose a default after building the list
   });
-  // Default: try to select area named 'glyndane' (case-insensitive). Fallback to index 0.
+  // Default: prefer the saved area (if it exists), otherwise try 'glyndane', fallback to index 0.
   try{
-    let defaultIndex = 0;
-    const want = 'glyndane';
-    const found = areas.findIndex(a => String(a.id).toLowerCase() === want || String(a.name).toLowerCase() === want);
-    if (found >= 0) defaultIndex = found;
-    if (select) select.value = String(defaultIndex);
-    selectAreaIndex(defaultIndex);
+    let chosenIndex = null;
+    if (_restoreAreaKey){
+      const foundSaved = areas.findIndex(a=> String(a.id || a.name || '').toLowerCase() === String(_restoreAreaKey).toLowerCase());
+      if (foundSaved >= 0) chosenIndex = foundSaved;
+    }
+    if (chosenIndex === null){
+      let defaultIndex = 0;
+      const want = 'glyndane';
+      const found = areas.findIndex(a => String(a.id).toLowerCase() === want || String(a.name).toLowerCase() === want);
+      if (found >= 0) defaultIndex = found;
+      chosenIndex = defaultIndex;
+    }
+    if (select) select.value = String(chosenIndex);
+    selectAreaIndex(chosenIndex);
   }catch(e){ if (select) { select.value = '0'; selectAreaIndex(0); } }
   // wire select change to trigger corresponding li click
   if (select){
@@ -1601,6 +1617,8 @@ function selectAreaIndex(idx, roomToSelect){
   document.getElementById('areaTitle').textContent = area.name || area.id || '';
   currentAreaObj = area;
   currentAreaObj = area;
+  // persist selected area id/name for restoration across reloads
+  try{ const key = String(currentAreaObj.id || currentAreaObj.name || ''); localStorage.setItem('dmaps_last_area', key); }catch(e){}
   // Load any saved positions first so min/max z reflect persisted layout
   try{ const had = loadSavedPositions(currentAreaObj); const ind = document.getElementById('savedIndicator'); if (ind) { ind.style.display = had ? 'inline' : 'none'; } }catch(e){}
   const minZ = currentAreaObj.minZ ?? 0;
