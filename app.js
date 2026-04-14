@@ -23,7 +23,10 @@ function createContextMenu(){
   up.addEventListener('click', ()=>{ hideContextMenu(); moveSelectedRooms(1); });
   const down = document.createElement('div'); down.textContent = 'Move selection down a floor'; down.style.padding = '6px'; down.style.cursor = 'pointer';
   down.addEventListener('click', ()=>{ hideContextMenu(); moveSelectedRooms(-1); });
+  const stack = document.createElement('div'); stack.textContent = 'Stack selection (same cell)'; stack.style.padding = '6px'; stack.style.cursor = 'pointer';
+  stack.addEventListener('click', ()=>{ hideContextMenu(); stackSelectedRooms(); });
   menu.appendChild(up); menu.appendChild(down);
+  menu.appendChild(stack);
   document.body.appendChild(menu);
   // hide on outside click or escape
   document.addEventListener('click', (e)=>{ if (!menu.contains(e.target)) menu.style.display='none'; });
@@ -42,6 +45,27 @@ function moveSelectedRooms(delta){
     }
   }
   // normalize z bounds
+  try{ const zs = (currentAreaObj.rooms||[]).map(r=> (typeof r.z === 'number') ? r.z : 0); currentAreaObj.minZ = zs.length?Math.min(...zs):0; currentAreaObj.maxZ = zs.length?Math.max(...zs):0; }catch(e){}
+  try{ if (typeof savePositions === 'function') savePositions(currentAreaObj); }catch(e){}
+  try{ renderArea(currentAreaObj); }catch(e){}
+}
+
+function stackSelectedRooms(){
+  if (!currentAreaObj) return;
+  if (!selectedRooms || selectedRooms.size<=1) return; // nothing to stack
+  // pick reference room as first selected
+  const refId = Array.from(selectedRooms)[0];
+  const refRoom = currentAreaObj.rooms.find(r=>String(r.id)===String(refId) || Number(r.id)===Number(refId));
+  if (!refRoom) return;
+  const targetX = (typeof refRoom.x === 'number') ? refRoom.x : 0;
+  const targetY = (typeof refRoom.y === 'number') ? refRoom.y : 0;
+  for (const r of currentAreaObj.rooms){
+    if (selectedRooms.has(String(r.id)) || selectedRooms.has(Number(r.id))){
+      r.x = targetX;
+      r.y = targetY;
+      // keep z as-is
+    }
+  }
   try{ const zs = (currentAreaObj.rooms||[]).map(r=> (typeof r.z === 'number') ? r.z : 0); currentAreaObj.minZ = zs.length?Math.min(...zs):0; currentAreaObj.maxZ = zs.length?Math.max(...zs):0; }catch(e){}
   try{ if (typeof savePositions === 'function') savePositions(currentAreaObj); }catch(e){}
   try{ renderArea(currentAreaObj); }catch(e){}
