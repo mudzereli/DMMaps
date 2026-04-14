@@ -172,6 +172,16 @@ function buildGameMap(areasSource, template, adjustments){
   outTop.formatVersion = outTop.formatVersion ?? 1;
   outTop.defaultAreaName = outTop.defaultAreaName ?? 'Default Area';
   outTop.areas = [];
+  // ensure commonly expected top-level keys exist with sensible defaults
+  outTop.labelCount = outTop.labelCount ?? 0;
+  outTop.mapSymbolFontDetails = outTop.mapSymbolFontDetails ?? 'Lucida Console,12,-1,5,900,0,0,0,0,0,0,0,0,0,0,4296';
+  outTop.mapSymbolFontFudgeFactor = outTop.mapSymbolFontFudgeFactor ?? 1;
+  outTop.onlyMapSymbolFontToBeUsed = outTop.onlyMapSymbolFontToBeUsed ?? false;
+  outTop.playerRoomColors = outTop.playerRoomColors ?? [{ color24RGB: [255,255,255] }, { color24RGB: [0,0,0] }];
+  outTop.playerRoomInnerDiameterPercentage = outTop.playerRoomInnerDiameterPercentage ?? 66;
+  outTop.playerRoomOuterDiameterPercentage = outTop.playerRoomOuterDiameterPercentage ?? 105;
+  outTop.playerRoomStyle = outTop.playerRoomStyle ?? 3;
+  outTop.playersRoomId = outTop.playersRoomId ?? { darkmists: 40 };
 
   function exitsToArray(exits){
     if (!exits) return [];
