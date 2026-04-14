@@ -2035,7 +2035,9 @@ function exportArea(area){
       // only include rooms that have at least x and y defined
       if (typeof entry.x === 'number' && typeof entry.y === 'number') out.rooms.push(entry);
     }
-    const blob = new Blob([JSON.stringify(out, null, 2)], { type: 'application/json' });
+    // prepend a comment line with the area's name in the exact requested format
+    const commentLine = `//"name": "${(out.name||out.id||'').replace(/"/g,'\"')}",\n`;
+    const blob = new Blob([commentLine, JSON.stringify(out, null, 2)], { type: 'application/json' });
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
     a.href = url;
