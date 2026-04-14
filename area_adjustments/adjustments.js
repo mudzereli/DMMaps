@@ -11512,7 +11512,7 @@ window.areaAdjustments = [
     {
       "vnum": 22245,
       "x": -1080,
-      "y": -360,
+      "y": -240,
       "z": 5
     },
     {
@@ -11530,7 +11530,7 @@ window.areaAdjustments = [
     {
       "vnum": 22248,
       "x": -600,
-      "y": -360,
+      "y": -240,
       "z": 5
     },
     {
