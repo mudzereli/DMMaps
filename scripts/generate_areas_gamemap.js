@@ -4,21 +4,32 @@ const path = require('path');
 const ROOT = path.resolve(__dirname, '..');
 const AREAS_SRC = path.join(ROOT, 'areas.js');
 const GAMEMAP_TEMPLATE = path.join(ROOT, 'area_adjustments', 'gamemap.js');
+const ADJUSTMENTS_FILE = path.join(ROOT, 'area_adjustments', 'adjustments.js');
 const OUT_FILE = path.join(ROOT, 'area_adjustments', 'areas_gamemap.js');
 
 function readAssigned(filePath){
   const txt = fs.readFileSync(filePath, 'utf8');
   // try JSON.parse directly if possible
-  try{ return JSON.parse(txt); }catch(e){}
+  // strip JS comments to help parse non-strict JSON files like adjustments.js
+  const cleaned = txt.replace(/\/\*[\s\S]*?\*\//g, '').replace(/\/\/.*$/mg, '\n');
+  try{ return JSON.parse(cleaned); }catch(e){}
   // strip leading assignment like "varName = ..." or "gameMap = ..."
   const firstBrace = txt.indexOf('{');
   const firstBracket = txt.indexOf('[');
   const start = (firstBrace === -1) ? firstBracket : (firstBracket === -1 ? firstBrace : Math.min(firstBrace, firstBracket));
   if (start === -1) throw new Error('No JSON found in ' + filePath);
-  // find matching end by attempting incremental parse from start to end
-  for (let i = txt.length; i > start; i--){
-    const substr = txt.slice(start, i);
-    try{ return JSON.parse(substr); }catch(e){}
+  // attempt to parse the cleaned text by finding a likely end bracket
+  const cleanedStartBrace = cleaned.indexOf('{');
+  const cleanedStartBracket = cleaned.indexOf('[');
+  const cstart = (cleanedStartBrace === -1) ? cleanedStartBracket : (cleanedStartBracket === -1 ? cleanedStartBrace : Math.min(cleanedStartBrace, cleanedStartBracket));
+  if (cstart !== -1){
+    const lastBrace = cleaned.lastIndexOf('}');
+    const lastBracket = cleaned.lastIndexOf(']');
+    const end = Math.max(lastBrace, lastBracket);
+    if (end > cstart){
+      const substr = cleaned.slice(cstart, end+1);
+      try{ return JSON.parse(substr); }catch(e){}
+    }
   }
   throw new Error('Failed to parse JSON from ' + filePath);
 }
@@ -44,10 +55,26 @@ function layoutAreaRooms(rooms, startId){
     }
   }
   if (rooms.length===0) return rooms;
+  // seed positions from rooms that already have pixel x/y assigned (from adjustments)
+  for (const r of rooms){
+    if (typeof r.x === 'number' && typeof r.y === 'number'){
+      const gx = Math.round((r.x || 0) / cellSize);
+      const gy = Math.round((r.y || 0) / cellSize);
+      const gz = typeof r.z === 'number' ? r.z : 0;
+      pos[Number(r.id)] = { x: gx, y: gy };
+      level[Number(r.id)] = gz;
+      occupied.set(`${gx},${gy},${gz}`, Number(r.id));
+    }
+  }
+
   let start = Number(rooms[0].id);
   if (startId !== undefined && startId !== null){ const asNum = Number(startId); if (!Number.isNaN(asNum) && idMap.has(asNum)) start = asNum; }
-  pos[start] = {x:0,y:0}; level[start] = 0; occupied.set(`${pos[start].x},${pos[start].y},${level[start]}`, start);
-  const q = [start]; const visited = new Set([start]); let deferred = [];
+  if (!Object.prototype.hasOwnProperty.call(pos, start)){
+    pos[start] = {x:0,y:0}; level[start] = 0; occupied.set(`${pos[start].x},${pos[start].y},${level[start]}`, start);
+  }
+  const q = Object.keys(pos).length ? Object.keys(pos).map(k=>Number(k)) : [start];
+  const visited = new Set(q);
+  let deferred = [];
   const halfSide = (cellSize - 20) / 2;
   while(q.length){
     const cur = q.shift(); const curRoom = idMap.get(cur); if (!curRoom) continue; const curPos = pos[cur];
@@ -133,7 +160,7 @@ function toGridCoordinates(room){
   return [gx, gy, gz];
 }
 
-function buildGameMap(areasSource, template){
+function buildGameMap(areasSource, template, adjustments){
   // start with a shallow copy of template keys, but don't carry over areas/areaCount/roomCount
   const outTop = {};
   if (template && typeof template === 'object'){
@@ -189,8 +216,42 @@ function buildGameMap(areasSource, template){
     const existing = Array.from(templateAreaMap.values()).filter(n=>Number.isFinite(n) && n>=0);
     if (existing.length) nextAreaId = Math.max(...existing) + 1;
   }catch(e){}
+  // build adjustments lookup by area name -> map of vnum -> adjustment
+  const adjustmentsMap = new Map();
+  try{
+    if (adjustments && Array.isArray(adjustments)){
+      for (const ada of adjustments){
+        if (!ada) continue;
+        const aname = String(ada.name || ada.id || '');
+        const roomMap = new Map();
+        if (Array.isArray(ada.rooms)){
+          for (const r of ada.rooms){ if (!r) continue; const vid = Number(r.vnum ?? r.id ?? r.vnum); if (!Number.isNaN(vid)) roomMap.set(vid, r); }
+        }
+        adjustmentsMap.set(aname, roomMap);
+      }
+    }
+  }catch(e){}
+
   for (const a of areasSource){
     const rooms = (a.rooms||[]).map(r=>({ ...r }));
+    // apply adjustments per-room if present (copy x/y/z onto room objects)
+    try{
+      const adMap = adjustmentsMap.get(String(a.name)) || adjustmentsMap.get(String(a.id)) || null;
+      
+      if (adMap){
+        for (const r of rooms){
+          const vid = Number(r.vnum ?? r.id);
+          if (!Number.isNaN(vid) && adMap.has(vid)){
+            const adj = adMap.get(vid);
+            if (adj && typeof adj === 'object'){
+              if (typeof adj.x === 'number') r.x = adj.x;
+              if (typeof adj.y === 'number') r.y = adj.y;
+              if (typeof adj.z === 'number') r.z = adj.z;
+            }
+          }
+        }
+      }
+    }catch(e){}
     const laid = layoutAreaRooms(rooms);
     // ensure area id is numeric: prefer provided numeric id, then template id by name, then default mapping
     let areaId = null;
@@ -205,6 +266,28 @@ function buildGameMap(areasSource, template){
       const ro = { coordinates: coords, exits: exitsToArray(r.exits || {}), id: r.id, name: r.name || '' };
       areaOut.rooms.push(ro);
     }
+    // if adjustments exist for this area, override room coordinates from adjustments and normalize z
+    try{
+      const adMap = adjustmentsMap.get(String(a.name)) || adjustmentsMap.get(String(a.id)) || null;
+      if (adMap){
+        for (const ro of areaOut.rooms){
+          const vid = Number(ro.id);
+          if (!Number.isNaN(vid) && adMap.has(vid)){
+            const adj = adMap.get(vid);
+            if (adj){
+              ro.coordinates = toGridCoordinates({ x: adj.x, y: adj.y, z: adj.z });
+            }
+          }
+        }
+        // normalize z within this area so minimum z becomes 0
+        const zs = areaOut.rooms.map(r=>Number((r.coordinates && r.coordinates[2]) || 0));
+        if (zs.length){
+          const minZ = Math.min(...zs);
+          if (minZ !== 0) areaOut.rooms.forEach(r=>{ if (r.coordinates && typeof r.coordinates[2] === 'number') r.coordinates[2] = r.coordinates[2] - minZ; });
+        }
+      }
+    }catch(e){}
+
     outTop.areas.push(areaOut);
   }
   outTop.areaCount = outTop.areas.length;
@@ -234,7 +317,10 @@ function main(){
   let template = {};
   try{ template = readAssigned(GAMEMAP_TEMPLATE)[0] || {}; }catch(e){ }
 
-  const out = buildGameMap(areas, template);
+  let adjustments = [];
+  try{ adjustments = readAssigned(ADJUSTMENTS_FILE) || []; }catch(e){}
+  
+  const out = buildGameMap(areas, template, adjustments);
   // write a plain JSON object (not an assignment and not wrapped in an array)
   const root = Array.isArray(out) ? out[0] : out;
   const text = JSON.stringify(root, null, 4) + '\n';
