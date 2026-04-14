@@ -222,6 +222,18 @@ function buildGameMap(areasSource, template, adjustments){
     }
   }catch(e){}
   let nextAreaId = 1;
+  // build quick lookup of roomId -> source area name from the original areasSource
+  const roomIdToArea = new Map();
+  try{
+    for (const a of areasSource){
+      const aname = String(a.name || a.id || '');
+      for (const r of (a.rooms||[])){
+        const rid = Number(r.id ?? r.vnum ?? r.vnum ?? null);
+        if (!Number.isNaN(rid)) roomIdToArea.set(rid, aname);
+      }
+    }
+  }catch(e){}
+  const supplementalClosedAreas = new Set(['The Mists','The Gymnasium','Theran Outfitters Express']);
   try{
     const existing = Array.from(templateAreaMap.values()).filter(n=>Number.isFinite(n) && n>=0);
     if (existing.length) nextAreaId = Math.max(...existing) + 1;
@@ -289,7 +301,7 @@ function buildGameMap(areasSource, template, adjustments){
             }
           }
         }
-        // normalize z within this area so minimum z becomes 0
+            // normalize z within this area so minimum z becomes 0
         const zs = areaOut.rooms.map(r=>Number((r.coordinates && r.coordinates[2]) || 0));
         if (zs.length){
           const minZ = Math.min(...zs);
@@ -298,7 +310,23 @@ function buildGameMap(areasSource, template, adjustments){
       }
     }catch(e){}
 
-    outTop.areas.push(areaOut);
+        // add supplemental closed doors for exits that connect into specific areas
+        try{
+          for (const ro of areaOut.rooms){
+            const myArea = String(areaOut.name || '');
+            if (!Array.isArray(ro.exits)) continue;
+            for (const ex of ro.exits){
+              if (!ex || typeof ex.exitId === 'undefined') continue;
+              const targetArea = roomIdToArea.get(Number(ex.exitId));
+              if (targetArea && supplementalClosedAreas.has(String(targetArea)) && String(targetArea) !== myArea){
+                if (typeof ex.door === 'undefined') ex.door = 'closed';
+                else if (ex.door === false) ex.door = 'closed';
+              }
+            }
+          }
+        }catch(e){}
+
+        outTop.areas.push(areaOut);
   }
   outTop.areaCount = outTop.areas.length;
   // calculate total rooms from generated areas
@@ -323,6 +351,32 @@ function main(){
   } else {
     areas = Object.values(areasData).filter(v=>v && v.rooms).map(a=>({ id: a.id ?? a.name, name: a.name ?? a.id, rooms: a.rooms }));
   }
+
+  // Merge numbered area variants (e.g. "Name I", "Name II") into a single base area
+  function mergeNumberedAreas(arr){
+    if (!Array.isArray(arr)) return arr;
+    const groups = new Map();
+    for (const a of arr){
+      const name = String(a.name ?? a.id ?? '').trim();
+      const base = name.replace(/\s+(?:I|II|III|IV|V|VI|VII|VIII|IX|X)$/i, '').trim();
+      const key = base || name;
+      if (!groups.has(key)) groups.set(key, []);
+      groups.get(key).push(a);
+    }
+    const out = [];
+    for (const [key, list] of groups.entries()){
+      if (list.length === 1){ out.push(list[0]); continue; }
+      const merged = { id: key, name: key, rooms: [] };
+      for (const part of list){ if (part.rooms && Array.isArray(part.rooms)) merged.rooms = merged.rooms.concat(part.rooms); }
+      const zs = merged.rooms.map(r=>r.z||0);
+      merged.minZ = zs.length?Math.min(...zs):0;
+      merged.maxZ = zs.length?Math.max(...zs):0;
+      out.push(merged);
+    }
+    return out;
+  }
+
+  areas = mergeNumberedAreas(areas);
 
   let template = {};
   try{ template = readAssigned(GAMEMAP_TEMPLATE)[0] || {}; }catch(e){ }

@@ -6,6 +6,46 @@ let showDebugOverlay = false;
 // interactive selection state
 let selectedRooms = new Set();
 let _dragState = null;
+
+// Context menu for map actions (move selected rooms up/down)
+function createContextMenu(){
+  if (document.getElementById('mapContextMenu')) return;
+  const menu = document.createElement('div');
+  menu.id = 'mapContextMenu';
+  menu.style.position = 'fixed';
+  menu.style.background = '#fff';
+  menu.style.border = '1px solid #888';
+  menu.style.padding = '4px';
+  menu.style.boxShadow = '0 2px 8px rgba(0,0,0,0.2)';
+  menu.style.zIndex = 9999;
+  menu.style.display = 'none';
+  const up = document.createElement('div'); up.textContent = 'Move selection up a floor'; up.style.padding = '6px'; up.style.cursor = 'pointer';
+  up.addEventListener('click', ()=>{ hideContextMenu(); moveSelectedRooms(1); });
+  const down = document.createElement('div'); down.textContent = 'Move selection down a floor'; down.style.padding = '6px'; down.style.cursor = 'pointer';
+  down.addEventListener('click', ()=>{ hideContextMenu(); moveSelectedRooms(-1); });
+  menu.appendChild(up); menu.appendChild(down);
+  document.body.appendChild(menu);
+  // hide on outside click or escape
+  document.addEventListener('click', (e)=>{ if (!menu.contains(e.target)) menu.style.display='none'; });
+  document.addEventListener('keydown', (e)=>{ if (e.key === 'Escape') menu.style.display='none'; });
+}
+
+function showContextMenu(clientX, clientY){ createContextMenu(); const menu = document.getElementById('mapContextMenu'); if (!menu) return; menu.style.left = clientX + 'px'; menu.style.top = clientY + 'px'; menu.style.display = 'block'; }
+function hideContextMenu(){ const m = document.getElementById('mapContextMenu'); if (m) m.style.display = 'none'; }
+
+function moveSelectedRooms(delta){
+  if (!currentAreaObj) return;
+  if (!selectedRooms || selectedRooms.size===0) return;
+  for (const r of currentAreaObj.rooms){
+    if (selectedRooms.has(String(r.id)) || selectedRooms.has(Number(r.id))){
+      r.z = (typeof r.z === 'number' ? r.z : 0) + delta;
+    }
+  }
+  // normalize z bounds
+  try{ const zs = (currentAreaObj.rooms||[]).map(r=> (typeof r.z === 'number') ? r.z : 0); currentAreaObj.minZ = zs.length?Math.min(...zs):0; currentAreaObj.maxZ = zs.length?Math.max(...zs):0; }catch(e){}
+  try{ if (typeof savePositions === 'function') savePositions(currentAreaObj); }catch(e){}
+  try{ renderArea(currentAreaObj); }catch(e){}
+}
 // preserve viewBox across re-renders when requested
 let preservedViewBox = null;
 let activeSvgCleanup = null;
@@ -807,6 +847,19 @@ function renderArea(area){
     else if (z === currentLayer) currentRooms.push({r,box,side,cx,cy});
     else if (z === currentLayer + 1) aboveRooms.push({r,box,side,cx,cy});
   });
+
+  // attach contextmenu handler to map container to show our menu when rooms are selected
+  try{
+    const container = document.getElementById('mapContainer');
+    if (container){
+      container.addEventListener('contextmenu', function(evt){
+        // only show custom menu when there is a selection
+        if (!selectedRooms || selectedRooms.size === 0) return;
+        evt.preventDefault();
+        showContextMenu(evt.clientX, evt.clientY);
+      });
+    }
+  }catch(e){}
 
   // draw shadows for below rooms first
   belowRooms.forEach(obj=>{
