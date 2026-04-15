@@ -2,7 +2,6 @@
 
 let currentLayer = 0;
 let currentAreaObj = null;
-let showDebugOverlay = false;
 // interactive selection state
 let selectedRooms = new Set();
 let _dragState = null;
@@ -169,6 +168,8 @@ function processData(data){
     areas.forEach(a=>{ try{ MapColorsJS.applyColors(a); }catch(e){} });
   } }catch(e){}
   if (mergedAreas.length===0) return document.getElementById('mapContainer').textContent = 'No areas/rooms found in JSON.';
+  // strip any debug metadata from loaded areas
+  try{ for (const a of mergedAreas){ for (const r of (a.rooms||[])){ if (r && r._debug) delete r._debug; } } }catch(e){}
   populateAreaList(mergedAreas);
 }
 
@@ -309,8 +310,7 @@ function layoutAreaRooms(rooms, startId){
   // deferred neighbors (rooms that only point to this one) are processed
   // after the main outgoing-first traversal finishes.
   let deferred = [];
-  // debug map: id -> { from:{x,y}, to:{x,y}, z }
-  const debugMap = new Map();
+  // debug map removed
   const halfSide = (cellSize - 20) / 2;
 
   while(q.length){
@@ -421,10 +421,7 @@ function layoutAreaRooms(rooms, startId){
       if (old) occupied.delete(`${old.x},${old.y},${z}`);
       pos[id] = {x:newX,y:newY};
       occupied.set(k, id);
-      // record debug move
-      if (old && (old.x !== newX || old.y !== newY)){
-        debugMap.set(String(id), { from: { x: old.x * cellSize + halfSide, y: old.y * cellSize + halfSide }, to: { x: newX * cellSize + halfSide, y: newY * cellSize + halfSide }, z });
-      }
+      // debug move recording removed
       return true;
     }
     if (!preferPush) return false;
@@ -443,15 +440,9 @@ function layoutAreaRooms(rooms, startId){
     const oldB = pos[blocker];
     if (oldB) occupied.delete(`${oldB.x},${oldB.y},${z}`);
     pos[blocker] = {x:pushX,y:pushY}; occupied.set(pushKey, blocker);
-    // record blocker move
-    if (oldB && (oldB.x !== pushX || oldB.y !== pushY)){
-      debugMap.set(String(blocker), { from: { x: oldB.x * cellSize + halfSide, y: oldB.y * cellSize + halfSide }, to: { x: pushX * cellSize + halfSide, y: pushY * cellSize + halfSide }, z });
-    }
     const old = pos[id]; if (old) occupied.delete(`${old.x},${old.y},${z}`);
     pos[id] = {x:newX,y:newY}; occupied.set(k, id);
-    if (old && (old.x !== newX || old.y !== newY)){
-      debugMap.set(String(id), { from: { x: old.x * cellSize + halfSide, y: old.y * cellSize + halfSide }, to: { x: newX * cellSize + halfSide, y: newY * cellSize + halfSide }, z });
-    }
+    // debug move recording removed
     return true;
   }
 
@@ -541,7 +532,7 @@ function layoutAreaRooms(rooms, startId){
   const outRooms = rooms.map(r=>{
     const p = pos[Number(r.id)] ?? {x:0,y:0};
     const z = level[Number(r.id)] ?? 0;
-    const out = {
+    return {
       ...r,
       x: p.x * cellSize,
       y: p.y * cellSize,
@@ -549,9 +540,6 @@ function layoutAreaRooms(rooms, startId){
       height: cellSize-20,
       z: z
     };
-    const dbg = debugMap.get(String(r.id));
-    if (dbg) out._debug = dbg;
-    return out;
   });
   // Normalize z-levels so the lowest floor is 0
   try{
@@ -624,7 +612,8 @@ function redrawFromSelectedRoom(){
         // otherwise preserve original room z when present
         if (hasVerticalTraversal){ rr.z = (typeof nr.z === 'number') ? nr.z : (typeof rr.z === 'number' ? rr.z : 0); }
         else { rr.z = (typeof rr.z === 'number') ? rr.z : (typeof nr.z === 'number' ? nr.z : 0); }
-        if (nr._debug) rr._debug = nr._debug; else delete rr._debug;
+        // strip debug data
+        delete rr._debug;
       }
       // update area's z-bounds
       const zs = (area.rooms||[]).map(r=>r.z||0);
@@ -645,7 +634,7 @@ function redrawFromSelectedRoom(){
     const laid = layoutAreaRooms(roomsCopy, sid);
     if (startPos){ const laidStart = laid.find(r=>String(r.id)===String(sid)); if (laidStart && typeof laidStart.x === 'number' && typeof laidStart.y === 'number'){ const dx = startPos.x - laidStart.x; const dy = startPos.y - laidStart.y; if (dx !== 0 || dy !== 0){ for (const r of laid){ if (typeof r.x === 'number') r.x += dx; if (typeof r.y === 'number') r.y += dy; } } } }
     const laidMap = new Map(laid.map(r=>[String(r.id), r]));
-    for (const r of area.rooms){ const nr = laidMap.get(String(r.id)); if (nr){ r.x = nr.x; r.y = nr.y; r.width = nr.width; r.height = nr.height; r.z = nr.z; if (nr._debug) r._debug = nr._debug; else delete r._debug; } }
+    for (const r of area.rooms){ const nr = laidMap.get(String(r.id)); if (nr){ r.x = nr.x; r.y = nr.y; r.width = nr.width; r.height = nr.height; r.z = nr.z; delete r._debug; } }
     const zs = (area.rooms||[]).map(r=>r.z||0);
     area.minZ = zs.length?Math.min(...zs):0; area.maxZ = zs.length?Math.max(...zs):0;
     try{ savePositions(area); }catch(e){}
@@ -713,7 +702,7 @@ function redrawFromSelectedLayer(radius){
       const nr = laidMap.get(String(r.id));
       if (nr){
         r.x = nr.x; r.y = nr.y; r.width = nr.width; r.height = nr.height; r.z = layer;
-        if (nr._debug) r._debug = nr._debug; else delete r._debug;
+        delete r._debug;
       }
     }
     // update area z-bounds
@@ -794,20 +783,7 @@ function renderArea(area){
   arrowPathExt.setAttribute('fill','#ef4444');
   markerExternal.appendChild(arrowPathExt);
   defs.appendChild(markerExternal);
-  // Debug arrow
-  const markerDebug = document.createElementNS(svgNS,'marker');
-  markerDebug.setAttribute('id','arrow_debug');
-  markerDebug.setAttribute('markerWidth','10');
-  markerDebug.setAttribute('markerHeight','8');
-  markerDebug.setAttribute('refX','8');
-  markerDebug.setAttribute('refY','4');
-  markerDebug.setAttribute('orient','auto');
-  markerDebug.setAttribute('markerUnits','userSpaceOnUse');
-  const arrowPathDbg = document.createElementNS(svgNS,'path');
-  arrowPathDbg.setAttribute('d','M0,0 L0,8 L8,4 z');
-  arrowPathDbg.setAttribute('fill','#f59e0b');
-  markerDebug.appendChild(arrowPathDbg);
-  defs.appendChild(markerDebug);
+  // debug arrow marker removed
   svg.appendChild(defs);
   const roomBoxes = Utils.ensurePositions(area.rooms);
   // draw lower layers first so higher layers appear on top
@@ -1368,41 +1344,7 @@ function renderArea(area){
   };
   svg.addEventListener('mousedown', svg._marqueeMousedown);
 
-  // debug overlay: draw from->to arrows for small nudges
-  if (showDebugOverlay){
-    const dbgGroup = document.createElementNS(svgNS,'g');
-    dbgGroup.setAttribute('class','debug-overlay');
-    (area.rooms||[]).forEach(r=>{
-      const dbg = r._debug;
-      if (!dbg) return;
-      if ((r.z||0) !== currentLayer) return;
-      const from = dbg.from;
-      const to = dbg.to;
-      const path = document.createElementNS(svgNS,'path');
-      path.setAttribute('d', `M ${from.x} ${from.y} L ${to.x} ${to.y}`);
-      path.setAttribute('stroke','#f59e0b');
-      path.setAttribute('stroke-width','2');
-      path.setAttribute('fill','none');
-      path.setAttribute('stroke-dasharray','6 3');
-      path.setAttribute('marker-end','url(#arrow_debug)');
-      dbgGroup.appendChild(path);
-      const c1 = document.createElementNS(svgNS,'circle');
-      c1.setAttribute('cx', from.x);
-      c1.setAttribute('cy', from.y);
-      c1.setAttribute('r', 4);
-      c1.setAttribute('fill', '#f59e0b');
-      c1.setAttribute('opacity', '0.95');
-      dbgGroup.appendChild(c1);
-      const c2 = document.createElementNS(svgNS,'circle');
-      c2.setAttribute('cx', to.x);
-      c2.setAttribute('cy', to.y);
-      c2.setAttribute('r', 4);
-      c2.setAttribute('fill', '#60a5fa');
-      c2.setAttribute('opacity', '0.95');
-      dbgGroup.appendChild(c2);
-    });
-    svg.appendChild(dbgGroup);
-  }
+  // debug overlay rendering removed
   if (isNewSvg) container.appendChild(svg);
   // Install a requestAnimationFrame-backed scheduler for viewBox writes
   // so rapid pan/zoom events are batched to one DOM update per frame.
@@ -1910,13 +1852,7 @@ document.addEventListener('DOMContentLoaded', ()=>{
     redrawFromSelectedLayer(val);
   });
   const clearBtn = document.getElementById('clearSavedPositions'); if (clearBtn) clearBtn.addEventListener('click', ()=>{ if (currentAreaObj) { try{ clearSavedPositions(currentAreaObj); }catch(e){ alert('Clear failed: '+(e&&e.message?e.message:String(e))); } } else alert('No area selected'); });
-  // debug overlay toggle
-  const dbgDiv = document.createElement('div');
-  dbgDiv.style.cssText = 'position:fixed;bottom:10px;right:10px;background:rgba(255,255,255,0.95);padding:6px;border:1px solid #ddd;border-radius:6px;z-index:9999;font-size:12px;';
-  dbgDiv.innerHTML = '<label style="cursor:pointer"><input id="debugToggle" type="checkbox" style="margin-right:6px">Debug overlay</label>';
-  document.body.appendChild(dbgDiv);
-  const dbgInput = document.getElementById('debugToggle');
-  if (dbgInput) dbgInput.addEventListener('change', (e)=>{ showDebugOverlay = e.target.checked; if (currentAreaObj) renderArea(currentAreaObj); });
+  // debug overlay toggle removed
 
   // end DOMContentLoaded
 });

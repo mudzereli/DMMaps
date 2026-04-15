@@ -75,6 +75,8 @@ svg{width:100%;height:100%}
 	#sidebar{width:100%;flex:0 0 auto;border-right:0;border-bottom:1px solid #e6e9ef}
 	main#viewer{padding:8px}
 	#controls{flex-wrap:wrap;gap:8px}
+	/* Hide Tools menu on narrow screens to save space */
+	.tools-menu{display:none !important}
 }
 
 /* Tools dropdown/menu for action buttons */
