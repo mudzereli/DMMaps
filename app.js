@@ -1729,6 +1729,17 @@ function selectAreaIndex(idx, roomToSelect){
   try{ preservedViewBox = Utils.computeFitViewBox(currentAreaObj); }catch(e){ preservedViewBox = null; }
   try{ if (select) select.value = String(idx); }catch(e){}
   renderArea(area);
+  // If we were asked to select a specific room, and we're on a small screen,
+  // center the view on that room after rendering (covers cross-area jumps).
+  try{
+    if (roomToSelect !== undefined && roomToSelect !== null){
+      const isSmallScreen = (typeof window !== 'undefined') && (window.matchMedia && window.matchMedia('(max-width:640px)').matches);
+      if (isSmallScreen){
+        const targetRoom = (currentAreaObj.rooms||[]).find(r=> String(r.id)===String(roomToSelect) || String(r.vnum)===String(roomToSelect));
+        if (targetRoom){ try{ centerViewOnRoom(targetRoom); }catch(e){} }
+      }
+    }
+  }catch(e){}
 }
 
 // Update the left sidebar room info panel based on current selection
