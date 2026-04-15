@@ -1717,7 +1717,17 @@ function updateRoomInfoPanel(){
   const sid = Array.from(selectedRooms)[0];
   const room = (currentAreaObj.rooms||[]).find(r=>String(r.id) === String(sid) || String(r.vnum) === String(sid));
   if (!room){ panel.textContent = `Selected room ${sid} not found in current area.`; return; }
-  const title = document.createElement('h3'); title.textContent = room.name ?? (`Room ${room.id}`); panel.appendChild(title);
+  // Title: show as "RoomName [VNUM]"
+  const title = document.createElement('h3');
+  const baseName = room.name ?? (`Room ${room.id}`);
+  title.textContent = baseName + (room.vnum !== undefined ? ` [${room.vnum}]` : '');
+  panel.appendChild(title);
+
+  // On small screens hide everything except the title
+  const isSmallScreen = (typeof window !== 'undefined') && (window.matchMedia && window.matchMedia('(max-width:640px)').matches);
+  if (isSmallScreen) return;
+
+  // Additional info block (hidden on small screens)
   const info = document.createElement('div');
   info.innerHTML = `<p><strong>id:</strong> ${room.id}</p>` + (room.vnum!==undefined?`<p><strong>vnum:</strong> ${room.vnum}</p>`:'') + (room.area?`<p><strong>area:</strong> ${room.area}</p>`:'');
   panel.appendChild(info);
