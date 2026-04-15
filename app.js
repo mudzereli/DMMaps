@@ -1882,6 +1882,17 @@ document.addEventListener('DOMContentLoaded', ()=>{
           traverseSelectionByDir(d);
         });
       });
+
+      // Pan buttons: move the viewport
+      const panBtns = document.querySelectorAll('.pan-btn');
+      panBtns.forEach(b=>{
+        b.addEventListener('click', ()=>{
+          const p = b.getAttribute('data-pan');
+          if (!p) return;
+          try{ panView(p); }catch(e){ console.warn('pan button failed', e); }
+        });
+      });
+
       const zin = document.getElementById('zoomIn'); if (zin) zin.addEventListener('click', ()=> zoomView(0.88));
       const zout = document.getElementById('zoomOut'); if (zout) zout.addEventListener('click', ()=> zoomView(1.12));
     }catch(e){/* ignore overlay wiring errors */}
