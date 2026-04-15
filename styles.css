@@ -108,3 +108,8 @@ svg{width:100%;height:100%}
 	#overlayControls{left:8px;bottom:8px}
 	#overlayControls{display:flex}
 }
+
+/* Hide the compact area count on small screens to reduce clutter */
+@media (max-width:720px){
+  #areaCount{ display:none; }
+}
