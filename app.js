@@ -1580,6 +1580,30 @@ function setSvgViewBox(svg, vb){ if (!svg) return; if (svg.scheduleSetViewBox) s
 function panView(dir){ const svg = getSvgElem(); if (!svg) return; const vbAttr = svg.getAttribute('viewBox') || '0 0 100 100'; const [x0,y0,w,h] = vbAttr.split(/\s+/).map(Number); const step = w * 0.14; let nx = x0, ny = y0; if (dir === 'n') ny = y0 - step; else if (dir === 's') ny = y0 + step; else if (dir === 'e') nx = x0 + step; else if (dir === 'w') nx = x0 - step; setSvgViewBox(svg, {x: nx, y: ny, w: w, h: h}); }
 function zoomView(factor){ const svg = getSvgElem(); if (!svg) return; const vbAttr = svg.getAttribute('viewBox') || '0 0 100 100'; const [x0,y0,w0,h0] = vbAttr.split(/\s+/).map(Number); let newW = w0 * factor; let newH = h0 * factor; const cx = x0 + w0/2; const cy = y0 + h0/2; const nx = cx - newW/2; const ny = cy - newH/2; setSvgViewBox(svg, {x: nx, y: ny, w: newW, h: newH}); }
 
+// Center the SVG view on a specific room (if positions available)
+function centerViewOnRoom(room){
+  if (!room) return;
+  const svg = getSvgElem();
+  if (!svg) return;
+  try{
+    // Try to get box/position for room via Utils.ensurePositions
+    const boxes = (typeof Utils !== 'undefined' && Utils.ensurePositions) ? Utils.ensurePositions(currentAreaObj.rooms) : null;
+    let cx = null, cy = null;
+    if (boxes && Array.isArray(boxes)){
+      const entry = boxes.find(b=> String(b.r && b.r.id) === String(room.id));
+      if (entry && entry.box){ cx = (entry.box.minX + entry.box.maxX)/2; cy = (entry.box.minY + entry.box.maxY)/2; }
+    }
+    // fallback to numeric coords on room object
+    if (cx === null){ if (typeof room.x === 'number' && typeof room.y === 'number'){ cx = room.x; cy = room.y; } }
+    if (cx === null) return;
+    const vbAttr = svg.getAttribute('viewBox') || '0 0 100 100';
+    const [x0,y0,w,h] = vbAttr.split(/\s+/).map(Number);
+    const nx = cx - (w/2);
+    const ny = cy - (h/2);
+    setSvgViewBox(svg, { x: nx, y: ny, w: w, h: h });
+  }catch(e){ console.warn('centerViewOnRoom failed', e); }
+}
+
 
 // `showRoomDetails` modal removed — no modal functionality remains.
 
@@ -1817,6 +1841,13 @@ function traverseSelectionByDir(dirKey){
       if (typeof targetRoom.z === 'number') currentLayer = targetRoom.z;
       renderArea(currentAreaObj);
       try{ updateRoomInfoPanel(); }catch(e){}
+      // On small screens, recenter the view on the newly-selected room
+      try{
+        const isSmallScreen = (typeof window !== 'undefined') && (window.matchMedia && window.matchMedia('(max-width:640px)').matches);
+        if (isSmallScreen && selectedRooms && selectedRooms.size === 1){
+          centerViewOnRoom(targetRoom);
+        }
+      }catch(e){}
     }
   }catch(e){ console.warn('traverseSelectionByDir failed', e); }
 }
