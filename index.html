@@ -17,8 +17,6 @@
     </aside>
     <main id="viewer">
       <div id="controls">
-        <span id="loadedFile" style="margin-left:12px;color:var(--muted)"></span>
-        <div style="width:12px"></div>
         <div id="layerControls" style="display:inline-flex;align-items:center;gap:6px;margin-left:8px">
           <button id="layerPrev" title="Previous floor">◀</button>
           <span id="layerDisplay" style="min-width:48px;text-align:center;color:var(--muted)">Floor 0</span>
@@ -27,11 +25,16 @@
         <div style="flex:1"></div>
         <span id="areaTitle"></span>
         <span id="savedIndicator" style="margin-left:8px;color:var(--muted);display:none">💾 Saved positions</span>
-        <button id="savePositions" style="margin-left:12px">Save Positions</button>
-        <button id="exportArea" style="margin-left:6px">Export Area</button>
-        <button id="clearSavedPositions" style="margin-left:6px">Clear Saved Positions</button>
-        <button id="redrawFromSelected" style="margin-left:6px">Redraw From Selected</button>
-        <button id="redrawFromSelectedLayer" style="margin-left:6px">Redraw Current Floor</button>
+        <details class="tools-menu" role="menu">
+          <summary aria-haspopup="true">Tools ▾</summary>
+          <div class="tools-list">
+            <button id="savePositions">Save Positions</button>
+            <button id="exportArea">Export Area</button>
+            <button id="clearSavedPositions">Clear Saved Positions</button>
+            <button id="redrawFromSelected">Redraw From Selected</button>
+            <button id="redrawFromSelectedLayer">Redraw Current Floor</button>
+          </div>
+        </details>
       </div>
       <div id="mapContainer">
         <!-- SVG map will be injected here -->

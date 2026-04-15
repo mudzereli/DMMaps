@@ -1879,7 +1879,7 @@ document.addEventListener('keydown', function(ev){
 
 function init(){
   const container = document.getElementById('mapContainer');
-  if (container) container.textContent = 'Loading areas from areas.js (edit areas.js and reload to change).';
+  // no placeholder text — areas are inlined when present
 }
 
 // single DOMContentLoaded handler to initialize UI wiring
@@ -1887,8 +1887,8 @@ document.addEventListener('DOMContentLoaded', ()=>{
   init();
   // Auto-load areas from an included JS file if present (areas.js should set `window.areas` or `window.mapAreas`).
   try{
-    if (window.areas){ processData(window.areas); document.getElementById('loadedFile') && (document.getElementById('loadedFile').textContent = 'areas.js'); }
-    else if (window.mapAreas){ processData(window.mapAreas); document.getElementById('loadedFile') && (document.getElementById('loadedFile').textContent = 'areas.js'); }
+    if (window.areas){ processData(window.areas); }
+    else if (window.mapAreas){ processData(window.mapAreas); }
   }catch(e){ console.warn('Auto-load areas failed', e); }
   const prev = document.getElementById('layerPrev');
   const next = document.getElementById('layerNext');
