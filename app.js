@@ -1574,6 +1574,13 @@ function attachPanZoom(svg){
   };
 }
 
+// Helpers for overlay pan/zoom controls
+function getSvgElem(){ const container = document.getElementById('mapContainer'); return container && container.querySelector ? container.querySelector('svg') : null; }
+function setSvgViewBox(svg, vb){ if (!svg) return; if (svg.scheduleSetViewBox) svg.scheduleSetViewBox(vb); else svg.setAttribute('viewBox', `${vb.x} ${vb.y} ${vb.w} ${vb.h}`); }
+function panView(dir){ const svg = getSvgElem(); if (!svg) return; const vbAttr = svg.getAttribute('viewBox') || '0 0 100 100'; const [x0,y0,w,h] = vbAttr.split(/\s+/).map(Number); const step = w * 0.14; let nx = x0, ny = y0; if (dir === 'n') ny = y0 - step; else if (dir === 's') ny = y0 + step; else if (dir === 'e') nx = x0 + step; else if (dir === 'w') nx = x0 - step; setSvgViewBox(svg, {x: nx, y: ny, w: w, h: h}); }
+function zoomView(factor){ const svg = getSvgElem(); if (!svg) return; const vbAttr = svg.getAttribute('viewBox') || '0 0 100 100'; const [x0,y0,w0,h0] = vbAttr.split(/\s+/).map(Number); let newW = w0 * factor; let newH = h0 * factor; const cx = x0 + w0/2; const cy = y0 + h0/2; const nx = cx - newW/2; const ny = cy - newH/2; setSvgViewBox(svg, {x: nx, y: ny, w: newW, h: newH}); }
+
+
 // `showRoomDetails` modal removed — no modal functionality remains.
 
 function populateAreaList(areas){
@@ -1853,6 +1860,21 @@ document.addEventListener('DOMContentLoaded', ()=>{
   });
   const clearBtn = document.getElementById('clearSavedPositions'); if (clearBtn) clearBtn.addEventListener('click', ()=>{ if (currentAreaObj) { try{ clearSavedPositions(currentAreaObj); }catch(e){ alert('Clear failed: '+(e&&e.message?e.message:String(e))); } } else alert('No area selected'); });
   // debug overlay toggle removed
+
+  // wire overlay pan/zoom controls
+    try{
+      const dirBtns = document.querySelectorAll('.dir-btn');
+      dirBtns.forEach(b=>{
+        b.addEventListener('click', (e)=>{
+          const d = b.getAttribute('data-dir');
+          if (!d) return;
+          // use the same traversal logic as keyboard (n/s/e/w/u/d)
+          traverseSelectionByDir(d);
+        });
+      });
+      const zin = document.getElementById('zoomIn'); if (zin) zin.addEventListener('click', ()=> zoomView(0.88));
+      const zout = document.getElementById('zoomOut'); if (zout) zout.addEventListener('click', ()=> zoomView(1.12));
+    }catch(e){/* ignore overlay wiring errors */}
 
   // end DOMContentLoaded
 });

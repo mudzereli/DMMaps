@@ -39,6 +39,24 @@
       <div id="mapContainer">
         <!-- SVG map will be injected here -->
       </div>
+      <!-- Pan / Zoom overlay -->
+      <div id="overlayControls" aria-hidden="false">
+        <div class="dir-wrap">
+          <div class="dir-grid" role="group" aria-label="Pan controls">
+            <button class="dir-btn" data-dir="u">U</button>
+            <button class="dir-btn" data-dir="n">N</button>
+            <button class="dir-btn" data-dir="d">D</button>
+
+            <button class="dir-btn" data-dir="w">W</button>
+            <button class="dir-btn" data-dir="s">S</button>
+            <button class="dir-btn" data-dir="e">E</button>
+          </div>
+          <div class="zoom-buttons">
+            <button id="zoomIn">+</button>
+            <button id="zoomOut">−</button>
+          </div>
+        </div>
+      </div>
     </main>
   </div>
 
