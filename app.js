@@ -1402,17 +1402,37 @@ function updateRoomInfoPanel(){
   if (exKeys.length){
     const exTitle = document.createElement('p'); exTitle.innerHTML = '<strong>exits:</strong>'; panel.appendChild(exTitle);
     const ul = document.createElement('ul');
-    // build quick lookup by id/vnum
+    // build quick lookup by id/vnum in the current area and across all loaded areas
     const idMap = new Map(); for (const r of currentAreaObj.rooms || []){ idMap.set(String(r.id), r); if (r.vnum!==undefined) idMap.set(String(r.vnum), r); }
     for (const dir of exKeys){
       const ex = exits[dir];
       const tid = ex && (ex.vnum ?? ex) ? (ex.vnum ?? ex) : null;
       const li = document.createElement('li');
       if (tid){
-        const target = idMap.get(String(tid));
-        if (target){
-          const a = document.createElement('a'); a.href = '#'; a.textContent = `${String(tid)} — ${target.name || target.id}`; a.style.marginLeft = '8px';
-          a.addEventListener('click',(ev)=>{ ev.preventDefault(); ev.stopPropagation(); selectedRooms.clear(); selectedRooms.add(String(target.id)); renderArea(currentAreaObj); try{ updateRoomInfoPanel(); }catch(e){} });
+        const localTarget = idMap.get(String(tid));
+        const crossTarget = (!localTarget && Array.isArray(availableAreas)) ? Utils.findAreaIndexAndRoom(availableAreas, tid) : null;
+        const targetArea = crossTarget ? availableAreas[crossTarget.idx] : currentAreaObj;
+        const targetRoom = localTarget || (crossTarget && targetArea && (targetArea.rooms || []).find(r=>String(r.id)===String(crossTarget.roomId) || String(r.vnum)===String(crossTarget.roomId)));
+        if (targetRoom){
+          const a = document.createElement('a');
+          a.href = '#';
+          const areaName = targetArea ? (targetArea.name || targetArea.id || '') : '';
+          const roomName = targetRoom.name || targetRoom.id;
+          a.textContent = crossTarget ? `${String(tid)} — ${areaName}${roomName ? ` / ${roomName}` : ''}` : `${String(tid)} — ${roomName}`;
+          a.style.marginLeft = '8px';
+          a.title = crossTarget ? `Go to ${areaName}` : `Go to room ${roomName}`;
+          a.addEventListener('click',(ev)=>{
+            ev.preventDefault();
+            ev.stopPropagation();
+            if (crossTarget){
+              selectAreaIndex(crossTarget.idx, crossTarget.roomId);
+            } else {
+              selectedRooms.clear();
+              selectedRooms.add(String(targetRoom.id));
+              renderArea(currentAreaObj);
+              try{ updateRoomInfoPanel(); }catch(e){}
+            }
+          });
           li.innerHTML = `<strong>${dir}</strong>:`; li.appendChild(a);
         } else {
           li.innerHTML = `<strong>${dir}</strong>: ${String(tid)}`;
