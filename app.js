@@ -77,19 +77,6 @@ let availableAreas = [];
 // whether we've attempted to restore the last-selected area this page load
 let _restoredLastArea = false;
 
-// Find an area index and room id for a given target identifier (id or vnum)
-function findAreaIndexAndRoomForTarget(target){
-  if (target === undefined || target === null) return null;
-  const tstr = String(target);
-  for (let i=0;i<availableAreas.length;i++){
-    const a = availableAreas[i];
-    for (const r of a.rooms || []){
-      if (String(r.id) === tstr) return { idx: i, roomId: r.id };
-      if (r.vnum !== undefined && String(r.vnum) === tstr) return { idx: i, roomId: r.id };
-    }
-  }
-  return null;
-}
 
 function handleFile(file){
   const reader = new FileReader();
@@ -118,7 +105,7 @@ function handleFile(file){
 }
 
 function processData(data){
-  const areas = extractAreas(data);
+  const areas = Utils.extractAreas(data);
     // sort areas alphabetically by name/id (case-insensitive) for dropdown/list
     const sortedAreas = (areas || []).slice().sort((a,b)=>{
       const na = String(a.name || a.id || '').toLowerCase();
@@ -154,7 +141,7 @@ function processData(data){
   }
     const mergedAreas = mergeNumberedAreas(sortedAreas);
     // If the page provided `window.areaAdjustments` (via a dropped JS file), apply those adjustments now.
-    try{ if (typeof window !== 'undefined' && Array.isArray(window.areaAdjustments)) applyAreaAdjustments(mergedAreas, window.areaAdjustments); }catch(e){}
+    try{ if (typeof window !== 'undefined' && Array.isArray(window.areaAdjustments)) Utils.applyAreaAdjustments(mergedAreas, window.areaAdjustments); }catch(e){}
     // Ensure area z-bounds reflect any adjusted room `z` values so layer controls work correctly.
     try{
       for (const a of mergedAreas){
@@ -171,387 +158,6 @@ function processData(data){
   // strip any debug metadata from loaded areas
   try{ for (const a of mergedAreas){ for (const r of (a.rooms||[])){ if (r && r._debug) delete r._debug; } } }catch(e){}
   populateAreaList(mergedAreas);
-}
-
-function extractAreas(data) {
-  if (!data) return [];
-  // If source uses top-level `rooms` object keyed by vnum
-  if (data.rooms && typeof data.rooms === 'object' && !Array.isArray(data.rooms)){
-    return areasFromRoomsObject(data.rooms);
-  }
-  // If file already contains an `areas` array
-  if (Array.isArray(data)) return data.map(a=>normalizeArea(a));
-  if (data.areas) return data.areas.map(a=>normalizeArea(a));
-  // fallback: top-level keys with rooms
-  return Object.values(data).filter(v=>v && v.rooms).map(a=>normalizeArea(a));
-}
-
-function normalizeArea(a){
-  return {
-    id: a.id ?? a.name ?? a.areaId ?? Math.random().toString(36).slice(2,8),
-    name: a.name ?? a.id ?? 'Area',
-    rooms: (a.rooms||a.roomsList||[]).map(r=>r)
-  };
-}
-
-// Apply adjustments from an array of area-like objects onto our areas in-place.
-function applyAreaAdjustments(areas, adjustments){
-  if (!Array.isArray(adjustments) || adjustments.length===0) return;
-  const byKey = new Map();
-  for (const adj of adjustments){
-    const key = String(adj.id || adj.name || '').toLowerCase();
-    if (!key) continue;
-    byKey.set(key, adj);
-  }
-  for (const a of areas){
-    const key = String(a.id || a.name || '').toLowerCase();
-    const adj = byKey.get(key);
-    if (!adj || !Array.isArray(adj.rooms)) continue;
-    const adjMap = new Map();
-    for (const r of adj.rooms){ adjMap.set(String(r.id ?? r.vnum ?? ''), r); }
-    for (const r of a.rooms){
-      const found = adjMap.get(String(r.id)) || adjMap.get(String(r.vnum ?? ''));
-      if (!found) continue;
-      if (typeof found.x === 'number') r.x = found.x;
-      if (typeof found.y === 'number') r.y = found.y;
-      if (typeof found.z === 'number') r.z = found.z;
-      if (typeof found.width === 'number') r.width = found.width;
-      if (typeof found.height === 'number') r.height = found.height;
-    }
-  }
-}
-
-function areasFromRoomsObject(roomsObj){
-  // roomsObj: { "1224": { name, area, exits: {...} }, ... }
-  const areas = {};
-  for (const [k,v] of Object.entries(roomsObj)){
-    const areaName = v.area ?? 'Default';
-    if (!areas[areaName]) areas[areaName] = { id: areaName, name: areaName, rooms: [] };
-    const room = {
-      id: k,
-      vnum: Number(k),
-      name: v.name ?? k,
-      exits: v.exits ?? {}
-    };
-    areas[areaName].rooms.push(room);
-  }
-  // For each area, compute layout positions based on exits and z-range
-  return Object.values(areas).map(a=>{
-    const rooms = layoutAreaRooms(a.rooms);
-    const zs = rooms.map(r=>r.z||0);
-    const minZ = zs.length?Math.min(...zs):0;
-    const maxZ = zs.length?Math.max(...zs):0;
-    return {...a, rooms, minZ, maxZ};
-  });
-}
-
-function layoutAreaRooms(rooms, startId){
-  // place rooms using BFS following exits; compute integer grid positions and a level (z) for up/down
-  const dirDelta = { north:[0,-1], south:[0,1], east:[1,0], west:[-1,0] };
-  const cellSize = 120; // base cell size for placement
-  const pos = {}; // vnum -> {x,y}
-  const occupied = new Map(); // key 'x,y,z' -> vnum (allow same x,y on different z levels)
-  const level = {}; // vnum -> z-level (0 baseline)
-
-  const idMap = new Map();
-  rooms.forEach(r=>idMap.set(Number(r.id), r));
-
-  // build reverse mapping: targetId (string) -> array of { source, dir }
-  const reverseMap = new Map();
-  for (const rr of rooms){
-    const exs = rr.exits || {};
-    for (const [d, ex] of Object.entries(exs)){
-      const tid = Number(ex && (ex.vnum ?? ex));
-      if (!tid) continue;
-      const key = String(tid);
-      if (!reverseMap.has(key)) reverseMap.set(key, []);
-      reverseMap.get(key).push({ source: Number(rr.id), dir: String(d) });
-    }
-  }
-
-  if (rooms.length===0) return rooms;
-
-  // Choose a sensible BFS start. Use provided `startId` if valid; otherwise
-  // prefer a room that has outgoing connectors to other rooms in this area.
-  // If none have outgoing connectors, prefer a room that is referenced by others
-  // (incoming). Fallback to the first room.
-  let start = Number(rooms[0].id);
-  if (startId !== undefined && startId !== null){
-    const asNum = Number(startId);
-    if (!Number.isNaN(asNum) && idMap.has(asNum)) start = asNum;
-  } else {
-    let found = null;
-    for (const r of rooms){
-      const exits = r.exits || {};
-      for (const ex of Object.values(exits)){
-        const tid = Number(ex && (ex.vnum ?? ex));
-        if (tid && idMap.has(tid)) { found = Number(r.id); break; }
-      }
-      if (found) break;
-    }
-    if (!found){
-      const targets = new Set();
-      for (const r of rooms){
-        for (const ex of Object.values(r.exits || {})){
-          const tid = Number(ex && (ex.vnum ?? ex));
-          if (tid && idMap.has(tid)) targets.add(tid);
-        }
-      }
-      if (targets.size) found = Array.from(targets)[0];
-    }
-    if (found) start = Number(found);
-  }
-  pos[start] = {x:0,y:0};
-  level[start] = 0;
-  const startKey = `${pos[start].x},${pos[start].y},${level[start]}`;
-  occupied.set(startKey, start);
-  const q = [start];
-  const visited = new Set([start]);
-  // deferred neighbors (rooms that only point to this one) are processed
-  // after the main outgoing-first traversal finishes.
-  let deferred = [];
-  // debug map removed
-  const halfSide = (cellSize - 20) / 2;
-
-  while(q.length){
-    const cur = q.shift();
-    const curRoom = idMap.get(cur);
-    if (!curRoom) continue;
-    const curPos = pos[cur];
-    // First, process explicit outgoing exits and enqueue them for immediate traversal.
-    const exits = curRoom.exits || {};
-    const outgoingSet = new Set();
-    for (const [dir, ex] of Object.entries(exits)){
-      const target = Number(ex.vnum || ex);
-      if (!target || !idMap.has(target)) continue;
-      if (visited.has(target)) continue;
-      // mark as outgoing so reverse processing can skip duplicates
-      outgoingSet.add(String(target));
-      // determine placement for this outgoing neighbor
-      const dirStr = String(dir);
-      const curLevel = level[cur] ?? 0;
-      let targetLevel = curLevel;
-      if (dirStr.toLowerCase() === 'up') targetLevel = curLevel + 1;
-      if (dirStr.toLowerCase() === 'down') targetLevel = curLevel - 1;
-      const d = dirDelta[dirStr.toLowerCase()];
-      let tx = curPos.x + (d?d[0]:0);
-      let ty = curPos.y + (d?d[1]:0);
-      if (dirStr.toLowerCase() === 'up' || dirStr.toLowerCase() === 'down'){
-        tx = curPos.x; ty = curPos.y;
-      }
-      let key = `${tx},${ty},${targetLevel}`;
-      let tries = 0;
-      while(occupied.has(key) && occupied.get(key)!==target && tries<100){
-        const triesMap = [[1,0],[0,1],[-1,0],[0,-1],[1,1],[-1,-1],[1,-1],[-1,1]];
-        const t = triesMap[tries % triesMap.length];
-        tx = curPos.x + (d?d[0]:0) + t[0]*(Math.floor(tries/triesMap.length)+1);
-        ty = curPos.y + (d?d[1]:0) + t[1]*(Math.floor(tries/triesMap.length)+1);
-        key = `${tx},${ty},${targetLevel}`; tries++;
-      }
-      pos[target] = {x:tx,y:ty}; level[target] = targetLevel; occupied.set(key,target); visited.add(target); q.push(target);
-    }
-    // Then defer reverse-only neighbors to be processed after the current BFS wave finishes
-    const revs = reverseMap.get(String(cur)) || [];
-    for (const info of revs){
-      const target = Number(info.source);
-      if (!target || !idMap.has(target)) continue;
-      if (visited.has(target)) continue;
-      if (outgoingSet.has(String(target))) continue; // already handled as outgoing
-      // infer opposite direction for placement bias
-      const dirLower = (info.dir || '').toLowerCase();
-      const opposite = ({ north:'south', south:'north', east:'west', west:'east', up:'down', down:'up' }[dirLower]) || dirLower;
-      // compute placement but do NOT add to main queue; add to deferred list
-      const curLevel = level[cur] ?? 0;
-      let targetLevel = curLevel;
-      if (opposite === 'up') targetLevel = curLevel + 1;
-      if (opposite === 'down') targetLevel = curLevel - 1;
-      const d = dirDelta[opposite];
-      let tx = curPos.x + (d?d[0]:0);
-      let ty = curPos.y + (d?d[1]:0);
-      if (opposite === 'up' || opposite === 'down'){ tx = curPos.x; ty = curPos.y; }
-      let key = `${tx},${ty},${targetLevel}`;
-      let tries = 0;
-      while(occupied.has(key) && occupied.get(key)!==target && tries<100){
-        const triesMap = [[1,0],[0,1],[-1,0],[0,-1],[1,1],[-1,-1],[1,-1],[-1,1]];
-        const t = triesMap[tries % triesMap.length];
-        tx = curPos.x + (d?d[0]:0) + t[0]*(Math.floor(tries/triesMap.length)+1);
-        ty = curPos.y + (d?d[1]:0) + t[1]*(Math.floor(tries/triesMap.length)+1);
-        key = `${tx},${ty},${targetLevel}`; tries++;
-      }
-      // only add to deferred if not already scheduled there
-      if (!deferred.some(x=>x.target===target)){
-        deferred.push({ target, tx, ty, targetLevel, key });
-      }
-    }
-    // If main queue empties, move deferred items into the queue for further traversal
-    if (q.length === 0 && deferred.length > 0){
-      // materialize deferred targets into q (they may have been visited meanwhile)
-      const newQ = [];
-      for (const item of deferred){ if (!visited.has(item.target)){
-          // assign final pos/level now
-          pos[item.target] = { x: item.tx, y: item.ty };
-          level[item.target] = item.targetLevel;
-          occupied.set(item.key, item.target);
-          visited.add(item.target);
-          newQ.push(item.target);
-        }
-      }
-      deferred = [];
-      for (const v of newQ) q.push(v);
-    }
-  }
-
-  // Gentle straighten pass: nudge leaf rooms one cell to better align cardinal connectors
-  function cardinalDegree(id){
-    const r = idMap.get(Number(id));
-    if (!r) return 0;
-    let c=0;
-    for(const [dir,ex] of Object.entries(r.exits||{})){
-      const dl = dir.toLowerCase(); if (dl==='up' || dl==='down') continue;
-      const t = Number(ex && (ex.vnum ?? ex)); if (!t || !idMap.has(t)) continue;
-      c++;
-    }
-    return c;
-  }
-
-  function attemptMoveOne(id, newX, newY, z, preferPush=false){
-    const k = `${newX},${newY},${z}`;
-    if (!occupied.has(k)){
-      const old = pos[id];
-      if (old) occupied.delete(`${old.x},${old.y},${z}`);
-      pos[id] = {x:newX,y:newY};
-      occupied.set(k, id);
-      // debug move recording removed
-      return true;
-    }
-    if (!preferPush) return false;
-    const blocker = occupied.get(k);
-    if (!blocker) return false;
-    // only push a blocker if it's a leaf (degree <= 1)
-    if (cardinalDegree(blocker) > 1) return false;
-    // try to push blocker one more step in the same vector
-    const dx = newX - (pos[id] ? pos[id].x : newX);
-    const dy = newY - (pos[id] ? pos[id].y : newY);
-    const pushX = newX + dx;
-    const pushY = newY + dy;
-    const pushKey = `${pushX},${pushY},${z}`;
-    if (occupied.has(pushKey)) return false;
-    // move blocker then move id
-    const oldB = pos[blocker];
-    if (oldB) occupied.delete(`${oldB.x},${oldB.y},${z}`);
-    pos[blocker] = {x:pushX,y:pushY}; occupied.set(pushKey, blocker);
-    const old = pos[id]; if (old) occupied.delete(`${old.x},${old.y},${z}`);
-    pos[id] = {x:newX,y:newY}; occupied.set(k, id);
-    // debug move recording removed
-    return true;
-  }
-
-  // Run a few relaxation passes
-  for (let pass=0; pass<3; pass++){
-    let any=false;
-    for (const r of rooms){
-      const id = Number(r.id);
-      const rp = pos[id];
-      if (!rp) continue;
-      const z = level[id] ?? 0;
-      const exits = r.exits || {};
-      for (const [dir, ex] of Object.entries(exits)){
-        const dl = dir.toLowerCase(); if (dl==='up' || dl==='down') continue;
-        const tid = Number(ex && (ex.vnum ?? ex)); if (!tid || !idMap.has(tid)) continue;
-        if ((level[tid] ?? 0) !== z) continue;
-        const tp = pos[tid]; if (!tp) continue;
-        // if east/west but y mismatch -> try to move the lesser-degree room vertically one step toward the other
-        if ((dl==='east' || dl==='west') && tp.y !== rp.y){
-          const dy = Math.sign(rp.y - tp.y);
-          const degSrc = cardinalDegree(id);
-          const degT = cardinalDegree(tid);
-          // prefer moving the node with lower degree
-          if (degT <= degSrc){
-            if (attemptMoveOne(tid, tp.x, tp.y + dy, z, true)) any = true;
-          } else {
-            if (attemptMoveOne(id, rp.x, rp.y - dy, z, true)) any = true;
-          }
-        }
-        // if north/south but x mismatch -> try to move the lesser-degree room horizontally one step
-        if ((dl==='north' || dl==='south') && tp.x !== rp.x){
-          const dx = Math.sign(rp.x - tp.x);
-          const degSrc = cardinalDegree(id);
-          const degT = cardinalDegree(tid);
-          if (degT <= degSrc){
-            if (attemptMoveOne(tid, tp.x + dx, tp.y, z, true)) any = true;
-          } else {
-            if (attemptMoveOne(id, rp.x - dx, rp.y, z, true)) any = true;
-          }
-        }
-      }
-    }
-    if (!any) break;
-  }
-
-  // Place any rooms that were never visited/positioned by the BFS onto
-  // a neat grid on floor 0 outside the existing occupied area so they
-  // don't all stack at the origin. This happens before mapping into
-  // pixel coords so the subsequent viewBox calculation includes them.
-  try{
-    const allPlaced = new Set(Object.values(pos).map(p=>`${p.x},${p.y}`));
-    const placedIds = new Set(Object.values(pos).map(p=>p && typeof p.id !== 'undefined' ? String(p.id) : null));
-    // compute current grid bounds
-    const xs = Object.values(pos).map(p=>p.x||0);
-    const ys = Object.values(pos).map(p=>p.y||0);
-    const maxX = xs.length?Math.max(...xs):0;
-    const minY = ys.length?Math.min(...ys):0;
-    // find rooms without positions
-    const unplaced = rooms.filter(r=>{ return !Object.prototype.hasOwnProperty.call(pos, Number(r.id)); });
-    if (unplaced.length){
-      const cols = Math.max(1, Math.ceil(Math.sqrt(unplaced.length)));
-      // start a few cells to the right of current max to keep them visually separated
-      const startX = maxX + 3;
-      const gap = 2; // grid gap in cell units
-      for (let i=0;i<unplaced.length;i++){
-        const r = unplaced[i];
-        const col = i % cols;
-        const row = Math.floor(i/cols);
-        let tx = startX + col * gap;
-        let ty = minY + row * gap;
-        let key = `${tx},${ty},0`;
-        let tries = 0;
-        while(occupied.has(key) && tries < 200){
-          // advance to next cell to avoid collisions
-          tx += 1; ty += (tries % 2 === 0 ? 0 : 1);
-          key = `${tx},${ty},0`;
-          tries++;
-        }
-        pos[Number(r.id)] = { x: tx, y: ty };
-        level[Number(r.id)] = 0;
-        occupied.set(key, Number(r.id));
-      }
-    }
-  }catch(e){ /* non-fatal */ }
-
-  // map positions into room objects with pixel coords and sizes
-  const outRooms = rooms.map(r=>{
-    const p = pos[Number(r.id)] ?? {x:0,y:0};
-    const z = level[Number(r.id)] ?? 0;
-    return {
-      ...r,
-      x: p.x * cellSize,
-      y: p.y * cellSize,
-      width: cellSize-20,
-      height: cellSize-20,
-      z: z
-    };
-  });
-  // Normalize z-levels so the lowest floor is 0
-  try{
-    const zs = outRooms.map(r=>r.z || 0);
-    if (zs.length){
-      const minZ = Math.min(...zs);
-      if (minZ !== 0){
-        outRooms.forEach(r=>{ if (typeof r.z === 'number') r.z = r.z - minZ; });
-      }
-    }
-  }catch(e){}
-  return outRooms;
 }
 
 // Redraw currently selected area using the first selected room as BFS start
@@ -590,7 +196,7 @@ function redrawFromSelectedRoom(){
         if (typeof startRoomOrig.x === 'number' && typeof startRoomOrig.y === 'number') startPos = { x: startRoomOrig.x, y: startRoomOrig.y };
         else { const b = Utils.roomBBox(startRoomOrig); if (b) startPos = { x: b.minX, y: b.minY }; }
       }
-      const laid = layoutAreaRooms(subsetCopy, startId);
+      const laid = Utils.layoutAreaRooms(subsetCopy, startId);
       // shift so the start keeps its original grid position
       if (startPos){
         const laidStart = laid.find(r=>String(r.id)===String(startId));
@@ -631,7 +237,7 @@ function redrawFromSelectedRoom(){
       if (typeof startRoomOrig.x === 'number' && typeof startRoomOrig.y === 'number') startPos = { x: startRoomOrig.x, y: startRoomOrig.y };
       else { const b = Utils.roomBBox(startRoomOrig); if (b) startPos = { x: b.minX, y: b.minY }; }
     }
-    const laid = layoutAreaRooms(roomsCopy, sid);
+    const laid = Utils.layoutAreaRooms(roomsCopy, sid);
     if (startPos){ const laidStart = laid.find(r=>String(r.id)===String(sid)); if (laidStart && typeof laidStart.x === 'number' && typeof laidStart.y === 'number'){ const dx = startPos.x - laidStart.x; const dy = startPos.y - laidStart.y; if (dx !== 0 || dy !== 0){ for (const r of laid){ if (typeof r.x === 'number') r.x += dx; if (typeof r.y === 'number') r.y += dy; } } } }
     const laidMap = new Map(laid.map(r=>[String(r.id), r]));
     for (const r of area.rooms){ const nr = laidMap.get(String(r.id)); if (nr){ r.x = nr.x; r.y = nr.y; r.width = nr.width; r.height = nr.height; r.z = nr.z; delete r._debug; } }
@@ -685,7 +291,7 @@ function redrawFromSelectedLayer(radius){
         if (b) startPos = { x: b.minX, y: b.minY };
       }
     }
-    const laid = layoutAreaRooms(subsetCopy, sid);
+    const laid = Utils.layoutAreaRooms(subsetCopy, sid);
     // shift laid positions so the start room keeps its original grid position
     if (startPos){
       const laidStart = laid.find(r=>String(r.id)===String(sid));
@@ -911,7 +517,7 @@ function renderArea(area){
       const targetId = String(ex.vnum || ex);
       const sCx = source.cx;
       const sCy = source.cy;
-      const dxUnit = (function(){ const t = centers[targetId]; if (t) return {tx: t.cx, ty: t.cy, isLocal:true}; const found = findAreaIndexAndRoomForTarget(targetId); return {found, isLocal:false}; })();
+      const dxUnit = (function(){ const t = centers[targetId]; if (t) return {tx: t.cx, ty: t.cy, isLocal:true}; const found = Utils.findAreaIndexAndRoom(availableAreas, targetId); return {found, isLocal:false}; })();
       if (dxUnit.isLocal){
         const tCx = dxUnit.tx; const tCy = dxUnit.ty;
         const dx = tCx - sCx; const dy = tCy - sCy; const dist = Math.sqrt(dx*dx + dy*dy) || 1;
@@ -1041,7 +647,7 @@ function renderArea(area){
         if (!exv) continue;
         const tid = exv && (exv.vnum ?? exv);
         if (!tid) continue;
-        const found = findAreaIndexAndRoomForTarget(tid);
+        const found = Utils.findAreaIndexAndRoom(availableAreas, tid);
         if (found && found.idx !== -1 && found.idx !== currentAreaIndex) { hasExternalVertical = true; break; }
       }
       // don't color the whole room; we'll color the caret itself if the vertical exit points externally
@@ -1157,7 +763,7 @@ function renderArea(area){
         try{
           const upEx = r.exits.up;
           const upTid = upEx && (upEx.vnum ?? upEx);
-          const found = findAreaIndexAndRoomForTarget(upTid);
+          const found = Utils.findAreaIndexAndRoom(availableAreas, upTid);
           if (found && found.idx !== -1 && found.idx !== currentAreaIndex){
             up.classList.add('caret-external','no-pan');
             up.addEventListener('click', (ev)=>{ ev.stopPropagation(); selectAreaIndex(found.idx, found.roomId); });
@@ -1179,7 +785,7 @@ function renderArea(area){
         try{
           const downEx = r.exits.down;
           const downTid = downEx && (downEx.vnum ?? downEx);
-          const found2 = findAreaIndexAndRoomForTarget(downTid);
+          const found2 = Utils.findAreaIndexAndRoom(availableAreas, downTid);
           if (found2 && found2.idx !== -1 && found2.idx !== currentAreaIndex){
             down.classList.add('caret-external','no-pan');
             down.addEventListener('click', (ev)=>{ ev.stopPropagation(); selectAreaIndex(found2.idx, found2.roomId); });
@@ -1705,7 +1311,7 @@ function selectAreaIndex(idx, roomToSelect){
       for (const ex of Object.values(exits)){
         const tid = ex && (ex.vnum ?? ex);
         if (!tid) continue;
-        const found = findAreaIndexAndRoomForTarget(tid);
+        const found = Utils.findAreaIndexAndRoom(availableAreas, tid);
         if (found && typeof found.idx === 'number' && found.idx !== idx){
           externalFloors.add(typeof r.z === 'number' ? r.z : 0);
         }
@@ -1838,7 +1444,7 @@ function traverseSelectionByDir(dirKey){
     }
     const targetTid = ex.tid;
     if (!targetTid) return;
-    const found = findAreaIndexAndRoomForTarget(targetTid);
+    const found = Utils.findAreaIndexAndRoom(availableAreas, targetTid);
     const currentAreaIndex = availableAreas.findIndex(a=> (a && (a.id || a.name)) ? (a.id === currentAreaObj.id || a.name === currentAreaObj.name) : false);
     if (found && found.idx !== -1 && found.idx !== currentAreaIndex){
       // jump to external area/room
@@ -1969,104 +1575,7 @@ function changeLayer(delta){
   renderArea(currentAreaObj);
 }
 
-// Persistence helpers: save/load per-area room positions to localStorage
-function getPositionsKey(area){
-  const id = (area && (area.id || area.name)) ? (area.id || area.name) : 'area';
-  return `dmaps_positions_${String(id)}`;
-}
-
-function loadSavedPositions(area){
-  if (!area) return;
-  try{
-    const key = getPositionsKey(area);
-    const raw = localStorage.getItem(key);
-    if (!raw) return false;
-    const map = JSON.parse(raw);
-    for (const r of area.rooms || []){
-      const p = map[String(r.id)];
-      if (p && typeof p.x === 'number' && typeof p.y === 'number'){
-        r.x = p.x; r.y = p.y; if (p.z !== undefined) r.z = p.z;
-      }
-    }
-    // Normalize loaded z-levels so bottom layer is 0
-    try{
-      const zs = (area.rooms||[]).map(r=>r.z||0);
-      if (zs.length){
-        const minZ = Math.min(...zs);
-        if (minZ !== 0){
-          for (const r of area.rooms || []){ if (typeof r.z === 'number') r.z = r.z - minZ; }
-        }
-      }
-    }catch(e){}
-    // Update area's z-bounds to reflect loaded positions
-    try{
-      const zs2 = (area.rooms||[]).map(r=>r.z||0);
-      area.minZ = zs2.length?Math.min(...zs2):0;
-      area.maxZ = zs2.length?Math.max(...zs2):0;
-    }catch(e){}
-    return true;
-  }catch(e){ console.warn('loadSavedPositions failed', e); }
-  return false;
-}
+// Persistence helpers live in persistence.js
 
 
-function savePositions(area){
-  if (!area) return;
-  try{
-    const key = getPositionsKey(area);
-    const map = {};
-    for (const r of area.rooms || []){
-      if (typeof r.x === 'number' && typeof r.y === 'number') map[String(r.id)] = { x: r.x, y: r.y, z: r.z };
-    }
-    localStorage.setItem(key, JSON.stringify(map));
-  }catch(e){ console.warn('savePositions failed', e); }
-}
 
-function clearSavedPositions(area){
-  if (!area) return;
-  try{
-    const key = getPositionsKey(area);
-    localStorage.removeItem(key);
-    // clear in-memory saved coordinates
-    for (const r of area.rooms || []){ delete r.x; delete r.y; delete r.z; }
-    // recompute layout and layer bounds
-    area.rooms = layoutAreaRooms(area.rooms);
-    const zs = (area.rooms||[]).map(r=>r.z||0);
-    area.minZ = zs.length?Math.min(...zs):0;
-    area.maxZ = zs.length?Math.max(...zs):0;
-    try{ const container = document.getElementById('mapContainer'); const svgElem = container && container.querySelector && container.querySelector('svg'); const curVB = svgElem && svgElem.getAttribute && svgElem.getAttribute('viewBox'); if (curVB && !preservedViewBox) preservedViewBox = curVB; }catch(e){}
-    renderArea(area);
-    alert('Saved positions cleared for this area.');
-    try{ const ind = document.getElementById('savedIndicator'); if (ind) ind.style.display = 'none'; }catch(e){}
-  }catch(e){ console.warn('clearSavedPositions failed', e); alert('Clear failed: '+(e&&e.message?e.message:String(e))); }
-}
-
-function exportArea(area){
-  if (!area) return;
-  try{
-    // Export a minimal adjustments-style area: only id/name and per-room id/vnum + x/y/z
-    const out = { id: area.id || area.name || 'area', name: area.name || area.id || '', rooms: [] };
-    for (const r of area.rooms || []){
-      const entry = {};
-      // prefer vnum when present, otherwise id
-      if (r.vnum !== undefined) entry.vnum = r.vnum; else entry.id = String(r.id);
-      if (typeof r.x === 'number') entry.x = r.x;
-      if (typeof r.y === 'number') entry.y = r.y;
-      if (typeof r.z === 'number') entry.z = r.z;
-      // only include rooms that have at least x and y defined
-      if (typeof entry.x === 'number' && typeof entry.y === 'number') out.rooms.push(entry);
-    }
-    // prepend a comment line with the area's name in the exact requested format
-    const commentLine = `//"name": "${(out.name||out.id||'').replace(/"/g,'\"')}",\n`;
-    const blob = new Blob([commentLine, JSON.stringify(out, null, 2)], { type: 'application/json' });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url;
-    const name = (out && (out.id || out.name)) ? (out.id || out.name) : 'area';
-    a.download = `${name.replace(/[^a-z0-9_-]/gi,'_')}.json`;
-    document.body.appendChild(a);
-    a.click();
-    a.remove();
-    setTimeout(()=>URL.revokeObjectURL(url), 2000);
-  }catch(e){ console.warn('exportArea failed', e); }
-}
