@@ -1,25 +1,47 @@
-:root{--bg:#f6f7fb;--panel:#ffffff;--accent:#3b82f6;--muted:#6b7280}
+:root{
+  --bg:#0b0d1a;
+  --panel:#12152a;
+  --panel-border:#2a2d52;
+  --accent:#e8b800;
+  --accent-hover:#f5cc00;
+  --muted:#7a7fa8;
+  --text:#e8eaf4;
+  --text-dim:#9095b8;
+  --map-bg:#8892b0;
+  --map-bg-top:#dde3f0;
+  --map-bg-bottom:#d4dcea;
+  --map-border:#e8b800;
+  --btn-bg:#1a1e38;
+  --btn-border:#e8b800;
+  --btn-hover:#222645;
+}
 *{box-sizing:border-box;font-family:Inter,Segoe UI,Arial,Helvetica,sans-serif}
 html,body,#app{height:100%;margin:0}
-body{background:var(--bg);color:#111}
+body{background:var(--bg);color:var(--text)}
 #app{display:flex;height:100vh}
-#sidebar{width:260px;background:var(--panel);border-right:1px solid #e6e9ef;padding:12px;overflow:auto;flex:0 0 260px;min-width:220px}
-#sidebar h2{margin:0 0 8px 0;font-size:15px}
+#sidebar{width:260px;background:var(--panel);border-right:1px solid var(--panel-border);padding:12px;overflow:auto;flex:0 0 260px;min-width:220px}
+#sidebar h2{margin:0 0 8px 0;font-size:15px;color:var(--text)}
 #areaList{list-style:none;padding:0;margin:0;display:none}
 /* The area list is kept in DOM for compatibility but visually compact when using the dropdown */
-#roomInfo{font-size:13px;color:#0b1220}
-#roomInfo h3{margin:6px 0 6px 0;font-size:14px}
+#areaSelect{background:var(--btn-bg);color:var(--text);border:1px solid var(--btn-border);border-radius:6px;padding:6px;width:100%;margin-bottom:8px}
+#areaSelect option{background:var(--panel);color:var(--text)}
+#areaCount{color:var(--muted)}
+#roomInfo{font-size:13px;color:var(--text-dim);border-top:1px solid var(--panel-border) !important}
+#roomInfo h3{margin:6px 0 6px 0;font-size:14px;color:var(--text)}
 #roomInfo ul{margin:6px 0 0 14px;padding:0}
 #roomInfo li{margin:4px 0}
+#roomInfo a{color:var(--accent);text-decoration:none}
+#roomInfo a:hover{color:var(--accent-hover);text-decoration:underline}
 /* Hide the verbose area list in favor of compact dropdown */
 #areaList{display:none}
-#areaList li{padding:8px;border-radius:6px;cursor:pointer;color:#111}
-#areaList li:hover{background:#eef6ff}
+#areaList li{padding:8px;border-radius:6px;cursor:pointer;color:var(--text)}
+#areaList li:hover{background:var(--btn-hover)}
 #areaList li.active{background:var(--accent);color:#fff}
-main#viewer{flex:1;padding:12px;display:flex;flex-direction:column}
-#controls{height:36px;display:flex;align-items:center;padding:4px 8px}
-#areaTitle{font-weight:600}
-#mapContainer{flex:1;background:linear-gradient(180deg,#fff 0%,#f8fafc 100%);border:1px solid #e6e9ef;border-radius:8px;padding:12px;overflow:auto}
+main#viewer{flex:1;padding:12px;display:flex;flex-direction:column;background:var(--bg)}
+#controls{height:36px;display:flex;align-items:center;padding:4px 8px;color:var(--text)}
+#areaTitle{font-weight:600;color:var(--text)}
+#savedIndicator{color:var(--muted) !important}
+#mapContainer{flex:1;background:linear-gradient(180deg,var(--map-bg-top) 0%,var(--map-bg-bottom) 100%);border:1px solid var(--map-border);border-radius:8px;padding:12px;overflow:auto}
 svg{width:100%;height:100%}
 .room{fill:#e6f0ff;stroke:#000;stroke-width:2;cursor:pointer}
 .room:hover{fill:#dbeafe}
@@ -43,10 +65,11 @@ svg{width:100%;height:100%}
 .exit-line{ fill:none; stroke:currentColor; stroke-width:2; opacity:0.9; color:#374151 }
 
 /* Modal popup for room details */
-.modal{position:fixed;inset:0;display:flex;align-items:center;justify-content:center;background:rgba(0,0,0,0.45);z-index:1200}
+.modal{position:fixed;inset:0;display:flex;align-items:center;justify-content:center;background:rgba(0,0,0,0.65);z-index:1200}
 .modal.hidden{display:none}
-.modal-content{position:relative;background:#fff;padding:18px;border-radius:10px;max-width:680px;width:92%;box-shadow:0 8px 30px rgba(15,23,42,0.25);color:#0b1220}
-.modal-close{position:absolute;top:8px;right:10px;border:0;background:transparent;font-size:20px;cursor:pointer;color:#475569}
+.modal-content{position:relative;background:var(--panel);padding:18px;border-radius:10px;max-width:680px;width:92%;box-shadow:0 8px 30px rgba(0,0,0,0.5);color:var(--text);border:1px solid var(--panel-border)}
+.modal-close{position:absolute;top:8px;right:10px;border:0;background:transparent;font-size:20px;cursor:pointer;color:var(--muted)}
+.modal-close:hover{color:var(--text)}
 .modal-body p{margin:6px 0}
 .modal-body ul{margin:6px 0 0 18px;padding:0}
 .modal-body li{margin:3px 0}
@@ -76,7 +99,7 @@ svg{width:100%;height:100%}
 /* Mobile: stack sidebar above viewer and avoid collapsing to tiny width */
 @media (max-width:720px){
 	#app{flex-direction:column}
-	#sidebar{width:100%;flex:0 0 auto;border-right:0;border-bottom:1px solid #e6e9ef}
+	#sidebar{width:100%;flex:0 0 auto;border-right:0;border-bottom:1px solid var(--panel-border)}
 	main#viewer{padding:8px}
 	#controls{flex-wrap:wrap;gap:8px}
 	/* Hide Tools menu on narrow screens to save space */
@@ -85,11 +108,12 @@ svg{width:100%;height:100%}
 
 /* Tools dropdown/menu for action buttons */
 .tools-menu{position:relative;display:inline-block;margin-left:12px}
-.tools-menu summary{list-style:none;cursor:pointer;padding:6px 10px;border-radius:6px;border:1px solid #e6e9ef;background:var(--panel);display:inline-flex;align-items:center;gap:8px}
+.tools-menu summary{list-style:none;cursor:pointer;padding:6px 10px;border-radius:6px;border:1px solid var(--btn-border);background:var(--btn-bg);color:var(--text);display:inline-flex;align-items:center;gap:8px}
+.tools-menu summary:hover{background:var(--btn-hover)}
 .tools-menu summary::-webkit-details-marker{display:none}
-.tools-list{position:absolute;right:0;top:calc(100% + 8px);background:var(--panel);border:1px solid #e6e9ef;padding:8px;border-radius:8px;box-shadow:0 8px 20px rgba(15,23,42,0.08);display:flex;flex-direction:column;gap:6px;min-width:180px;z-index:100}
-.tools-list button{width:100%;text-align:left;padding:8px;border-radius:6px;border:0;background:transparent;cursor:pointer}
-.tools-list button:hover{background:#f1f5f9}
+.tools-list{position:absolute;right:0;top:calc(100% + 8px);background:var(--panel);border:1px solid var(--panel-border);padding:8px;border-radius:8px;box-shadow:0 8px 20px rgba(0,0,0,0.4);display:flex;flex-direction:column;gap:6px;min-width:180px;z-index:100}
+.tools-list button{width:100%;text-align:left;padding:8px;border-radius:6px;border:0;background:transparent;cursor:pointer;color:var(--text)}
+.tools-list button:hover{background:var(--btn-hover)}
 
 @media (max-width:720px){
 	.tools-list{position:static;box-shadow:none;flex-direction:row;flex-wrap:wrap;gap:6px;min-width:0}
@@ -102,14 +126,15 @@ svg{width:100%;height:100%}
 .dir-grid{display:grid;grid-template-columns:repeat(3,40px);grid-auto-rows:40px;gap:6px;justify-items:center;align-items:center}
 .cell.empty{width:40px;height:40px;background:transparent}
 .ud-col{display:flex;flex-direction:column;gap:6px}
-.dir-btn, .zoom-buttons button, .pan-btn{width:40px;height:40px;border-radius:8px;border:1px solid #e6e9ef;background:var(--panel);cursor:pointer;display:inline-flex;align-items:center;justify-content:center;font-weight:600}
+.dir-btn, .zoom-buttons button, .pan-btn{width:40px;height:40px;border-radius:8px;border:1px solid var(--btn-border);background:var(--btn-bg);color:var(--text);cursor:pointer;display:inline-flex;align-items:center;justify-content:center;font-weight:600}
+.dir-btn:hover, .zoom-buttons button:hover, .pan-btn:hover{background:var(--btn-hover)}
 .dir-btn:active, .zoom-buttons button:active, .pan-btn:active{transform:translateY(1px)}
 .zoom-buttons{display:flex;flex-direction:column;gap:6px}
 .pan-buttons{display:flex;flex-direction:column;gap:6px;margin-right:6px}
 
 @media (max-width:720px){
-	/* Keep overlay small on mobile and move inside viewer */
-	#overlayControls{left:8px;bottom:8px}
+	/* Keep overlay small on mobile and center horizontally */
+	#overlayControls{left:50%;transform:translateX(-50%);bottom:8px}
 	#overlayControls{display:flex}
 }
 
@@ -133,3 +158,23 @@ svg{width:100%;height:100%}
 @media (max-width:720px){
   #areaCount{ display:none; }
 }
+
+/* Layer prev/next buttons in controls bar */
+#layerPrev, #layerNext{
+  border:1px solid var(--btn-border);
+  background:var(--btn-bg);
+  color:var(--text);
+  border-radius:6px;
+  padding:4px 10px;
+  cursor:pointer;
+}
+#layerPrev:hover, #layerNext:hover{ background:var(--btn-hover); }
+#layerDisplay{ color:var(--muted) !important; }
+
+/* Context menu (created in JS) */
+#mapContextMenu{
+  background:var(--panel) !important;
+  border:1px solid var(--panel-border) !important;
+  color:var(--text) !important;
+}
+#mapContextMenu > div:hover{ background:var(--btn-hover) !important; }
