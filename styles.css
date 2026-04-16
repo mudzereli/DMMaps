@@ -69,6 +69,10 @@ svg{width:100%;height:100%}
 /* External-exit connector */
 .exit-line-external{ stroke:currentColor; stroke-width:5; opacity:0.95; color:#ef4444 }
 
+/* Door tick marks on connector lines */
+.door-tick{ stroke:#c9a800; stroke-width:2.5; stroke-linecap:round; opacity:0.95 }
+.door-tick-locked{ stroke:#e07000; }
+
 /* Mobile: stack sidebar above viewer and avoid collapsing to tiny width */
 @media (max-width:720px){
 	#app{flex-direction:column}

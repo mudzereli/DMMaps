@@ -507,6 +507,28 @@ function renderArea(area){
 
   const currentAreaIndex = availableAreas.findIndex(a=> (a && (a.id || a.name)) ? (a.id === area.id || a.name === area.name) : false);
 
+  // helper: draw a perpendicular tick mark on a connector to indicate a door
+  function doorTick(sx, sy, tx, ty, locked){
+    const dx = tx - sx; const dy = ty - sy; const dist = Math.sqrt(dx*dx + dy*dy) || 1;
+    const mx = (sx + tx) / 2; const my = (sy + ty) / 2;
+    const px = -dy / dist; const py = dx / dist; // perpendicular unit vector
+    const tickLen = Math.max(18, Math.min(24, dist * 0.15));
+    const cls = locked ? 'door-tick door-tick-locked' : 'door-tick';
+    const t1 = document.createElementNS(svgNS, 'line');
+    t1.setAttribute('x1', mx - px * tickLen); t1.setAttribute('y1', my - py * tickLen);
+    t1.setAttribute('x2', mx + px * tickLen); t1.setAttribute('y2', my + py * tickLen);
+    t1.setAttribute('class', cls);
+    svg.appendChild(t1);
+    if (locked){
+      const off = Math.max(4, tickLen * 0.5);
+      const t2 = document.createElementNS(svgNS, 'line');
+      t2.setAttribute('x1', mx - px * tickLen + dx/dist * off); t2.setAttribute('y1', my - py * tickLen + dy/dist * off);
+      t2.setAttribute('x2', mx + px * tickLen + dx/dist * off); t2.setAttribute('y2', my + py * tickLen + dy/dist * off);
+      t2.setAttribute('class', cls);
+      svg.appendChild(t2);
+    }
+  }
+
   // draw connectors between rooms on the current layer
   Object.entries(centers).forEach(([fromId, source])=>{
     const r = area.rooms.find(rr=>String(rr.id)===fromId);
@@ -533,6 +555,7 @@ function renderArea(area){
         line.setAttribute('data-to', String(targetId));
         line.setAttribute('marker-end','url(#arrow)');
         svg.appendChild(line);
+        if (ex && ex.door) doorTick(sx, sy, tx, ty, !!(ex.locked));
       } else {
         // external target: draw an outward red arrow and attach click handler to jump to that area/room
         const found = dxUnit.found;
@@ -559,6 +582,7 @@ function renderArea(area){
               smallLine.setAttribute('data-to', String(targetRoomId));
               smallLine.setAttribute('marker-end','url(#arrow)');
               svg.appendChild(smallLine);
+              if (ex && ex.door) doorTick(sx, sy, tx, ty, !!(ex.locked));
             continue;
           }
           // if we couldn't find the target box, fallthrough to external arrow behavior
