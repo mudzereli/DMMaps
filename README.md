@@ -1,6 +1,6 @@
 # DMMaps
 
-An in-browser SVG map viewer for MUD area data. Drop in a JSON file containing area and room definitions and the app renders an interactive grid map with multi-floor support, pan/zoom, room selection, and position persistence.
+An in-browser SVG map viewer for Dark Mists area data. The app renders an interactive grid map with multi-floor support, pan/zoom, room selection, and position persistence.
 
 ## File structure
 
