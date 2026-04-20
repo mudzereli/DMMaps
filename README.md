@@ -15,9 +15,6 @@ areas.js                — optional inline area data (window.areas or window.ma
 area_adjustments/
   adjustments.js        — optional per-room position overrides (window.areaAdjustments)
   adjustments.example.js — documented example of the adjustments format
-scripts/
-  generate_areas_gamemap.js — Node script to pre-generate a gamemap JSON
-  generate_and_deploy.bat   — batch helper to run the above and deploy
 ```
 
 ## Usage
