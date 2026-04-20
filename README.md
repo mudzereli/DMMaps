@@ -24,15 +24,7 @@ scripts/
 
 ### Loading data
 
-**Drop a JSON file onto the page** — the app accepts any of these schemas:
-
-- `{ areas: [...] }` — array of area objects under an `areas` key
-- Top-level array `[...]` of area objects
-- `{ rooms: { "<vnum>": { name, area, exits } } }` — flat vnum-keyed rooms object (areas inferred from the `area` field)
-
-Each area should have a `rooms` array. Each room should have an `id` (or `vnum`) and an `exits` object mapping direction names (`north`, `south`, `east`, `west`, `up`, `down`) to target vnums or exit objects with a `vnum` field.
-
-**Inline data** — populate `window.areas` or `window.mapAreas` in `areas.js` and the app will load it automatically on startup.
+The app is preloaded from the JSON-structure file `areas.js` at startup.
 
 ### Supported room geometry
 
@@ -77,11 +69,3 @@ window.areaAdjustments = [
   }
 ];
 ```
-
-## Deployment
-
-```bat
-scripts\generate_and_deploy.bat
-```
-
-Runs `scripts/generate_areas_gamemap.js` then deploys to GitHub Pages via `gh-pages`.
