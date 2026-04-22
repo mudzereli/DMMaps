@@ -13,6 +13,18 @@ mapAreas = {
 "identify": "Object 'a golden wedding band engraved with the name ''' is type jewelry, extra flags bless noremove nopurge nosacrifice nouncurse pulsing.\nWeight is 0.0 pounds, value is 0, level is 34.\nMaterial is gold.\nrestrict flags none.\nAffects save vs transport by -2.\nAffects save vs maledictions by -2.\nAffects hit roll by 2.\nAffects armor class by -5.\nAffects hp by 11.\nAffects constitution by 1.\n"
 },
 {
+"vnum": 83607,
+"name": "a package of ground round",
+"area": "Quests",
+"identify": "Object 'a package of ground round' is type treasure, extra flags none.\nWeight is 1.6 pounds, value is 120, level is 1.\nMaterial is meat and butcher paper.\nrestrict flags none.\n"
+},
+{
+"vnum": 83606,
+"name": "a link of mild Italian sausage",
+"area": "Quests",
+"identify": "Object 'a link of mild Italian sausage' is type treasure, extra flags none.\nWeight is 1.2 pounds, value is 5000, level is 1.\nMaterial is meat and spices.\nrestrict flags none.\n"
+},
+{
 "vnum": 83605,
 "name": "a stolen painting",
 "area": "Quests",
@@ -1090,7 +1102,7 @@ mapAreas = {
 "vnum": 30421,
 "name": "(Infinity Loomed) a cloak of Cosmic Capacity",
 "area": "Prizes",
-"identify": "Object '(Infinity Loomed) a cloak of Cosmic Capacity' is type container, extra flags glowing nodrop noremove inventory nolocate burnproof.\nWeight is 0.2 pounds, value is 1, level is 1.\nMaterial is nothingness.\nrestrict flags none.\nCapacity: 500#  Maximum weight: 100#  flags: none\nAffects saves by -10.\nAffects hp by 15.\nAffects mana by 15.\n"
+"identify": "Object '(Infinity Loomed) a cloak of Cosmic Capacity' is type container, extra flags glowing nodrop noremove inventory nolocate burnproof.\nWeight is 0.2 pounds, value is 1, level is 1.\nMaterial is nothingness.\nrestrict flags none.\nCapacity: 1500#  Maximum weight: 200#  flags: none\nAffects saves by -10.\nAffects hp by 15.\nAffects mana by 15.\n"
 },
 {
 "vnum": 30420,
@@ -1811,6 +1823,12 @@ mapAreas = {
 "name": "The Unmade Scripture of Oblivion",
 "area": "Theran Library Collection",
 "identify": "Object 'The Unmade Scripture of Oblivion' is type book, extra flags none.\nWeight is 1.5 pounds, value is 400, level is 1.\nMaterial is black leather and vellum.\nrestrict flags none.\n"
+},
+{
+"vnum": 4403,
+"name": "The ABC Coloring Book by Isara Silvara",
+"area": "Theran Library Collection",
+"identify": "Object 'The ABC Coloring Book by Isara Silvara' is type book, extra flags glowing.\nWeight is 4.5 pounds, value is 95, level is 1.\nMaterial is leather and paper.\nrestrict flags none.\n"
 },
 {
 "vnum": 18504,
@@ -5075,6 +5093,24 @@ mapAreas = {
 "name": "a small golden medallion bearing the symbol of Dhaes Drae Aesilon",
 "area": "Joja's Holiday Special Stuff",
 "identify": "Object 'a small golden medallion bearing the symbol of Dhaes Drae Aesilon' is type treasure, extra flags glowing magic bless.\nWeight is 0.2 pounds, value is 0, level is 1.\nMaterial is gold.\nrestrict flags none.\n"
+},
+{
+"vnum": 59852,
+"name": "a torn piece of paper",
+"area": "The Poorhouse",
+"identify": "Object 'a torn piece of paper' is type trash, extra flags none.\nWeight is 0.1 pounds, value is 0, level is 1.\nMaterial is paper.\nrestrict flags none.\n"
+},
+{
+"vnum": 59851,
+"name": "a recipe booklet for Beth's Lasagna",
+"area": "The Poorhouse",
+"identify": "Object 'a recipe booklet for Beth's Lasagna' is type book, extra flags glowing.\nWeight is 1.0 pounds, value is 14213, level is 40.\nMaterial is leather and parchment.\nrestrict flags none.\nAffects saves by -8.\nAffects hp by 10.\n"
+},
+{
+"vnum": 59850,
+"name": "a list of grievances",
+"area": "The Poorhouse",
+"identify": "Object 'a list of grievances' is type trash, extra flags none.\nWeight is 0.2 pounds, value is 0, level is 1.\nMaterial is paper.\nrestrict flags none.\n"
 },
 {
 "vnum": 59849,
@@ -10603,6 +10639,18 @@ mapAreas = {
 "identify": "Object 'a heavy iron key' is type key, extra flags nolocate.\nWeight is 0.1 pounds, value is 1, level is 1.\nMaterial is iron.\nrestrict flags none.\n"
 },
 {
+"vnum": 2749,
+"name": "a covered bowl containing 1 lb. of ricotta",
+"area": "The Manor",
+"identify": "Object 'a covered bowl containing 1 lb. of ricotta' is type treasure, extra flags none.\nWeight is 2.0 pounds, value is 80, level is 1.\nMaterial is clay and tin and food.\nrestrict flags none.\n"
+},
+{
+"vnum": 2748,
+"name": "a coldbox",
+"area": "The Manor",
+"identify": "Object 'a coldbox' is type container, extra flags none.\nWeight is 10000.0 pounds, value is 0, level is 1.\nMaterial is enamel and steel and stuff.\nrestrict flags none.\nCapacity: 700#  Maximum weight: 100#  flags: closable closed\n"
+},
+{
 "vnum": 2747,
 "name": "a china cabinet",
 "area": "The Manor",
@@ -11534,9 +11582,9 @@ mapAreas = {
 },
 {
 "vnum": 20503,
-"name": "a vial of mist",
+"name": "a parchment wet with mist",
 "area": "Gypsy Camp",
-"identify": "Object 'a vial of mist' is type potion, extra flags humming magic nolocate.\nWeight is 0.1 pounds, value is 61200, level is 42.\nMaterial is water.\nrestrict flags none.\nLevel 42 spells of: 'faerie fog' 'windwall' 'tornado'.\n"
+"identify": "Object 'a parchment wet with mist' is type scroll, extra flags humming magic nolocate.\nWeight is 0.1 pounds, value is 61200, level is 42.\nMaterial is parchment and water.\nrestrict flags none.\nLevel 42 spells of: 'faerie fog' 'windwall' 'tornado'.\n"
 },
 {
 "vnum": 20502,
@@ -11546,9 +11594,9 @@ mapAreas = {
 },
 {
 "vnum": 20501,
-"name": "a flask of viscous liquid",
+"name": "a rolled leather scroll splashed with acid",
 "area": "Gypsy Camp",
-"identify": "Object 'a flask of viscous liquid' is type potion, extra flags evil magic nolocate meltdrop.\nWeight is 2.1 pounds, value is 99900, level is 51.\nMaterial is acid.\nrestrict flags none.\nLevel 51 spells of: 'bane' 'deathspell' 'weaken'.\n"
+"identify": "Object 'a rolled leather scroll splashed with acid' is type scroll, extra flags evil magic nolocate meltdrop.\nWeight is 2.1 pounds, value is 99900, level is 51.\nMaterial is leather and acid.\nrestrict flags none.\nLevel 51 spells of: 'bane' 'deathspell' 'weaken'.\n"
 },
 {
 "vnum": 20500,
@@ -14287,6 +14335,12 @@ mapAreas = {
 "identify": "Object 'The fires of life' is type container, extra flags noremove nolocate.\nWeight is 0.0 pounds, value is 0, level is 0.\nMaterial is etherealness.\nrestrict flags none.\nCapacity: 1000#  Maximum weight: 1000#  flags: none\n"
 },
 {
+"vnum": 6726,
+"name": "a one-pound block of mozzarella cheese",
+"area": "Icy Wastes & Frost Giant Cavern",
+"identify": "Object 'a one-pound block of mozzarella cheese' is type food, extra flags none.\nWeight is 1.0 pounds, value is 75, level is 30.\nMaterial is milk fat and water.\nrestrict flags none.\n"
+},
+{
 "vnum": 6725,
 "name": "an arcane tome",
 "area": "Icy Wastes & Frost Giant Cavern",
@@ -16151,6 +16205,12 @@ mapAreas = {
 "name": "the longsword, 'Firestorm'",
 "area": "Shrine of Darkness and Delusion v2.1",
 "identify": "Object 'the longsword, 'Firestorm'' is type weapon, extra flags glowing humming dark evil magic anti_good anti_neutral_align noremove nopurge burnproof.\nWeight is 10.0 pounds, value is 0, level is 60.\nMaterial is fire.\nrestrict flags none.\nWeapon type is sword.\nDamage is 15d20 (average 157).\nWeapons flags: flaming vampiric sharp vorpal\nAffects dexterity by 3.\nAffects saves by -50.\nAffects damage roll by 150.\nAffects hit roll by 150.\n"
+},
+{
+"vnum": 15300,
+"name": "the brand of a dead parrot",
+"area": "The Shrine of Silence",
+"identify": "Object 'the brand of a dead parrot' is type armor, extra flags glowing nodrop bless noremove nolocate burnproof nouncurse brand pulsing.\nWeight is 0.0 pounds, value is 0, level is 60.\nMaterial is flesh and energy.\nrestrict flags none.\nArmor class is 8 pierce, 8 bash, 8 slash, and 8 vs. magic.\nAffects hp by 20.\nAffects dexterity by 2.\nAffects strength by 2.\n"
 },
 {
 "vnum": 28903,
@@ -19058,9 +19118,9 @@ mapAreas = {
 },
 {
 "vnum": 8788,
-"name": "a vial of utter blackness",
+"name": "a scroll of utter blackness",
 "area": "Elvenhame",
-"identify": "Object 'a vial of utter blackness' is type potion, extra flags none.\nWeight is 1.0 pounds, value is 0, level is 10.\nMaterial is glass.\nrestrict flags none.\nLevel 10 spells of: 'chain lightning'.\n"
+"identify": "Object 'a scroll of utter blackness' is type scroll, extra flags none.\nWeight is 1.0 pounds, value is 0, level is 10.\nMaterial is parchment.\nrestrict flags none.\nLevel 10 spells of: 'chain lightning'.\n"
 },
 {
 "vnum": 8787,
@@ -27806,9 +27866,9 @@ mapAreas = {
 },
 {
 "vnum": 13033,
-"name": "a strange vial",
+"name": "a strange scroll",
 "area": "Castle of Giants",
-"identify": "Object 'a strange vial' is type potion, extra flags glowing.\nWeight is 5.7 pounds, value is 0, level is 1.\nMaterial is glass.\nrestrict flags none.\nLevel 55 spells of: 'fireball' 'fireball' 'fireball' 'power word stun'.\n"
+"identify": "Object 'a strange scroll' is type scroll, extra flags glowing.\nWeight is 5.7 pounds, value is 0, level is 1.\nMaterial is glass.\nrestrict flags none.\nLevel 55 spells of: 'fireball' 'fireball' 'fireball'.\n"
 },
 {
 "vnum": 13032,
@@ -29726,9 +29786,9 @@ mapAreas = {
 },
 {
 "vnum": 22007,
-"name": "a strange smelly potion",
+"name": "a strange smelly scroll",
 "area": "Varggin Shih",
-"identify": "Object 'a strange smelly potion' is type potion, extra flags magic.\nWeight is 1.0 pounds, value is 9000, level is 55.\nMaterial is glass.\nrestrict flags none.\nLevel 55 spells of: 'fireball' 'fireball' 'fireball' 'power word recall'.\n"
+"identify": "Object 'a strange smelly scroll' is type scroll, extra flags magic.\nWeight is 1.0 pounds, value is 9000, level is 55.\nMaterial is skin.\nrestrict flags none.\nLevel 55 spells of: 'fireball' 'fireball' 'fireball' 'power word recall'.\n"
 },
 {
 "vnum": 22006,
@@ -33929,6 +33989,30 @@ mapAreas = {
 "name": "a pomegranate",
 "area": "Monastery - Basilica Complex",
 "identify": "Object 'a pomegranate' is type food, extra flags magic nonmetal.\nWeight is 0.2 pounds, value is 50, level is 0.\nMaterial is pomegranate.\nrestrict flags none.\n"
+},
+{
+"vnum": 27319,
+"name": "a small can of whole tomatoes",
+"area": "The Abbey (Basilica Complex)",
+"identify": "Object 'a small can of whole tomatoes' is type food, extra flags none.\nWeight is 0.7 pounds, value is 15, level is 1.\nMaterial is iron and tomato and water.\nrestrict flags none.\n"
+},
+{
+"vnum": 27318,
+"name": "a large can of whole tomatoes",
+"area": "The Abbey (Basilica Complex)",
+"identify": "Object 'a large can of whole tomatoes' is type food, extra flags none.\nWeight is 2.0 pounds, value is 20, level is 1.\nMaterial is iron and tomato and water.\nrestrict flags none.\n"
+},
+{
+"vnum": 27317,
+"name": "a small can of tomato paste",
+"area": "The Abbey (Basilica Complex)",
+"identify": "Object 'a small can of tomato paste' is type food, extra flags none.\nWeight is 0.5 pounds, value is 3, level is 1.\nMaterial is iron and tomato and water.\nrestrict flags none.\n"
+},
+{
+"vnum": 27316,
+"name": "a large can of tomato paste",
+"area": "The Abbey (Basilica Complex)",
+"identify": "Object 'a large can of tomato paste' is type food, extra flags none.\nWeight is 1.0 pounds, value is 5, level is 1.\nMaterial is iron and tomato and water.\nrestrict flags none.\n"
 },
 {
 "vnum": 27315,
@@ -50779,6 +50863,1152 @@ mapAreas = {
 "identify": "Object 'a medallion of focus' is type armor, extra flags magic.\nWeight is 1.4 pounds, value is 1406, level is 21.\nMaterial is wood.\nrestrict flags none.\nArmor class is 3 pierce, 4 bash, 6 slash, and 9 vs. magic.\nAffects mana by 5.\nAffects wisdom by 1.\nAffects intelligence by 1.\n"
 },
 {
+"vnum": 82194,
+"name": "a box containing one pound of dry semolina lasagna noodles",
+"area": "The City of Sudharma",
+"identify": "Object 'a box containing one pound of dry semolina lasagna noodles' is type treasure, extra flags none.\nWeight is 1.0 pounds, value is 54, level is 1.\nMaterial is pasteboard and wheat and semolina and food.\nrestrict flags none.\n"
+},
+{
+"vnum": 82193,
+"name": "a griffon's first serious claw",
+"area": "The City of Sudharma",
+"identify": "Object 'a griffon's first serious claw' is type weapon, extra flags none.\nWeight is 9.1 pounds, value is 84, level is 14.\nMaterial is steel.\nrestrict flags none.\nWeapon type is claw (exotic).\nDamage is 6d3 (average 12).\nWeapons flags: sharp armor-piercing\n"
+},
+{
+"vnum": 82192,
+"name": "a zebrawood claw",
+"area": "The City of Sudharma",
+"identify": "Object 'a zebrawood claw' is type weapon, extra flags none.\nWeight is 6.8 pounds, value is 3940, level is 26.\nMaterial is zebrawood.\nrestrict flags none.\nWeapon type is claw (exotic).\nDamage is 7d3 (average 14).\nWeapons flags: sharp\nAffects damage roll by 3.\n"
+},
+{
+"vnum": 82191,
+"name": "a copper claw",
+"area": "The City of Sudharma",
+"identify": "Object 'a copper claw' is type weapon, extra flags none.\nWeight is 7.5 pounds, value is 6969, level is 28.\nMaterial is copper.\nrestrict flags none.\nWeapon type is claw (exotic).\nDamage is 6d4 (average 15).\nWeapons flags: sharp\nAffects damage roll by 3.\n"
+},
+{
+"vnum": 82190,
+"name": "an ebony claw",
+"area": "The City of Sudharma",
+"identify": "Object 'an ebony claw' is type weapon, extra flags none.\nWeight is 4.6 pounds, value is 7763, level is 30.\nMaterial is ebony.\nrestrict flags none.\nWeapon type is claw (exotic).\nDamage is 6d4 (average 15).\nWeapons flags: sharp\nAffects damage roll by 3.\nAffects hit roll by 1.\n"
+},
+{
+"vnum": 82189,
+"name": "a dragonscale claw",
+"area": "The City of Sudharma",
+"identify": "Object 'a dragonscale claw' is type weapon, extra flags none.\nWeight is 5.0 pounds, value is 23232, level is 32.\nMaterial is dragonscale.\nrestrict flags none.\nWeapon type is claw (exotic).\nDamage is 6d4 (average 15).\nWeapons flags: sharp\nAffects damage roll by 3.\nAffects hit roll by 2.\n"
+},
+{
+"vnum": 82188,
+"name": "a silvery claw",
+"area": "The City of Sudharma",
+"identify": "Object 'a silvery claw' is type weapon, extra flags none.\nWeight is 9.1 pounds, value is 33333, level is 34.\nMaterial is silver.\nrestrict flags none.\nWeapon type is claw (exotic).\nDamage is 7d4 (average 17).\nWeapons flags: sharp armor-piercing\n"
+},
+{
+"vnum": 82187,
+"name": "a wire garrote",
+"area": "The City of Sudharma",
+"identify": "Object 'a wire garrote' is type weapon, extra flags none.\nWeight is 1.5 pounds, value is 18803, level is 45.\nMaterial is wire.\nrestrict flags none.\nWeapon type is exotic.\nDamage is 5d4 (average 12).\nWeapons flags: vampiric draining fatiguing\nAffects damage roll by 7.\n"
+},
+{
+"vnum": 82186,
+"name": "a bottle of champain",
+"area": "The City of Sudharma",
+"identify": "Object 'a bottle of champain' is type weapon, extra flags none.\nWeight is 7.5 pounds, value is 6543, level is 35.\nMaterial is glass and champagne.\nrestrict flags none.\nWeapon type is exotic.\nDamage is 4d3 (average 8).\nWeapons flags: drowning resonating fatiguing\nAffects damage roll by 6.\n"
+},
+{
+"vnum": 82185,
+"name": "a regulation Captain Cityguard Ring",
+"area": "The City of Sudharma",
+"identify": "Object 'a regulation Captain Cityguard Ring' is type armor, extra flags none.\nWeight is 0.5 pounds, value is 35353, level is 51.\nMaterial is marble.\nrestrict flags none.\nArmor class is 11 pierce, 11 bash, 11 slash, and 0 vs. magic.\nAffects damage roll by 9.\nAffects hit roll by 5.\n"
+},
+{
+"vnum": 82184,
+"name": "a regulation Captain Cityguard Ring",
+"area": "The City of Sudharma",
+"identify": "Object 'a regulation Captain Cityguard Ring' is type armor, extra flags none.\nWeight is 0.3 pounds, value is 41814, level is 51.\nMaterial is obsidian.\nrestrict flags none.\nArmor class is 10 pierce, 9 bash, 10 slash, and 0 vs. magic.\nAffects damage roll by 9.\nAffects hit roll by 5.\n"
+},
+{
+"vnum": 82183,
+"name": "a regulation Lieutenant Cityguard Ring",
+"area": "The City of Sudharma",
+"identify": "Object 'a regulation Lieutenant Cityguard Ring' is type armor, extra flags none.\nWeight is 0.5 pounds, value is 18581, level is 45.\nMaterial is marble.\nrestrict flags none.\nArmor class is 8 pierce, 8 bash, 8 slash, and 0 vs. magic.\nAffects damage roll by 7.\nAffects hit roll by 3.\n"
+},
+{
+"vnum": 82182,
+"name": "a regulation Lieutenant Cityguard Ring",
+"area": "The City of Sudharma",
+"identify": "Object 'a regulation Lieutenant Cityguard Ring' is type armor, extra flags none.\nWeight is 0.3 pounds, value is 23032, level is 45.\nMaterial is obsidian.\nrestrict flags none.\nArmor class is 6 pierce, 6 bash, 6 slash, and 0 vs. magic.\nAffects damage roll by 7.\nAffects hit roll by 3.\n"
+},
+{
+"vnum": 82181,
+"name": "a regulation Sudharma Cityguard Forearm Bracer",
+"area": "The City of Sudharma",
+"identify": "Object 'a regulation Sudharma Cityguard Forearm Bracer' is type armor, extra flags none.\nWeight is 3.6 pounds, value is 23456, level is 51.\nMaterial is adamantite.\nrestrict flags none.\nArmor class is 3 pierce, 3 bash, 3 slash, and 2 vs. magic.\nAffects saves by -3.\nAffects armor class by -26.\n"
+},
+{
+"vnum": 82180,
+"name": "a regulation Sudharma Cityguard Forearm Bracer",
+"area": "The City of Sudharma",
+"identify": "Object 'a regulation Sudharma Cityguard Forearm Bracer' is type armor, extra flags none.\nWeight is 3.6 pounds, value is 23456, level is 51.\nMaterial is adamantite.\nrestrict flags none.\nArmor class is 5 pierce, 5 bash, 5 slash, and 5 vs. magic.\nAffects saves by -3.\nAffects armor class by -23.\n"
+},
+{
+"vnum": 82179,
+"name": "a regulation Sudharma Cityguard Forearm Bracer",
+"area": "The City of Sudharma",
+"identify": "Object 'a regulation Sudharma Cityguard Forearm Bracer' is type armor, extra flags none.\nWeight is 3.6 pounds, value is 23456, level is 45.\nMaterial is titanium.\nrestrict flags none.\nArmor class is 2 pierce, 2 bash, 2 slash, and 2 vs. magic.\nAffects saves by -3.\nAffects armor class by -16.\n"
+},
+{
+"vnum": 82178,
+"name": "a regulation Sudharma Cityguard Forearm Bracer",
+"area": "The City of Sudharma",
+"identify": "Object 'a regulation Sudharma Cityguard Forearm Bracer' is type armor, extra flags none.\nWeight is 3.6 pounds, value is 23456, level is 45.\nMaterial is titanium.\nrestrict flags none.\nArmor class is 4 pierce, 4 bash, 4 slash, and 4 vs. magic.\nAffects saves by -3.\nAffects armor class by -13.\n"
+},
+{
+"vnum": 82177,
+"name": "a regulation Sudharma Cityguard Captain's Broadsword",
+"area": "The City of Sudharma",
+"identify": "Object 'a regulation Sudharma Cityguard Captain's Broadsword' is type weapon, extra flags none.\nWeight is 13.0 pounds, value is 100000, level is 51.\nMaterial is steel and leather.\nrestrict flags none.\nWeapon type is sword.\nDamage is 10d4 (average 25).\nWeapons flags: sharp armor-piercing two-handed\nAffects damage roll by 8.\n"
+},
+{
+"vnum": 82176,
+"name": "a regulation Sudharma Cityguard Lieutenant's Longsword",
+"area": "The City of Sudharma",
+"identify": "Object 'a regulation Sudharma Cityguard Lieutenant's Longsword' is type weapon, extra flags none.\nWeight is 12.1 pounds, value is 70000, level is 45.\nMaterial is steel and leather.\nrestrict flags none.\nWeapon type is sword.\nDamage is 7d6 (average 24).\nWeapons flags: sharp\nAffects damage roll by 2.\n"
+},
+{
+"vnum": 82175,
+"name": "a regulation Sudharma Cityguard Halberd",
+"area": "The City of Sudharma",
+"identify": "Object 'a regulation Sudharma Cityguard Halberd' is type weapon, extra flags none.\nWeight is 10.9 pounds, value is 3738, level is 25.\nMaterial is hardwood and steel.\nrestrict flags none.\nWeapon type is polearm.\nDamage is 6d4 (average 15).\nWeapons flags: sharp armor-piercing two-handed\nAffects hit roll by 1.\n"
+},
+{
+"vnum": 82174,
+"name": "a regulation Sudharma Cityguard Spear",
+"area": "The City of Sudharma",
+"identify": "Object 'a regulation Sudharma Cityguard Spear' is type weapon, extra flags none.\nWeight is 10.9 pounds, value is 3738, level is 25.\nMaterial is hardwood and dragonscale.\nrestrict flags none.\nWeapon type is spear.\nDamage is 5d5 (average 15).\nWeapons flags: sharp armor-piercing\n"
+},
+{
+"vnum": 82173,
+"name": "a regulation Sudharma Cityguard Helmet",
+"area": "The City of Sudharma",
+"identify": "Object 'a regulation Sudharma Cityguard Helmet' is type armor, extra flags none.\nWeight is 13.0 pounds, value is 5200, level is 25.\nMaterial is metal and leather.\nrestrict flags none.\nArmor class is 2 pierce, 2 bash, 2 slash, and 0 vs. magic.\nAffects armor class by -13.\n"
+},
+{
+"vnum": 82172,
+"name": "a regulation Sudharma Cityguard Wrist Bracer",
+"area": "The City of Sudharma",
+"identify": "Object 'a regulation Sudharma Cityguard Wrist Bracer' is type armor, extra flags none.\nWeight is 4.4 pounds, value is 7800, level is 25.\nMaterial is steel.\nrestrict flags none.\nArmor class is 2 pierce, 2 bash, 2 slash, and 2 vs. magic.\nAffects armor class by -12.\n"
+},
+{
+"vnum": 82171,
+"name": "a regulation Sudharma Cityguard Wrist Bracer",
+"area": "The City of Sudharma",
+"identify": "Object 'a regulation Sudharma Cityguard Wrist Bracer' is type armor, extra flags none.\nWeight is 3.6 pounds, value is 7500, level is 25.\nMaterial is steel.\nrestrict flags none.\nArmor class is 9 pierce, 9 bash, 9 slash, and 0 vs. magic.\nAffects hp by 18.\n"
+},
+{
+"vnum": 82170,
+"name": "a pair of regulation Sudharma Cityguard Gauntlets",
+"area": "The City of Sudharma",
+"identify": "Object 'a pair of regulation Sudharma Cityguard Gauntlets' is type armor, extra flags none.\nWeight is 7.4 pounds, value is 5500, level is 25.\nMaterial is metal and leather.\nrestrict flags none.\nArmor class is 8 pierce, 8 bash, 8 slash, and 2 vs. magic.\nAffects damage roll by 3.\nAffects hit roll by 2.\n"
+},
+{
+"vnum": 82169,
+"name": "a pair of regulation Sudharma Cityguard Sleeves",
+"area": "The City of Sudharma",
+"identify": "Object 'a pair of regulation Sudharma Cityguard Sleeves' is type armor, extra flags none.\nWeight is 9.0 pounds, value is 4900, level is 25.\nMaterial is metal and leather.\nrestrict flags none.\nArmor class is 6 pierce, 6 bash, 6 slash, and 0 vs. magic.\nAffects hit roll by 4.\nAffects armor class by -9.\n"
+},
+{
+"vnum": 82168,
+"name": "a regulation Sudharma Cityguard Leather Belt",
+"area": "The City of Sudharma",
+"identify": "Object 'a regulation Sudharma Cityguard Leather Belt' is type armor, extra flags none.\nWeight is 2.8 pounds, value is 3300, level is 25.\nMaterial is leather and brass.\nrestrict flags none.\nArmor class is 5 pierce, 5 bash, 5 slash, and 3 vs. magic.\nAffects hp by 21.\n"
+},
+{
+"vnum": 82167,
+"name": "a regulation Sudharma Cityguard Jacket",
+"area": "The City of Sudharma",
+"identify": "Object 'a regulation Sudharma Cityguard Jacket' is type armor, extra flags none.\nWeight is 24.0 pounds, value is 5000, level is 25.\nMaterial is metal and leather.\nrestrict flags none.\nArmor class is 6 pierce, 6 bash, 6 slash, and 0 vs. magic.\nAffects damage roll by 3.\nAffects hit roll by 2.\n"
+},
+{
+"vnum": 82166,
+"name": "a pair of regulation Sudharma Cityguard Leggings",
+"area": "The City of Sudharma",
+"identify": "Object 'a pair of regulation Sudharma Cityguard Leggings' is type armor, extra flags none.\nWeight is 15.0 pounds, value is 4500, level is 25.\nMaterial is metal and leather.\nrestrict flags none.\nArmor class is 6 pierce, 6 bash, 6 slash, and 2 vs. magic.\nAffects damage roll by 1.\nAffects hit roll by 1.\nAffects moves by 10.\nAffects armor class by -6.\n"
+},
+{
+"vnum": 82165,
+"name": "a pair of regulation Sudharma Cityguard Boots",
+"area": "The City of Sudharma",
+"identify": "Object 'a pair of regulation Sudharma Cityguard Boots' is type armor, extra flags none.\nWeight is 3.5 pounds, value is 2588, level is 25.\nMaterial is leather and brass.\nrestrict flags none.\nArmor class is 4 pierce, 4 bash, 4 slash, and 2 vs. magic.\nAffects hit roll by 3.\nAffects moves by 40.\nAffects hp by 2.\n"
+},
+{
+"vnum": 82164,
+"name": "a belt with a pouch",
+"area": "The City of Sudharma",
+"identify": "Object 'a belt with a pouch' is type container, extra flags none.\nWeight is 2.9 pounds, value is 24068, level is 50.\nMaterial is leather and canvas.\nrestrict flags none.\nCapacity: 75#  Maximum weight: 10#  flags: closable closed\nAffects save vs spell by -4.\nAffects save vs breath by -4.\nAffects save vs transport by -4.\nAffects save vs maledictions by -4.\nAffects saves by -3.\nAffects armor class by -9.\n"
+},
+{
+"vnum": 82163,
+"name": "a nice pair of leather shoes",
+"area": "The City of Sudharma",
+"identify": "Object 'a nice pair of leather shoes' is type armor, extra flags none.\nWeight is 4.8 pounds, value is 23056, level is 50.\nMaterial is leather.\nrestrict flags none.\nArmor class is 12 pierce, 12 bash, 12 slash, and 7 vs. magic.\nAffects saves by -5.\nAffects armor class by -5.\nAffects moves by 25.\n"
+},
+{
+"vnum": 82162,
+"name": "a pretty dress",
+"area": "The City of Sudharma",
+"identify": "Object 'a pretty dress' is type clothing, extra flags none.\nWeight is 3.0 pounds, value is 12019, level is 55.\nMaterial is cloth.\nrestrict flags none.\nAffects save vs breath by -7.\nAffects armor class by -15.\nAffects moves by 15.\nAffects hp by 10.\n"
+},
+{
+"vnum": 82161,
+"name": "a rare harp shell pendant necklace",
+"area": "The City of Sudharma",
+"identify": "Object 'a rare harp shell pendant necklace' is type jewelry, extra flags nouncurse pulsing.\nWeight is 2.0 pounds, value is 176256, level is 50.\nMaterial is shell and gold.\nrestrict flags none.\nAffects holy power by 4.\nAdds vulnerability to sound.\n"
+},
+{
+"vnum": 82160,
+"name": "a string of pearls",
+"area": "The City of Sudharma",
+"identify": "Object 'a string of pearls' is type jewelry, extra flags none.\nWeight is 1.1 pounds, value is 65000, level is 50.\nMaterial is pearl.\nrestrict flags none.\nAffects holy power by 2.\nAffects mana by 51.\n"
+},
+{
+"vnum": 82159,
+"name": "a chain of bone",
+"area": "The City of Sudharma",
+"identify": "Object 'a chain of bone' is type jewelry, extra flags none.\nWeight is 1.1 pounds, value is 32603, level is 50.\nMaterial is bone.\nrestrict flags none.\nAffects spell power by 5.\nAffects mana by 30.\n"
+},
+{
+"vnum": 82158,
+"name": "a gold box chain bracelet",
+"area": "The City of Sudharma",
+"identify": "Object 'a gold box chain bracelet' is type jewelry, extra flags burnproof.\nWeight is 3.4 pounds, value is 90000, level is 50.\nMaterial is gold.\nrestrict flags none.\nAffects holy power by 3.\n"
+},
+{
+"vnum": 82157,
+"name": "a dangling skull earring",
+"area": "The City of Sudharma",
+"identify": "Object 'a dangling skull earring' is type jewelry, extra flags none.\nWeight is 1.2 pounds, value is 55400, level is 50.\nMaterial is bone and gold.\nrestrict flags none.\nAffects save vs spell by -3.\nAffects save vs transport by -3.\nAffects save vs maledictions by -3.\nAffects saves by -3.\nAffects armor class by -15.\n"
+},
+{
+"vnum": 82156,
+"name": "a dangling bone earring",
+"area": "The City of Sudharma",
+"identify": "Object 'a dangling bone earring' is type jewelry, extra flags none.\nWeight is 0.9 pounds, value is 31000, level is 50.\nMaterial is bone.\nrestrict flags none.\nAffects hp by 40.\nAffects mana by 40.\n"
+},
+{
+"vnum": 82155,
+"name": "a bracelet engraved with runes",
+"area": "The City of Sudharma",
+"identify": "Object 'a bracelet engraved with runes' is type jewelry, extra flags burnproof.\nWeight is 3.6 pounds, value is 88600, level is 50.\nMaterial is silver.\nrestrict flags none.\nAffects spell power by 6.\n"
+},
+{
+"vnum": 82154,
+"name": "a copper interlocking box chain bracelet",
+"area": "The City of Sudharma",
+"identify": "Object 'a copper interlocking box chain bracelet' is type jewelry, extra flags burnproof.\nWeight is 3.9 pounds, value is 39000, level is 50.\nMaterial is copper and iron.\nrestrict flags none.\nAffects damage roll by 10.\nAffects hit roll by 3.\n"
+},
+{
+"vnum": 82153,
+"name": "a gold box chain ring",
+"area": "The City of Sudharma",
+"identify": "Object 'a gold box chain ring' is type jewelry, extra flags burnproof.\nWeight is 0.7 pounds, value is 90000, level is 50.\nMaterial is gold.\nrestrict flags none.\nAffects holy power by 3.\n"
+},
+{
+"vnum": 82152,
+"name": "a ring engraved with runes",
+"area": "The City of Sudharma",
+"identify": "Object 'a ring engraved with runes' is type jewelry, extra flags burnproof.\nWeight is 0.7 pounds, value is 88600, level is 50.\nMaterial is silver.\nrestrict flags none.\nAffects spell power by 6.\n"
+},
+{
+"vnum": 82151,
+"name": "a copper interlocking box chain ring",
+"area": "The City of Sudharma",
+"identify": "Object 'a copper interlocking box chain ring' is type jewelry, extra flags burnproof.\nWeight is 0.7 pounds, value is 39000, level is 50.\nMaterial is copper and iron.\nrestrict flags none.\nAffects damage roll by 10.\nAffects hit roll by 3.\n"
+},
+{
+"vnum": 82150,
+"name": "a sunstone and moonstone pendant necklace",
+"area": "The City of Sudharma",
+"identify": "Object 'a sunstone and moonstone pendant necklace' is type jewelry, extra flags none.\nWeight is 2.1 pounds, value is 0, level is 40.\nMaterial is sunstone and moonstone and platinum.\nrestrict flags none.\nAffects holy power by 1.\nAffects mana by 35.\n"
+},
+{
+"vnum": 82149,
+"name": "a lock and key pendant necklace",
+"area": "The City of Sudharma",
+"identify": "Object 'a lock and key pendant necklace' is type jewelry, extra flags none.\nWeight is 1.8 pounds, value is 0, level is 40.\nMaterial is electrum and gold and silver.\nrestrict flags none.\nAffects spell power by 3.\nAffects mana by 25.\n"
+},
+{
+"vnum": 82148,
+"name": "a multistone necklace",
+"area": "The City of Sudharma",
+"identify": "Object 'a multistone necklace' is type jewelry, extra flags nouncurse pulsing.\nWeight is 1.8 pounds, value is 14380, level is 40.\nMaterial is copper and quartz and goldstone and pearl and jade.\nrestrict flags none.\nAffects regeneration by 1.\nAffects armor class by -4.\nAffects hp by 15.\n"
+},
+{
+"vnum": 82147,
+"name": "a curious looking bracelet",
+"area": "The City of Sudharma",
+"identify": "Object 'a curious looking bracelet' is type jewelry, extra flags none.\nWeight is 2.3 pounds, value is 11154, level is 40.\nMaterial is glass and parchment.\nrestrict flags none.\nAffects regeneration by 1.\nAffects dexterity by 4.\n"
+},
+{
+"vnum": 82146,
+"name": "a woven canvas bracelet",
+"area": "The City of Sudharma",
+"identify": "Object 'a woven canvas bracelet' is type jewelry, extra flags none.\nWeight is 0.9 pounds, value is 5315, level is 40.\nMaterial is canvas.\nrestrict flags none.\nAffects armor class by -19.\n"
+},
+{
+"vnum": 82145,
+"name": "a braided hemp bracelet",
+"area": "The City of Sudharma",
+"identify": "Object 'a braided hemp bracelet' is type jewelry, extra flags none.\nWeight is 1.1 pounds, value is 4866, level is 40.\nMaterial is hemp.\nrestrict flags none.\nAffects mana by 30.\nAffects dexterity by 5.\n"
+},
+{
+"vnum": 82144,
+"name": "a gold dragon earring",
+"area": "The City of Sudharma",
+"identify": "Object 'a gold dragon earring' is type jewelry, extra flags glowing.\nWeight is 1.3 pounds, value is 33000, level is 40.\nMaterial is golddragonscale and dragonscale and gold.\nrestrict flags none.\nAffects holy power by 2.\nAffects armor class by -3.\n"
+},
+{
+"vnum": 82143,
+"name": "a silver dragon earring",
+"area": "The City of Sudharma",
+"identify": "Object 'a silver dragon earring' is type jewelry, extra flags glowing.\nWeight is 1.3 pounds, value is 31000, level is 40.\nMaterial is silverdragonscale and dragonscale and silver.\nrestrict flags none.\nAffects spell power by 4.\nAffects armor class by -3.\n"
+},
+{
+"vnum": 82142,
+"name": "a black dragon earring",
+"area": "The City of Sudharma",
+"identify": "Object 'a black dragon earring' is type jewelry, extra flags glowing.\nWeight is 1.3 pounds, value is 29000, level is 40.\nMaterial is blackdragonscale and dragonscale and steel.\nrestrict flags none.\nAffects damage roll by 8.\n"
+},
+{
+"vnum": 82141,
+"name": "a silver ring containing a golden chain around the center",
+"area": "The City of Sudharma",
+"identify": "Object 'a silver ring containing a golden chain around the center' is type jewelry, extra flags none.\nWeight is 0.9 pounds, value is 10404, level is 40.\nMaterial is gold and silver.\nrestrict flags none.\nAffects holy power by 1.\nAffects mana by 37.\n"
+},
+{
+"vnum": 82140,
+"name": "an abalone rune tree ring",
+"area": "The City of Sudharma",
+"identify": "Object 'an abalone rune tree ring' is type jewelry, extra flags none.\nWeight is 1.2 pounds, value is 9800, level is 40.\nMaterial is granite and abalone shell.\nrestrict flags none.\nAffects spell power by 2.\nAffects mana by 37.\n"
+},
+{
+"vnum": 82139,
+"name": "an engraved Eye of the Beholder ring",
+"area": "The City of Sudharma",
+"identify": "Object 'an engraved Eye of the Beholder ring' is type jewelry, extra flags none.\nWeight is 0.4 pounds, value is 9600, level is 40.\nMaterial is steel and enamel.\nrestrict flags none.\nAffects sight by 2.\nAdds detect_invis affect.\nAffects hit roll by 1.\nAffects dexterity by 2.\n"
+},
+{
+"vnum": 82138,
+"name": "a crystalline ball",
+"area": "The City of Sudharma",
+"identify": "Object 'a crystalline ball' is type treasure, extra flags none.\nWeight is 6.5 pounds, value is 7319, level is 36.\nMaterial is crystal and softwood.\nrestrict flags none.\nAffects spell power by 2.\nAffects mana by 30.\n"
+},
+{
+"vnum": 82137,
+"name": "an earring of brass and dark blue goldstone",
+"area": "The City of Sudharma",
+"identify": "Object 'an earring of brass and dark blue goldstone' is type jewelry, extra flags bless.\nWeight is 1.1 pounds, value is 6315, level is 34.\nMaterial is goldstone and brass.\nrestrict flags none.\nAffects saves by -2.\nAffects save vs maledictions by -7.\n"
+},
+{
+"vnum": 82136,
+"name": "a diamond suncatcher earring",
+"area": "The City of Sudharma",
+"identify": "Object 'a diamond suncatcher earring' is type jewelry, extra flags bless.\nWeight is 1.3 pounds, value is 39065, level is 30.\nMaterial is silver and diamond.\nrestrict flags none.\nAffects save vs transport by -2.\nAffects damage roll by 3.\nAffects hit roll by 5.\n"
+},
+{
+"vnum": 82135,
+"name": "a blue crystal suncatcher earring",
+"area": "The City of Sudharma",
+"identify": "Object 'a blue crystal suncatcher earring' is type jewelry, extra flags bless.\nWeight is 1.3 pounds, value is 7834, level is 30.\nMaterial is mithril and crystal.\nrestrict flags none.\nAffects mana by 47.\n"
+},
+{
+"vnum": 82134,
+"name": "a red crystal suncatcher earring",
+"area": "The City of Sudharma",
+"identify": "Object 'a red crystal suncatcher earring' is type jewelry, extra flags bless.\nWeight is 1.3 pounds, value is 7834, level is 30.\nMaterial is mithril and crystal.\nrestrict flags none.\nAffects hp by 33.\n"
+},
+{
+"vnum": 82133,
+"name": "a green crystal suncatcher earring",
+"area": "The City of Sudharma",
+"identify": "Object 'a green crystal suncatcher earring' is type jewelry, extra flags bless.\nWeight is 1.3 pounds, value is 7834, level is 30.\nMaterial is mithril and crystal.\nrestrict flags none.\nAffects moves by 88.\n"
+},
+{
+"vnum": 82132,
+"name": "a crystal suncatcher earring",
+"area": "The City of Sudharma",
+"identify": "Object 'a crystal suncatcher earring' is type jewelry, extra flags bless.\nWeight is 1.3 pounds, value is 8038, level is 30.\nMaterial is mithril and crystal.\nrestrict flags none.\nAffects mana by 13.\nAffects damage roll by 3.\nAffects hit roll by 3.\n"
+},
+{
+"vnum": 82131,
+"name": "a polished elysium ring",
+"area": "The City of Sudharma",
+"identify": "Object 'a polished elysium ring' is type jewelry, extra flags glowing.\nWeight is 0.4 pounds, value is 13926, level is 25.\nMaterial is elysium.\nrestrict flags none.\nAffects armor class by -3.\nAffects moves by 15.\nAffects hp by 10.\nAffects mana by 10.\n"
+},
+{
+"vnum": 82130,
+"name": "a polished ebony ring",
+"area": "The City of Sudharma",
+"identify": "Object 'a polished ebony ring' is type jewelry, extra flags none.\nWeight is 0.5 pounds, value is 13013, level is 25.\nMaterial is ebony.\nrestrict flags none.\nAffects constitution by 3.\nAffects strength by 3.\nAffects armor class by -3.\n"
+},
+{
+"vnum": 82129,
+"name": "a polished ebony ring",
+"area": "The City of Sudharma",
+"identify": "Object 'a polished ebony ring' is type jewelry, extra flags none.\nWeight is 0.3 pounds, value is 13013, level is 25.\nMaterial is ivory.\nrestrict flags none.\nAffects moves by 15.\nAffects hp by 10.\nAffects mana by 10.\nAffects armor class by -3.\n"
+},
+{
+"vnum": 82128,
+"name": "a polished marble ring",
+"area": "The City of Sudharma",
+"identify": "Object 'a polished marble ring' is type jewelry, extra flags bless.\nWeight is 0.8 pounds, value is 8445, level is 25.\nMaterial is marble.\nrestrict flags none.\nAffects save vs spell by -1.\nAffects wisdom by 3.\nAffects intelligence by 3.\nAffects dexterity by 3.\n"
+},
+{
+"vnum": 82127,
+"name": "a coral bracelet",
+"area": "The City of Sudharma",
+"identify": "Object 'a coral bracelet' is type jewelry, extra flags none.\nWeight is 3.3 pounds, value is 2608, level is 22.\nMaterial is coral and pewter.\nrestrict flags none.\nAffects damage roll by 3.\nAffects hit roll by 3.\nAffects armor class by -3.\n"
+},
+{
+"vnum": 82126,
+"name": "an onyx and obsidian bracelet",
+"area": "The City of Sudharma",
+"identify": "Object 'an onyx and obsidian bracelet' is type jewelry, extra flags none.\nWeight is 3.3 pounds, value is 2608, level is 22.\nMaterial is platinum and obsidian and onyx.\nrestrict flags none.\nAffects sight by 2.\nAdds invisible affect.\n"
+},
+{
+"vnum": 82125,
+"name": "a gold, silver, and platinum braided necklace",
+"area": "The City of Sudharma",
+"identify": "Object 'a gold, silver, and platinum braided necklace' is type jewelry, extra flags none.\nWeight is 2.3 pounds, value is 2938, level is 15.\nMaterial is gold and silver and platinum.\nrestrict flags none.\nAffects save vs spell by -3.\nAffects saves by -2.\n"
+},
+{
+"vnum": 82124,
+"name": "a brass, mithril, and pewter braided necklace",
+"area": "The City of Sudharma",
+"identify": "Object 'a brass, mithril, and pewter braided necklace' is type jewelry, extra flags none.\nWeight is 2.1 pounds, value is 952, level is 15.\nMaterial is pewter and brass and mithril.\nrestrict flags none.\nAffects save vs spell by -7.\n"
+},
+{
+"vnum": 82123,
+"name": "an adamantite, bronze, and copper braided necklace",
+"area": "The City of Sudharma",
+"identify": "Object 'an adamantite, bronze, and copper braided necklace' is type jewelry, extra flags none.\nWeight is 2.4 pounds, value is 780, level is 15.\nMaterial is bronze and copper and adamantite.\nrestrict flags none.\nAffects save vs maledictions by -6.\n"
+},
+{
+"vnum": 82122,
+"name": "an ivory insect with tiny black diamond eyes",
+"area": "The City of Sudharma",
+"identify": "Object 'an ivory insect with tiny black diamond eyes' is type treasure, extra flags none.\nWeight is 2.4 pounds, value is 166, level is 12.\nMaterial is ivory and diamond.\nrestrict flags none.\nAffects moves by 45.\n"
+},
+{
+"vnum": 82121,
+"name": "a mystical timestone",
+"area": "The City of Sudharma",
+"identify": "Object 'a mystical timestone' is type treasure, extra flags none.\nWeight is 1.2 pounds, value is 46, level is 12.\nMaterial is stone.\nrestrict flags none.\nAffects save vs spell by -5.\n"
+},
+{
+"vnum": 82120,
+"name": "a metallic dragonscale ring of protection",
+"area": "The City of Sudharma",
+"identify": "Object 'a metallic dragonscale ring of protection' is type jewelry, extra flags none.\nWeight is 0.7 pounds, value is 117, level is 10.\nMaterial is dragonscale and gold and silver and bronze and brass and copper.\nrestrict flags none.\nAffects constitution by 1.\nAffects armor class by -7.\n"
+},
+{
+"vnum": 82119,
+"name": "a colorful dragonscale ring of protection",
+"area": "The City of Sudharma",
+"identify": "Object 'a colorful dragonscale ring of protection' is type jewelry, extra flags none.\nWeight is 0.3 pounds, value is 117, level is 10.\nMaterial is dragonscale.\nrestrict flags none.\nAffects strength by 1.\nAffects armor class by -7.\n"
+},
+{
+"vnum": 82118,
+"name": "a colorful polished stone",
+"area": "The City of Sudharma",
+"identify": "Object 'a colorful polished stone' is type treasure, extra flags none.\nWeight is 1.2 pounds, value is 35, level is 10.\nMaterial is stone.\nrestrict flags none.\nAffects hp by 15.\n"
+},
+{
+"vnum": 82117,
+"name": "a small polished sandstone",
+"area": "The City of Sudharma",
+"identify": "Object 'a small polished sandstone' is type treasure, extra flags none.\nWeight is 1.2 pounds, value is 30, level is 5.\nMaterial is sandstone.\nrestrict flags none.\nAffects mana by 14.\n"
+},
+{
+"vnum": 82116,
+"name": "a purple and white silk lace bandeau",
+"area": "The City of Sudharma",
+"identify": "Object 'a purple and white silk lace bandeau' is type clothing, extra flags burnproof female_only.\nWeight is 4.4 pounds, value is 4500, level is 51.\nMaterial is lace silk.\nrestrict flags none.\nAffects damage roll by 11.\nAffects hit roll by 3.\nAffects moves by 4.\n"
+},
+{
+"vnum": 82115,
+"name": "a blessed purple silk lace bandeau",
+"area": "The City of Sudharma",
+"identify": "Object 'a blessed purple silk lace bandeau' is type clothing, extra flags bless female_only.\nWeight is 4.4 pounds, value is 4500, level is 51.\nMaterial is lace silk.\nrestrict flags none.\nAffects sight by -2.\nAffects holy power by 3.\nAffects mana by 33.\n"
+},
+{
+"vnum": 82114,
+"name": "a mystical teal silk lace bandeau",
+"area": "The City of Sudharma",
+"identify": "Object 'a mystical teal silk lace bandeau' is type clothing, extra flags magic female_only.\nWeight is 4.4 pounds, value is 11700, level is 51.\nMaterial is lace silk.\nrestrict flags none.\nAffects spell power by 6.\nAffects mana by 22.\n"
+},
+{
+"vnum": 82113,
+"name": "a blessed dark grey silk lace bandeau",
+"area": "The City of Sudharma",
+"identify": "Object 'a blessed dark grey silk lace bandeau' is type clothing, extra flags bless female_only.\nWeight is 4.0 pounds, value is 4500, level is 40.\nMaterial is lace silk.\nrestrict flags none.\nAffects holy power by 2.\nAffects mana by 14.\n"
+},
+{
+"vnum": 82112,
+"name": "a mystical grey silk lace bandeau",
+"area": "The City of Sudharma",
+"identify": "Object 'a mystical grey silk lace bandeau' is type clothing, extra flags magic female_only.\nWeight is 4.0 pounds, value is 4500, level is 40.\nMaterial is lace silk.\nrestrict flags none.\nAffects spell power by 2.\nAffects mana by 40.\n"
+},
+{
+"vnum": 82111,
+"name": "a white silk lace bandeau",
+"area": "The City of Sudharma",
+"identify": "Object 'a white silk lace bandeau' is type clothing, extra flags female_only.\nWeight is 3.5 pounds, value is 310, level is 30.\nMaterial is lace silk.\nrestrict flags none.\nAffects armor class by -3.\nAffects hp by 25.\nAffects mana by 25.\n"
+},
+{
+"vnum": 82110,
+"name": "a black silk lace bandeau",
+"area": "The City of Sudharma",
+"identify": "Object 'a black silk lace bandeau' is type clothing, extra flags female_only.\nWeight is 3.5 pounds, value is 310, level is 30.\nMaterial is lace silk.\nrestrict flags none.\nAffects armor class by -3.\nAffects moves by 25.\nAffects hp by 5.\nAffects mana by 25.\n"
+},
+{
+"vnum": 82109,
+"name": "a dark brown colored lace bandeau",
+"area": "The City of Sudharma",
+"identify": "Object 'a dark brown colored lace bandeau' is type clothing, extra flags female_only.\nWeight is 3.2 pounds, value is 221, level is 25.\nMaterial is lace cloth.\nrestrict flags none.\nAffects damage roll by 1.\nAffects hit roll by 1.\nAffects armor class by -7.\nAffects hp by 2.\n"
+},
+{
+"vnum": 82108,
+"name": "a light brown colored lace bandeau",
+"area": "The City of Sudharma",
+"identify": "Object 'a light brown colored lace bandeau' is type clothing, extra flags female_only.\nWeight is 3.0 pounds, value is 115, level is 20.\nMaterial is lace cloth.\nrestrict flags none.\nAffects moves by 50.\nAffects hp by 6.\n"
+},
+{
+"vnum": 82107,
+"name": "a sandy-hued lace bandeau",
+"area": "The City of Sudharma",
+"identify": "Object 'a sandy-hued lace bandeau' is type clothing, extra flags female_only.\nWeight is 2.8 pounds, value is 23, level is 12.\nMaterial is lace cloth.\nrestrict flags none.\nAffects damage roll by 1.\nAffects hit roll by 1.\nAffects hp by 8.\nAffects mana by 6.\n"
+},
+{
+"vnum": 82106,
+"name": "a lace 'training' bandeau",
+"area": "The City of Sudharma",
+"identify": "Object 'a lace 'training' bandeau' is type clothing, extra flags female_only.\nWeight is 2.6 pounds, value is 19, level is 10.\nMaterial is lace cotton.\nrestrict flags none.\nAffects hp by 15.\nAffects mana by 2.\n"
+},
+{
+"vnum": 82105,
+"name": "a pair of ringmail sleeves",
+"area": "The City of Sudharma",
+"identify": "Object 'a pair of ringmail sleeves' is type armor, extra flags none.\nWeight is 9.1 pounds, value is 70, level is 14.\nMaterial is metal.\nrestrict flags none.\nArmor class is 4 pierce, 9 bash, 9 slash, and 1 vs. magic.\nAffects hp by 8.\nAffects dexterity by 2.\n"
+},
+{
+"vnum": 82104,
+"name": "a Can of Whoop-As-Oops-Sorry",
+"area": "The City of Sudharma",
+"identify": "Object 'a Can of Whoop-As-Oops-Sorry' is type weapon, extra flags inventory burnproof.\nWeight is 11.5 pounds, value is 54050, level is 55.\nMaterial is tin and slime and fire.\nrestrict flags none.\nWeapon type is exotic.\nDamage is 7d4 (average 17).\nWeapons flags: flaming\nAffects damage roll by 5.\nAdds resistance to acid.\n"
+},
+{
+"vnum": 82103,
+"name": "a glass goblet of Sangria",
+"area": "The City of Sudharma",
+"identify": "Object 'a glass goblet of Sangria' is type drink, extra flags none.\nWeight is 0.8 pounds, value is 221, level is 20.\nMaterial is wine and fruit and glass.\nrestrict flags none.\nIt holds red-colored fruity Sangria.\n"
+},
+{
+"vnum": 82102,
+"name": "a goblet of effervescent champagne",
+"area": "The City of Sudharma",
+"identify": "Object 'a goblet of effervescent champagne' is type drink, extra flags none.\nWeight is 0.8 pounds, value is 195, level is 20.\nMaterial is glass and champagne.\nrestrict flags none.\nIt holds golden-colored champagne.\n"
+},
+{
+"vnum": 82101,
+"name": "a crystal goblet of red wine",
+"area": "The City of Sudharma",
+"identify": "Object 'a crystal goblet of red wine' is type drink, extra flags none.\nWeight is 1.5 pounds, value is 125, level is 20.\nMaterial is wine and crystal.\nrestrict flags none.\nIt holds burgundy-colored red wine.\n"
+},
+{
+"vnum": 82100,
+"name": "a graceful goblet of white wine",
+"area": "The City of Sudharma",
+"identify": "Object 'a graceful goblet of white wine' is type drink, extra flags none.\nWeight is 0.6 pounds, value is 125, level is 20.\nMaterial is wine and glass.\nrestrict flags none.\nIt holds golden-colored white wine.\n"
+},
+{
+"vnum": 82099,
+"name": "a mug of the healer's finest caudell",
+"area": "The City of Sudharma",
+"identify": "Object 'a mug of the healer's finest caudell' is type drink, extra flags none.\nWeight is 3.0 pounds, value is 500, level is 20.\nMaterial is pottery and wine and eggs and bread and spices and sugar.\nrestrict flags none.\nIt holds creamy pink-colored caudell.\n"
+},
+{
+"vnum": 82098,
+"name": "a tankard of Shortleg Ale",
+"area": "The City of Sudharma",
+"identify": "Object 'a tankard of Shortleg Ale' is type drink, extra flags none.\nWeight is 5.0 pounds, value is 450, level is 20.\nMaterial is crystal and ale.\nrestrict flags none.\nIt holds golden-colored Shortleg Ale.\n"
+},
+{
+"vnum": 82097,
+"name": "a mug of barrel aged ale",
+"area": "The City of Sudharma",
+"identify": "Object 'a mug of barrel aged ale' is type drink, extra flags none.\nWeight is 1.5 pounds, value is 117, level is 10.\nMaterial is clay and ale.\nrestrict flags none.\nIt holds dark brown-colored barrel aged ale.\n"
+},
+{
+"vnum": 82096,
+"name": "a mug of black coffee",
+"area": "The City of Sudharma",
+"identify": "Object 'a mug of black coffee' is type drink, extra flags none.\nWeight is 1.5 pounds, value is 25, level is 1.\nMaterial is clay and water and coffee.\nrestrict flags none.\nIt holds black-colored coffee.\n"
+},
+{
+"vnum": 82095,
+"name": "a glass of chocolate milk.",
+"area": "The City of Sudharma",
+"identify": "Object 'a glass of chocolate milk.' is type drink, extra flags none.\nWeight is 0.9 pounds, value is 12, level is 1.\nMaterial is glass and milk and chocolate.\nrestrict flags none.\nIt holds light brown-colored chocolate milk.\n"
+},
+{
+"vnum": 82094,
+"name": "a glass of milk",
+"area": "The City of Sudharma",
+"identify": "Object 'a glass of milk' is type drink, extra flags none.\nWeight is 0.9 pounds, value is 12, level is 1.\nMaterial is glass and milk.\nrestrict flags none.\nIt holds white-colored milk.\n"
+},
+{
+"vnum": 82093,
+"name": "a glass of water",
+"area": "The City of Sudharma",
+"identify": "Object 'a glass of water' is type drink, extra flags none.\nWeight is 0.8 pounds, value is 7, level is 1.\nMaterial is glass and water.\nrestrict flags none.\nIt holds clear-colored water.\n"
+},
+{
+"vnum": 82092,
+"name": "a restaurant table",
+"area": "The City of Sudharma",
+"identify": "Object 'a restaurant table' is type furniture, extra flags none.\nWeight is 0.0 pounds, value is 0, level is 0.\nMaterial is wood.\nrestrict flags none.\n"
+},
+{
+"vnum": 82091,
+"name": "a simple clay bowl of chips and salsa",
+"area": "The City of Sudharma",
+"identify": "Object 'a simple clay bowl of chips and salsa' is type food, extra flags none.\nWeight is 1.5 pounds, value is 35, level is 10.\nMaterial is corn and clay and fire and tomato and pepper.\nrestrict flags none.\n"
+},
+{
+"vnum": 82090,
+"name": "a Holy Guacamole Soft Corn Fajita Chicken Taco",
+"area": "The City of Sudharma",
+"identify": "Object 'a Holy Guacamole Soft Corn Fajita Chicken Taco' is type food, extra flags bless.\nWeight is 1.0 pounds, value is 65, level is 5.\nMaterial is corn and shell and flesh and guacamole.\nrestrict flags none.\n"
+},
+{
+"vnum": 82089,
+"name": "a Holy Guacamole Soft Corn Fajita Steak Taco",
+"area": "The City of Sudharma",
+"identify": "Object 'a Holy Guacamole Soft Corn Fajita Steak Taco' is type food, extra flags bless.\nWeight is 1.0 pounds, value is 65, level is 5.\nMaterial is corn and shell and flesh and guacamole.\nrestrict flags none.\n"
+},
+{
+"vnum": 82088,
+"name": "a Plain Old Grilled Ham and Cheese Sandwich Plate",
+"area": "The City of Sudharma",
+"identify": "Object 'a Plain Old Grilled Ham and Cheese Sandwich Plate' is type food, extra flags none.\nWeight is 3.8 pounds, value is 91, level is 5.\nMaterial is bread and egg and meat and cucumber and marble.\nrestrict flags none.\n"
+},
+{
+"vnum": 82087,
+"name": "the Double Monte Cristo Jelly Sandwich Plate",
+"area": "The City of Sudharma",
+"identify": "Object 'the Double Monte Cristo Jelly Sandwich Plate' is type food, extra flags none.\nWeight is 5.5 pounds, value is 650, level is 10.\nMaterial is bread and egg and meat and blueberry and obsidian.\nrestrict flags none.\n"
+},
+{
+"vnum": 82086,
+"name": "the Double Monte Cristo Sandwich Plate",
+"area": "The City of Sudharma",
+"identify": "Object 'the Double Monte Cristo Sandwich Plate' is type food, extra flags none.\nWeight is 5.5 pounds, value is 520, level is 10.\nMaterial is bread and egg and meat and maple and sandstone.\nrestrict flags none.\n"
+},
+{
+"vnum": 82085,
+"name": "the Monte Cristo Sandwich Plate",
+"area": "The City of Sudharma",
+"identify": "Object 'the Monte Cristo Sandwich Plate' is type food, extra flags none.\nWeight is 4.5 pounds, value is 260, level is 5.\nMaterial is bread and egg and meat and maple and sandstone.\nrestrict flags none.\n"
+},
+{
+"vnum": 82084,
+"name": "a thick crystal inkwell",
+"area": "The City of Sudharma",
+"identify": "Object 'a thick crystal inkwell' is type inkwell, extra flags none.\nWeight is 2.0 pounds, value is 400, level is 1.\nMaterial is crystal.\nrestrict flags none.\n"
+},
+{
+"vnum": 82083,
+"name": "an ivory fountain pen",
+"area": "The City of Sudharma",
+"identify": "Object 'an ivory fountain pen' is type pen, extra flags none.\nWeight is 0.4 pounds, value is 130, level is 1.\nMaterial is ivory.\nrestrict flags none.\n"
+},
+{
+"vnum": 82082,
+"name": "a small book for a short story",
+"area": "The City of Sudharma",
+"identify": "Object 'a small book for a short story' is type book, extra flags none.\nWeight is 1.5 pounds, value is 60, level is 1.\nMaterial is parchment and paper.\nrestrict flags none.\n"
+},
+{
+"vnum": 82081,
+"name": "a writer's journal",
+"area": "The City of Sudharma",
+"identify": "Object 'a writer's journal' is type book, extra flags none.\nWeight is 4.5 pounds, value is 200, level is 1.\nMaterial is leather and paper.\nrestrict flags none.\n"
+},
+{
+"vnum": 82080,
+"name": "a merchant's ledger",
+"area": "The City of Sudharma",
+"identify": "Object 'a merchant's ledger' is type book, extra flags none.\nWeight is 7.0 pounds, value is 125, level is 1.\nMaterial is leather and iron and paper.\nrestrict flags none.\n"
+},
+{
+"vnum": 82079,
+"name": "a legal's book",
+"area": "The City of Sudharma",
+"identify": "Object 'a legal's book' is type book, extra flags none.\nWeight is 2.5 pounds, value is 100, level is 1.\nMaterial is leather and paper.\nrestrict flags none.\n"
+},
+{
+"vnum": 82078,
+"name": "a traveler's journal",
+"area": "The City of Sudharma",
+"identify": "Object 'a traveler's journal' is type book, extra flags none.\nWeight is 1.0 pounds, value is 75, level is 1.\nMaterial is leather and paper.\nrestrict flags none.\n"
+},
+{
+"vnum": 82077,
+"name": "a scroll of gender bender",
+"area": "The City of Sudharma",
+"identify": "Object 'a scroll of gender bender' is type scroll, extra flags none.\nWeight is 0.5 pounds, value is 39, level is 11.\nMaterial is parchment.\nrestrict flags none.\nLevel 11 spells of: 'change sex'.\n"
+},
+{
+"vnum": 82076,
+"name": "a scroll of bug repellant",
+"area": "The City of Sudharma",
+"identify": "Object 'a scroll of bug repellant' is type scroll, extra flags none.\nWeight is 0.5 pounds, value is 91, level is 11.\nMaterial is parchment.\nrestrict flags none.\nLevel 11 spells of: 'cure disease' 'cure disease' 'cure disease' 'cure disease'.\n"
+},
+{
+"vnum": 82075,
+"name": "a scroll of home memories",
+"area": "The City of Sudharma",
+"identify": "Object 'a scroll of home memories' is type scroll, extra flags none.\nWeight is 0.5 pounds, value is 78, level is 11.\nMaterial is parchment.\nrestrict flags none.\nLevel 11 spells of: 'power word recall'.\n"
+},
+{
+"vnum": 82074,
+"name": "a scroll containing a home remedy",
+"area": "The City of Sudharma",
+"identify": "Object 'a scroll containing a home remedy' is type scroll, extra flags none.\nWeight is 0.5 pounds, value is 143, level is 11.\nMaterial is parchment.\nrestrict flags none.\nLevel 11 spells of: 'cure critical' 'cure critical' 'cure light' 'cure light'.\n"
+},
+{
+"vnum": 82073,
+"name": "a glass vial of \"Time Distortion\" potion",
+"area": "The City of Sudharma",
+"identify": "Object 'a glass vial of \"Time Distortion\" potion' is type potion, extra flags none.\nWeight is 1.0 pounds, value is 117, level is 11.\nMaterial is glass.\nrestrict flags none.\nLevel 11 spells of: 'slow'.\n"
+},
+{
+"vnum": 82072,
+"name": "a glass vial of \"Adventure Awaits!\" potion",
+"area": "The City of Sudharma",
+"identify": "Object 'a glass vial of \"Adventure Awaits!\" potion' is type potion, extra flags none.\nWeight is 1.0 pounds, value is 130, level is 11.\nMaterial is glass.\nrestrict flags none.\nLevel 11 spells of: 'teleport' 'armor'.\n"
+},
+{
+"vnum": 82071,
+"name": "a glass vial of \"Now You See Me, Now You Don't\" potion",
+"area": "The City of Sudharma",
+"identify": "Object 'a glass vial of \"Now You See Me, Now You Don't\" potion' is type potion, extra flags none.\nWeight is 3.0 pounds, value is 156, level is 11.\nMaterial is glass.\nrestrict flags none.\nLevel 11 spells of: 'invisibility'.\n"
+},
+{
+"vnum": 82070,
+"name": "a glass vial filled with a blood red potion",
+"area": "The City of Sudharma",
+"identify": "Object 'a glass vial filled with a blood red potion' is type potion, extra flags none.\nWeight is 3.0 pounds, value is 156, level is 11.\nMaterial is glass.\nrestrict flags none.\nLevel 11 spells of: 'imbue regeneration'.\n"
+},
+{
+"vnum": 82069,
+"name": "a crystal vial filled with a purple cure potion",
+"area": "The City of Sudharma",
+"identify": "Object 'a crystal vial filled with a purple cure potion' is type potion, extra flags none.\nWeight is 2.5 pounds, value is 143, level is 11.\nMaterial is crystal.\nrestrict flags none.\nLevel 11 spells of: 'cure poison' 'cure disease'.\n"
+},
+{
+"vnum": 82068,
+"name": "a crystal vial filled with a blue healing potion",
+"area": "The City of Sudharma",
+"identify": "Object 'a crystal vial filled with a blue healing potion' is type potion, extra flags none.\nWeight is 2.5 pounds, value is 117, level is 11.\nMaterial is crystal.\nrestrict flags none.\nLevel 11 spells of: 'cure serious' 'cure serious' 'cure serious' 'cure light'.\n"
+},
+{
+"vnum": 82067,
+"name": "a large grassy green potion",
+"area": "The City of Sudharma",
+"identify": "Object 'a large grassy green potion' is type potion, extra flags none.\nWeight is 1.8 pounds, value is 55, level is 11.\nMaterial is glass.\nrestrict flags none.\nLevel 11 spells of: 'power word recall'.\n"
+},
+{
+"vnum": 82066,
+"name": "a rainbow-hued potion",
+"area": "The City of Sudharma",
+"identify": "Object 'a rainbow-hued potion' is type potion, extra flags none.\nWeight is 0.5 pounds, value is 15, level is 2.\nMaterial is glass.\nrestrict flags none.\nLevel 2 spells of: 'chromatic shield'.\n"
+},
+{
+"vnum": 82065,
+"name": "a swiftly swirling grey potion",
+"area": "The City of Sudharma",
+"identify": "Object 'a swiftly swirling grey potion' is type potion, extra flags none.\nWeight is 0.8 pounds, value is 10, level is 2.\nMaterial is crystal.\nrestrict flags none.\nLevel 2 spells of: 'haste'.\n"
+},
+{
+"vnum": 82064,
+"name": "a Phillip's head screwdriver",
+"area": "The City of Sudharma",
+"identify": "Object 'a Phillip's head screwdriver' is type weapon, extra flags inventory.\nWeight is 4.4 pounds, value is 12500, level is 39.\nMaterial is wood and steel.\nrestrict flags none.\nWeapon type is exotic.\nDamage is 7d4 (average 17).\nWeapons flags: fatiguing\nAffects damage roll by 4.\n"
+},
+{
+"vnum": 82063,
+"name": "a flathead screwdriver",
+"area": "The City of Sudharma",
+"identify": "Object 'a flathead screwdriver' is type weapon, extra flags inventory.\nWeight is 4.2 pounds, value is 12500, level is 39.\nMaterial is wood and steel.\nrestrict flags none.\nWeapon type is exotic.\nDamage is 7d4 (average 17).\nWeapons flags: sharp\nAffects damage roll by 3.\nAffects hit roll by 2.\n"
+},
+{
+"vnum": 82062,
+"name": "a half-perch measuring rod",
+"area": "The City of Sudharma",
+"identify": "Object 'a half-perch measuring rod' is type weapon, extra flags none.\nWeight is 10.6 pounds, value is 225, level is 14.\nMaterial is hardwood.\nrestrict flags none.\nWeapon type is staff.\nDamage is 8d4 (average 20).\nWeapons flags: resonating\n"
+},
+{
+"vnum": 82061,
+"name": "a strong hemp rope",
+"area": "The City of Sudharma",
+"identify": "Object 'a strong hemp rope' is type weapon, extra flags none.\nWeight is 2.4 pounds, value is 77, level is 14.\nMaterial is hemp.\nrestrict flags none.\nWeapon type is whip.\nDamage is 2d13 (average 14).\nAffects damage roll by 1.\nAffects hp by 9.\n"
+},
+{
+"vnum": 82060,
+"name": "a pair of metal tongue and groove pliers",
+"area": "The City of Sudharma",
+"identify": "Object 'a pair of metal tongue and groove pliers' is type weapon, extra flags none.\nWeight is 6.4 pounds, value is 145, level is 14.\nMaterial is metal.\nrestrict flags none.\nWeapon type is flail.\nDamage is 4d4 (average 10).\nAffects hit roll by 2.\nAffects damage roll by 3.\nAffects hp by 5.\n"
+},
+{
+"vnum": 82059,
+"name": "a leather strap",
+"area": "The City of Sudharma",
+"identify": "Object 'a leather strap' is type weapon, extra flags none.\nWeight is 2.3 pounds, value is 97, level is 14.\nMaterial is leather.\nrestrict flags none.\nWeapon type is whip.\nDamage is 5d4 (average 12).\nAffects damage roll by 1.\nAffects hp by 11.\n"
+},
+{
+"vnum": 82058,
+"name": "a titanium star bolt",
+"area": "The City of Sudharma",
+"identify": "Object 'a titanium star bolt' is type treasure, extra flags none.\nWeight is 1.0 pounds, value is 191, level is 5.\nMaterial is titanium.\nrestrict flags none.\nAffects intelligence by 3.\n"
+},
+{
+"vnum": 82057,
+"name": "a brass wagon bolt",
+"area": "The City of Sudharma",
+"identify": "Object 'a brass wagon bolt' is type treasure, extra flags none.\nWeight is 0.5 pounds, value is 126, level is 5.\nMaterial is brass.\nrestrict flags none.\nAffects saves by -3.\n"
+},
+{
+"vnum": 82056,
+"name": "a nut and bolt",
+"area": "The City of Sudharma",
+"identify": "Object 'a nut and bolt' is type treasure, extra flags none.\nWeight is 0.8 pounds, value is 167, level is 5.\nMaterial is platinum.\nrestrict flags none.\nAffects hp by 1.\nAffects armor class by -6.\n"
+},
+{
+"vnum": 82055,
+"name": "a copper screw",
+"area": "The City of Sudharma",
+"identify": "Object 'a copper screw' is type treasure, extra flags none.\nWeight is 0.3 pounds, value is 57, level is 5.\nMaterial is copper.\nrestrict flags none.\nAffects mana by 14.\n"
+},
+{
+"vnum": 82054,
+"name": "an iron nail",
+"area": "The City of Sudharma",
+"identify": "Object 'an iron nail' is type treasure, extra flags none.\nWeight is 0.3 pounds, value is 37, level is 5.\nMaterial is iron.\nrestrict flags none.\nAffects moves by 25.\n"
+},
+{
+"vnum": 82053,
+"name": "a classy diamondhead walking stick",
+"area": "The City of Sudharma",
+"identify": "Object 'a classy diamondhead walking stick' is type weapon, extra flags none.\nWeight is 5.1 pounds, value is 130, level is 14.\nMaterial is ebony and steel and diamond.\nrestrict flags none.\nWeapon type is polearm.\nDamage is 8d4 (average 20).\nWeapons flags: sharp\nAffects damage roll by 1.\nAffects hit roll by 1.\n"
+},
+{
+"vnum": 82052,
+"name": "an ebony and quartz flail",
+"area": "The City of Sudharma",
+"identify": "Object 'an ebony and quartz flail' is type weapon, extra flags none.\nWeight is 5.1 pounds, value is 144, level is 14.\nMaterial is ebony and quartz and steel.\nrestrict flags none.\nWeapon type is flail.\nDamage is 8d4 (average 20).\nAffects damage roll by 4.\nAffects hit roll by 1.\n"
+},
+{
+"vnum": 82051,
+"name": "a mithril axe",
+"area": "The City of Sudharma",
+"identify": "Object 'a mithril axe' is type weapon, extra flags none.\nWeight is 11.1 pounds, value is 168, level is 14.\nMaterial is mithril.\nrestrict flags none.\nWeapon type is axe.\nDamage is 10d2 (average 15).\nAffects damage roll by 6.\nAffects hit roll by 2.\n"
+},
+{
+"vnum": 82050,
+"name": "a flanged bludgeon",
+"area": "The City of Sudharma",
+"identify": "Object 'a flanged bludgeon' is type weapon, extra flags none.\nWeight is 12.9 pounds, value is 78, level is 14.\nMaterial is iron and steel.\nrestrict flags none.\nWeapon type is mace/club.\nDamage is 8d3 (average 16).\nAffects damage roll by 3.\nAffects hit roll by 3.\n"
+},
+{
+"vnum": 82049,
+"name": "a dragonscale-tipped hardwood spear",
+"area": "The City of Sudharma",
+"identify": "Object 'a dragonscale-tipped hardwood spear' is type weapon, extra flags none.\nWeight is 7.4 pounds, value is 130, level is 14.\nMaterial is hardwood and dragonscale.\nrestrict flags none.\nWeapon type is spear.\nDamage is 9d4 (average 22).\nWeapons flags: sharp\nAffects damage roll by 1.\nAffects hit roll by 1.\n"
+},
+{
+"vnum": 82048,
+"name": "a quillon longsword",
+"area": "The City of Sudharma",
+"identify": "Object 'a quillon longsword' is type weapon, extra flags none.\nWeight is 9.7 pounds, value is 78, level is 14.\nMaterial is iron and steel.\nrestrict flags none.\nWeapon type is sword.\nDamage is 7d5 (average 21).\nWeapons flags: sharp\nAffects damage roll by 1.\nAffects hit roll by 1.\n"
+},
+{
+"vnum": 82047,
+"name": "a short quillon dagger",
+"area": "The City of Sudharma",
+"identify": "Object 'a short quillon dagger' is type weapon, extra flags none.\nWeight is 2.9 pounds, value is 55, level is 14.\nMaterial is bronze.\nrestrict flags none.\nWeapon type is dagger.\nDamage is 6d4 (average 15).\nAffects damage roll by 2.\n"
+},
+{
+"vnum": 82046,
+"name": "a cowl formed of tiny rings of bronze and copper",
+"area": "The City of Sudharma",
+"identify": "Object 'a cowl formed of tiny rings of bronze and copper' is type armor, extra flags none.\nWeight is 19.0 pounds, value is 68, level is 14.\nMaterial is bronze and copper.\nrestrict flags none.\nArmor class is 7 pierce, 7 bash, 7 slash, and 3 vs. magic.\nAffects armor class by -7.\n"
+},
+{
+"vnum": 82045,
+"name": "a dark leather cowl",
+"area": "The City of Sudharma",
+"identify": "Object 'a dark leather cowl' is type armor, extra flags none.\nWeight is 7.5 pounds, value is 43, level is 14.\nMaterial is leather and ebony.\nrestrict flags none.\nArmor class is 3 pierce, 3 bash, 3 slash, and 3 vs. magic.\nAffects hp by 7.\nAffects armor class by -4.\n"
+},
+{
+"vnum": 82044,
+"name": "a ringmail vest",
+"area": "The City of Sudharma",
+"identify": "Object 'a ringmail vest' is type armor, extra flags none.\nWeight is 24.5 pounds, value is 70, level is 14.\nMaterial is metal.\nrestrict flags none.\nArmor class is 5 pierce, 8 bash, 8 slash, and 1 vs. magic.\nAffects hp by 5.\nAffects armor class by -3.\n"
+},
+{
+"vnum": 82043,
+"name": "a ringmail helmet",
+"area": "The City of Sudharma",
+"identify": "Object 'a ringmail helmet' is type armor, extra flags none.\nWeight is 10.0 pounds, value is 69, level is 14.\nMaterial is metal.\nrestrict flags none.\nArmor class is 4 pierce, 8 bash, 8 slash, and 1 vs. magic.\nAffects hp by 8.\nAffects dexterity by 1.\nAffects strength by 1.\n"
+},
+{
+"vnum": 82042,
+"name": "a pair of ringmail leggings",
+"area": "The City of Sudharma",
+"identify": "Object 'a pair of ringmail leggings' is type armor, extra flags none.\nWeight is 12.4 pounds, value is 78, level is 14.\nMaterial is metal.\nrestrict flags none.\nArmor class is 4 pierce, 9 bash, 9 slash, and 1 vs. magic.\nAffects moves by 10.\nAffects hp by 5.\nAffects strength by 1.\n"
+},
+{
+"vnum": 82041,
+"name": "a pair of ringmail gauntlets",
+"area": "The City of Sudharma",
+"identify": "Object 'a pair of ringmail gauntlets' is type armor, extra flags none.\nWeight is 8.8 pounds, value is 51, level is 14.\nMaterial is metal.\nrestrict flags none.\nArmor class is 5 pierce, 8 bash, 8 slash, and 1 vs. magic.\nAffects hp by 5.\nAffects wisdom by 1.\nAffects intelligence by 1.\nAffects strength by 1.\n"
+},
+{
+"vnum": 82040,
+"name": "a dark leather jacket",
+"area": "The City of Sudharma",
+"identify": "Object 'a dark leather jacket' is type armor, extra flags none.\nWeight is 7.6 pounds, value is 55, level is 14.\nMaterial is leather.\nrestrict flags none.\nArmor class is 9 pierce, 9 bash, 9 slash, and 0 vs. magic.\nAffects moves by 15.\nAffects dexterity by 1.\n"
+},
+{
+"vnum": 82039,
+"name": "a leather helmet with earflaps",
+"area": "The City of Sudharma",
+"identify": "Object 'a leather helmet with earflaps' is type armor, extra flags none.\nWeight is 5.3 pounds, value is 43, level is 14.\nMaterial is leather.\nrestrict flags none.\nArmor class is 4 pierce, 4 bash, 4 slash, and 0 vs. magic.\nAffects moves by 15.\nAffects wisdom by 2.\nAffects intelligence by 2.\n"
+},
+{
+"vnum": 82038,
+"name": "a pair of leather leggings",
+"area": "The City of Sudharma",
+"identify": "Object 'a pair of leather leggings' is type armor, extra flags none.\nWeight is 3.9 pounds, value is 43, level is 14.\nMaterial is leather.\nrestrict flags none.\nArmor class is 7 pierce, 7 bash, 7 slash, and 0 vs. magic.\nAffects moves by 9.\nAffects dexterity by 1.\nAffects hp by 4.\n"
+},
+{
+"vnum": 82037,
+"name": "a pair of leather sleeves",
+"area": "The City of Sudharma",
+"identify": "Object 'a pair of leather sleeves' is type armor, extra flags none.\nWeight is 2.8 pounds, value is 32, level is 14.\nMaterial is leather.\nrestrict flags none.\nArmor class is 9 pierce, 9 bash, 9 slash, and 0 vs. magic.\nAffects hp by 6.\nAffects dexterity by 1.\n"
+},
+{
+"vnum": 82036,
+"name": "a pair of leather gloves",
+"area": "The City of Sudharma",
+"identify": "Object 'a pair of leather gloves' is type armor, extra flags none.\nWeight is 2.0 pounds, value is 32, level is 14.\nMaterial is leather.\nrestrict flags none.\nArmor class is 5 pierce, 5 bash, 5 slash, and 2 vs. magic.\nAffects hp by 10.\nAffects dexterity by 1.\n"
+},
+{
+"vnum": 82035,
+"name": "a silken robe",
+"area": "The City of Sudharma",
+"identify": "Object 'a silken robe' is type armor, extra flags none.\nWeight is 2.3 pounds, value is 71, level is 14.\nMaterial is silk and bone.\nrestrict flags none.\nArmor class is 4 pierce, 4 bash, 4 slash, and 8 vs. magic.\nAffects mana by 5.\nAffects wisdom by 1.\n"
+},
+{
+"vnum": 82034,
+"name": "a silken jacket",
+"area": "The City of Sudharma",
+"identify": "Object 'a silken jacket' is type armor, extra flags none.\nWeight is 3.8 pounds, value is 45, level is 14.\nMaterial is silk and bone.\nrestrict flags none.\nArmor class is 5 pierce, 5 bash, 5 slash, and 2 vs. magic.\nAffects mana by 7.\nAffects intelligence by 2.\n"
+},
+{
+"vnum": 82033,
+"name": "a silken cap",
+"area": "The City of Sudharma",
+"identify": "Object 'a silken cap' is type armor, extra flags none.\nWeight is 1.6 pounds, value is 44, level is 14.\nMaterial is silk and pasteboard.\nrestrict flags none.\nArmor class is 3 pierce, 3 bash, 3 slash, and 3 vs. magic.\nAffects mana by 10.\nAffects hp by 7.\n"
+},
+{
+"vnum": 82032,
+"name": "a pair of silken leggings",
+"area": "The City of Sudharma",
+"identify": "Object 'a pair of silken leggings' is type armor, extra flags none.\nWeight is 2.0 pounds, value is 41, level is 14.\nMaterial is silk.\nrestrict flags none.\nArmor class is 5 pierce, 5 bash, 5 slash, and 5 vs. magic.\nAffects mana by 2.\nAffects moves by 15.\n"
+},
+{
+"vnum": 82031,
+"name": "a pair of silken sleeves",
+"area": "The City of Sudharma",
+"identify": "Object 'a pair of silken sleeves' is type armor, extra flags none.\nWeight is 1.4 pounds, value is 39, level is 14.\nMaterial is silk.\nrestrict flags none.\nArmor class is 5 pierce, 5 bash, 5 slash, and 5 vs. magic.\nAffects mana by 3.\nAffects moves by 3.\nAffects hp by 5.\n"
+},
+{
+"vnum": 82030,
+"name": "a pair of silken gloves",
+"area": "The City of Sudharma",
+"identify": "Object 'a pair of silken gloves' is type armor, extra flags none.\nWeight is 1.0 pounds, value is 39, level is 14.\nMaterial is silk.\nrestrict flags none.\nArmor class is 5 pierce, 5 bash, 5 slash, and 5 vs. magic.\nAffects moves by 3.\nAffects hp by 5.\n"
+},
+{
+"vnum": 82029,
+"name": "Griekul in Fruit Sauce on a Bed of Rice",
+"area": "The City of Sudharma",
+"identify": "Object 'Griekul in Fruit Sauce on a Bed of Rice' is type food, extra flags none.\nWeight is 3.5 pounds, value is 58, level is 1.\nMaterial is clay and meat and water and food.\nrestrict flags none.\n"
+},
+{
+"vnum": 82028,
+"name": "Holy Water Based Creme de la Dragkagh",
+"area": "The City of Sudharma",
+"identify": "Object 'Holy Water Based Creme de la Dragkagh' is type food, extra flags none.\nWeight is 2.9 pounds, value is 58, level is 1.\nMaterial is sandstone and flesh and water.\nrestrict flags none.\n"
+},
+{
+"vnum": 82027,
+"name": "Balrog Flambeau",
+"area": "The City of Sudharma",
+"identify": "Object 'Balrog Flambeau' is type food, extra flags none.\nWeight is 1.1 pounds, value is 58, level is 1.\nMaterial is fire and flesh and granite.\nrestrict flags none.\n"
+},
+{
+"vnum": 82026,
+"name": "Sudharma Barbecued Klahgaht",
+"area": "The City of Sudharma",
+"identify": "Object 'Sudharma Barbecued Klahgaht' is type food, extra flags none.\nWeight is 0.8 pounds, value is 58, level is 1.\nMaterial is tin and flesh and bread and pickle.\nrestrict flags none.\n"
+},
+{
+"vnum": 82025,
+"name": "Sudharma Spiced Veal",
+"area": "The City of Sudharma",
+"identify": "Object 'Sudharma Spiced Veal' is type food, extra flags none.\nWeight is 0.9 pounds, value is 58, level is 1.\nMaterial is flesh and bread and egg and marble.\nrestrict flags none.\n"
+},
+{
+"vnum": 82024,
+"name": "Meat and Potatoes with Gravy",
+"area": "The City of Sudharma",
+"identify": "Object 'Meat and Potatoes with Gravy' is type food, extra flags none.\nWeight is 0.8 pounds, value is 58, level is 1.\nMaterial is meat and potato and food and clay.\nrestrict flags none.\n"
+},
+{
+"vnum": 82023,
+"name": "roast with savory brown gravy",
+"area": "The City of Sudharma",
+"identify": "Object 'roast with savory brown gravy' is type food, extra flags none.\nWeight is 0.9 pounds, value is 58, level is 1.\nMaterial is flesh and dragonscale.\nrestrict flags none.\n"
+},
+{
+"vnum": 82022,
+"name": "a Junior Carryall(tm) pack",
+"area": "The City of Sudharma",
+"identify": "Object 'a Junior Carryall(tm) pack' is type container, extra flags magic nonmetal burnproof.\nWeight is 1.0 pounds, value is 55, level is 1.\nMaterial is silk and skin and bone.\nrestrict flags none.\nCapacity: 100#  Maximum weight: 25#  flags: closable closed\n"
+},
+{
+"vnum": 82021,
+"name": "a Carryall(tm) pack",
+"area": "The City of Sudharma",
+"identify": "Object 'a Carryall(tm) pack' is type container, extra flags magic nonmetal burnproof.\nWeight is 13.0 pounds, value is 1000, level is 14.\nMaterial is silk and mithril and platinum and skin and bone.\nrestrict flags none.\nCapacity: 500#  Maximum weight: 150#  flags: closable closed\n"
+},
+{
+"vnum": 82020,
+"name": "a large ivory candle",
+"area": "The City of Sudharma",
+"identify": "Object 'a large ivory candle' is type light, extra flags none.\nWeight is 5.0 pounds, value is 80, level is 0.\nMaterial is ivory and wax and shell.\nrestrict flags none.\n"
+},
+{
+"vnum": 82019,
+"name": "a tightly rolled-up sleeping bag",
+"area": "The City of Sudharma",
+"identify": "Object 'a tightly rolled-up sleeping bag' is type furniture, extra flags none.\nWeight is 4.5 pounds, value is 700, level is 1.\nMaterial is canvas and quilted cloth.\nrestrict flags none.\n"
+},
+{
+"vnum": 82018,
+"name": "small bronze lantern",
+"area": "The City of Sudharma",
+"identify": "Object 'small bronze lantern' is type light, extra flags none.\nWeight is 4.0 pounds, value is 75, level is 1.\nMaterial is bronze and cloth and fire.\nrestrict flags none.\n"
+},
+{
+"vnum": 82017,
+"name": "a portable fountain",
+"area": "The City of Sudharma",
+"identify": "Object 'a portable fountain' is type drink, extra flags none.\nWeight is 1.0 pounds, value is 33, level is 2.\nMaterial is skin and metal.\nrestrict flags none.\nIt holds clear-colored water.\n"
+},
+{
+"vnum": 82016,
+"name": "Glod's No Steak Pie (Special Recipe)",
+"area": "The City of Sudharma",
+"identify": "Object 'Glod's No Steak Pie (Special Recipe)' is type food, extra flags none.\nWeight is 5.0 pounds, value is 54, level is 1.\nMaterial is steak-free-veggies and steak-free bread and steak-free hemp and steak-free tin.\nrestrict flags none.\n"
+},
+{
+"vnum": 82015,
+"name": "Chocolate Chip Cookies",
+"area": "The City of Sudharma",
+"identify": "Object 'Chocolate Chip Cookies' is type food, extra flags none.\nWeight is 10.0 pounds, value is 54, level is 1.\nMaterial is sandstone and chocolate and cookie dough.\nrestrict flags none.\n"
+},
+{
+"vnum": 82014,
+"name": "Mithril-Glazed Donut Rings",
+"area": "The City of Sudharma",
+"identify": "Object 'Mithril-Glazed Donut Rings' is type food, extra flags none.\nWeight is 2.0 pounds, value is 54, level is 1.\nMaterial is metal and mithril and donut.\nrestrict flags none.\n"
+},
+{
+"vnum": 82013,
+"name": "Frostpeak Custard Cubes",
+"area": "The City of Sudharma",
+"identify": "Object 'Frostpeak Custard Cubes' is type food, extra flags none.\nWeight is 11.1 pounds, value is 54, level is 1.\nMaterial is platinum and ice and bread and bone.\nrestrict flags none.\n"
+},
+{
+"vnum": 82012,
+"name": "Gemstone Fruitcake",
+"area": "The City of Sudharma",
+"identify": "Object 'Gemstone Fruitcake' is type food, extra flags none.\nWeight is 6.0 pounds, value is 54, level is 1.\nMaterial is food and coral and ivory and glass and diamond and dragonscale.\nrestrict flags none.\n"
+},
+{
+"vnum": 82011,
+"name": "Obsidian Molten Chocolate Torte",
+"area": "The City of Sudharma",
+"identify": "Object 'Obsidian Molten Chocolate Torte' is type food, extra flags none.\nWeight is 3.0 pounds, value is 54, level is 1.\nMaterial is food and obsidian and chocolate and fire.\nrestrict flags none.\n"
+},
+{
+"vnum": 82010,
+"name": "Golden Nugget Honey Cake",
+"area": "The City of Sudharma",
+"identify": "Object 'Golden Nugget Honey Cake' is type food, extra flags none.\nWeight is 2.5 pounds, value is 54, level is 1.\nMaterial is food and honey and gold.\nrestrict flags none.\n"
+},
+{
+"vnum": 82009,
+"name": "(Extra Noisy) Crystal Cavern Onion Pull-Apart Bread",
+"area": "The City of Sudharma",
+"identify": "Object '(Extra Noisy) Crystal Cavern Onion Pull-Apart Bread' is type food, extra flags none.\nWeight is 3.0 pounds, value is 54, level is 1.\nMaterial is food and fire and hot onions and diamond.\nrestrict flags none.\n"
+},
+{
+"vnum": 82008,
+"name": "Brethren Beetroot Hearthbread",
+"area": "The City of Sudharma",
+"identify": "Object 'Brethren Beetroot Hearthbread' is type food, extra flags none.\nWeight is 0.2 pounds, value is 54, level is 1.\nMaterial is food and fire.\nrestrict flags none.\n"
+},
+{
+"vnum": 82007,
+"name": "Ironbeard Ale Bread",
+"area": "The City of Sudharma",
+"identify": "Object 'Ironbeard Ale Bread' is type food, extra flags none.\nWeight is 1.5 pounds, value is 54, level is 1.\nMaterial is food and iron and ale.\nrestrict flags none.\n"
+},
+{
+"vnum": 82006,
+"name": "Stonecrust Forge Loaf",
+"area": "The City of Sudharma",
+"identify": "Object 'Stonecrust Forge Loaf' is type food, extra flags none.\nWeight is 1.5 pounds, value is 54, level is 1.\nMaterial is food and stone.\nrestrict flags none.\n"
+},
+{
+"vnum": 82005,
+"name": "Prisoner's Cake",
+"area": "The City of Sudharma",
+"identify": "Object 'Prisoner's Cake' is type food, extra flags none.\nWeight is 2.0 pounds, value is 54, level is 1.\nMaterial is food and steel.\nrestrict flags none.\n"
+},
+{
+"vnum": 82004,
+"name": "Glod's Gingerbread of Grasping",
+"area": "The City of Sudharma",
+"identify": "Object 'Glod's Gingerbread of Grasping' is type food, extra flags none.\nWeight is 0.2 pounds, value is 54, level is 1.\nMaterial is bread and food.\nrestrict flags none.\n"
+},
+{
 "vnum": 82003,
 "name": "a tattered doll",
 "area": "The City of Sudharma",
@@ -53417,6 +54647,270 @@ mapAreas = {
 "name": "somewitchlight toffee",
 "area": "Trick or Treat",
 "identify": "Object 'somewitchlight toffee' is type food, extra flags inventory nonmetal.\nWeight is 0.1 pounds, value is 16, level is 0.\nMaterial is black honey and charred sugar and mint.\nrestrict flags none.\n"
+},
+{
+"vnum": 31818,
+"name": "a splintered heartwood core",
+"area": "Whispering Timberlands",
+"identify": "Object 'a splintered heartwood core' is type treasure, extra flags magic.\nWeight is 0.5 pounds, value is 0, level is 55.\nMaterial is wood.\nrestrict flags none.\n"
+},
+{
+"vnum": 31817,
+"name": "a cold forest spring",
+"area": "Whispering Timberlands",
+"identify": "Object 'a cold forest spring' is type fountain, extra flags magic.\nWeight is 0.0 pounds, value is 0, level is 0.\nMaterial is marble.\nrestrict flags none.\n"
+},
+{
+"vnum": 31816,
+"name": "a weathered ranger notice",
+"area": "Whispering Timberlands",
+"identify": "Object 'a weathered ranger notice' is type trash, extra flags nopurge.\nWeight is 1.0 pounds, value is 0, level is 0.\nMaterial is wood.\nrestrict flags none.\n"
+},
+{
+"vnum": 31815,
+"name": "a low ranger campfire",
+"area": "Whispering Timberlands",
+"identify": "Object 'a low ranger campfire' is type furniture, extra flags nopurge.\nWeight is 0.0 pounds, value is 0, level is 0.\nMaterial is fire.\nrestrict flags none.\n"
+},
+{
+"vnum": 31814,
+"name": "the thorngrip bracers",
+"area": "Whispering Timberlands",
+"identify": "Object 'the thorngrip bracers' is type armor, extra flags magic.\nWeight is 1.2 pounds, value is 70000, level is 55.\nMaterial is leather.\nrestrict flags none.\nArmor class is 5 pierce, 5 bash, 5 slash, and 4 vs. magic.\nAffects save vs breath by -1.\nAffects save vs maledictions by -1.\nAffects save vs transport by -1.\nAffects save vs spell by -1.\nAffects saves by -1.\nAffects damage roll by 2.\nAffects hit roll by 2.\n"
+},
+{
+"vnum": 31813,
+"name": "the mirestride boots",
+"area": "Whispering Timberlands",
+"identify": "Object 'the mirestride boots' is type armor, extra flags magic.\nWeight is 1.8 pounds, value is 70000, level is 55.\nMaterial is leather.\nrestrict flags none.\nArmor class is 6 pierce, 6 bash, 6 slash, and 4 vs. magic.\nAdds forest walk while worn.\nAffects moves by 75.\n"
+},
+{
+"vnum": 31812,
+"name": "the rootcoil leggings",
+"area": "Whispering Timberlands",
+"identify": "Object 'the rootcoil leggings' is type armor, extra flags magic.\nWeight is 3.5 pounds, value is 70000, level is 55.\nMaterial is leather.\nrestrict flags none.\nArmor class is 8 pierce, 8 bash, 8 slash, and 5 vs. magic.\nAffects save vs maledictions by -5.\nAffects save vs transport by -5.\nAffects hp by 40.\n"
+},
+{
+"vnum": 31811,
+"name": "the barkbind sleeves",
+"area": "Whispering Timberlands",
+"identify": "Object 'the barkbind sleeves' is type armor, extra flags magic.\nWeight is 2.2 pounds, value is 500000, level is 55.\nMaterial is leather.\nrestrict flags none.\nArmor class is 6 pierce, 6 bash, 6 slash, and 4 vs. magic.\nAffects hp by 30.\nAffects constitution by 2.\n"
+},
+{
+"vnum": 31810,
+"name": "the thorncrown",
+"area": "Whispering Timberlands",
+"identify": "Object 'the thorncrown' is type armor, extra flags magic.\nWeight is 2.0 pounds, value is 70000, level is 55.\nMaterial is bone.\nrestrict flags none.\nArmor class is 6 pierce, 6 bash, 6 slash, and 4 vs. magic.\nAffects hp by 50.\nAffects damage roll by 3.\nAffects hit roll by 3.\n"
+},
+{
+"vnum": 31809,
+"name": "the groveheart shield",
+"area": "Whispering Timberlands",
+"identify": "Object 'the groveheart shield' is type armor, extra flags magic.\nWeight is 4.0 pounds, value is 70000, level is 55.\nMaterial is darkwood.\nrestrict flags none.\nArmor class is 15 pierce, 15 bash, 15 slash, and 10 vs. magic.\nAffects save vs transport by -2.\nAffects save vs maledictions by -2.\nAffects save vs breath by -2.\nAffects save vs spell by -2.\nAffects saves by -2.\nAffects hp by 40.\n"
+},
+{
+"vnum": 31808,
+"name": "Rootfang",
+"area": "Whispering Timberlands",
+"identify": "Object 'Rootfang' is type weapon, extra flags glowing humming magic noremove nonmetal burnproof.\nWeight is 0.2 pounds, value is 145000, level is 55.\nMaterial is wood.\nrestrict flags none.\nWeapon type is dagger.\nDamage is 20d2 (average 30).\nWeapons flags: vampiric sharp poison\nAffects regeneration by 2.\nAffects hp by 15.\nAffects damage roll by 4.\nAffects hit roll by 4.\n"
+},
+{
+"vnum": 31807,
+"name": "the warden's bracelet of combat",
+"area": "Whispering Timberlands",
+"identify": "Object 'the warden's bracelet of combat' is type armor, extra flags magic.\nWeight is 0.8 pounds, value is 30000, level is 34.\nMaterial is hardwood.\nrestrict flags none.\nArmor class is 5 pierce, 5 bash, 5 slash, and 5 vs. magic.\nAffects damage roll by 6.\n"
+},
+{
+"vnum": 31806,
+"name": "the warden's bracelet of spellcraft",
+"area": "Whispering Timberlands",
+"identify": "Object 'the warden's bracelet of spellcraft' is type armor, extra flags magic.\nWeight is 0.8 pounds, value is 30000, level is 34.\nMaterial is hardwood.\nrestrict flags none.\nArmor class is 5 pierce, 5 bash, 5 slash, and 5 vs. magic.\nAffects spell power by 2.\n"
+},
+{
+"vnum": 31805,
+"name": "the warden's bracelet of the sacred grove",
+"area": "Whispering Timberlands",
+"identify": "Object 'the warden's bracelet of the sacred grove' is type armor, extra flags magic.\nWeight is 0.8 pounds, value is 30000, level is 34.\nMaterial is hardwood.\nrestrict flags none.\nArmor class is 5 pierce, 5 bash, 5 slash, and 5 vs. magic.\nAffects holy power by 1.\n"
+},
+{
+"vnum": 31804,
+"name": "an elder greatstag antler",
+"area": "Whispering Timberlands",
+"identify": "Object 'an elder greatstag antler' is type treasure, extra flags magic.\nWeight is 1.8 pounds, value is 180, level is 44.\nMaterial is bone.\nrestrict flags none.\n"
+},
+{
+"vnum": 31803,
+"name": "a dire wolf alpha pelt",
+"area": "Whispering Timberlands",
+"identify": "Object 'a dire wolf alpha pelt' is type treasure, extra flags magic.\nWeight is 2.0 pounds, value is 125, level is 38.\nMaterial is fur.\nrestrict flags none.\n"
+},
+{
+"vnum": 31802,
+"name": "a shadow lynx fang",
+"area": "Whispering Timberlands",
+"identify": "Object 'a shadow lynx fang' is type treasure, extra flags magic.\nWeight is 0.3 pounds, value is 90, level is 35.\nMaterial is bone.\nrestrict flags none.\n"
+},
+{
+"vnum": 31801,
+"name": "a black bear claw",
+"area": "Whispering Timberlands",
+"identify": "Object 'a black bear claw' is type treasure, extra flags magic.\nWeight is 0.7 pounds, value is 75, level is 32.\nMaterial is bone.\nrestrict flags none.\n"
+},
+{
+"vnum": 31800,
+"name": "a timber wolf paw",
+"area": "Whispering Timberlands",
+"identify": "Object 'a timber wolf paw' is type treasure, extra flags magic.\nWeight is 0.5 pounds, value is 50, level is 30.\nMaterial is fur.\nrestrict flags none.\n"
+},
+{
+"vnum": 33324,
+"name": "a facility notice board",
+"area": "The Landshark Breeding Grounds",
+"identify": "Object 'a facility notice board' is type trash, extra flags nopurge.\nWeight is 1.0 pounds, value is 0, level is 10.\nMaterial is wood.\nrestrict flags none.\n"
+},
+{
+"vnum": 33323,
+"name": "Harwick's tally board",
+"area": "The Landshark Breeding Grounds",
+"identify": "Object 'Harwick's tally board' is type trash, extra flags nopurge.\nWeight is 0.5 pounds, value is 0, level is 10.\nMaterial is wood.\nrestrict flags none.\n"
+},
+{
+"vnum": 33322,
+"name": "a landshark nesting mound",
+"area": "The Landshark Breeding Grounds",
+"identify": "Object 'a landshark nesting mound' is type container, extra flags nopurge rotdeath.\nWeight is 1.0 pounds, value is 0, level is 10.\nMaterial is earth.\nrestrict flags none.\nCapacity: 100#  Maximum weight: 100#  flags: none\n"
+},
+{
+"vnum": 33321,
+"name": "a landshark nesting mound",
+"area": "The Landshark Breeding Grounds",
+"identify": "Object 'a landshark nesting mound' is type container, extra flags nopurge rotdeath.\nWeight is 1.0 pounds, value is 0, level is 10.\nMaterial is earth.\nrestrict flags none.\nCapacity: 100#  Maximum weight: 100#  flags: none\n"
+},
+{
+"vnum": 33320,
+"name": "a landshark nesting mound",
+"area": "The Landshark Breeding Grounds",
+"identify": "Object 'a landshark nesting mound' is type container, extra flags nopurge rotdeath.\nWeight is 1.0 pounds, value is 0, level is 10.\nMaterial is earth.\nrestrict flags none.\nCapacity: 100#  Maximum weight: 100#  flags: none\n"
+},
+{
+"vnum": 33319,
+"name": "a landshark nesting mound",
+"area": "The Landshark Breeding Grounds",
+"identify": "Object 'a landshark nesting mound' is type container, extra flags nopurge rotdeath.\nWeight is 1.0 pounds, value is 0, level is 10.\nMaterial is earth.\nrestrict flags none.\nCapacity: 100#  Maximum weight: 100#  flags: none\n"
+},
+{
+"vnum": 33318,
+"name": "a landshark nesting mound",
+"area": "The Landshark Breeding Grounds",
+"identify": "Object 'a landshark nesting mound' is type container, extra flags nopurge rotdeath.\nWeight is 1.0 pounds, value is 0, level is 10.\nMaterial is earth.\nrestrict flags none.\nCapacity: 100#  Maximum weight: 100#  flags: none\n"
+},
+{
+"vnum": 33317,
+"name": "a landshark egg",
+"area": "The Landshark Breeding Grounds",
+"identify": "Object 'a landshark egg' is type treasure, extra flags magic.\nWeight is 0.3 pounds, value is 0, level is 10.\nMaterial is shell.\nrestrict flags none.\n"
+},
+{
+"vnum": 33316,
+"name": "a breeder's signet ring",
+"area": "The Landshark Breeding Grounds",
+"identify": "Object 'a breeder's signet ring' is type armor, extra flags magic.\nWeight is 0.2 pounds, value is 60, level is 10.\nMaterial is silver.\nrestrict flags none.\nArmor class is 5 pierce, 5 bash, 5 slash, and 5 vs. magic.\nAffects damage roll by 1.\nAffects hit roll by 1.\nAffects hp by 10.\nAffects armor class by -5.\n"
+},
+{
+"vnum": 33315,
+"name": "a heavy protective collar",
+"area": "The Landshark Breeding Grounds",
+"identify": "Object 'a heavy protective collar' is type armor, extra flags magic.\nWeight is 0.5 pounds, value is 80, level is 10.\nMaterial is leather.\nrestrict flags none.\nArmor class is 5 pierce, 5 bash, 5 slash, and 5 vs. magic.\nAffects damage roll by 1.\nAffects hit roll by 1.\nAffects hp by 10.\nAffects armor class by -5.\n"
+},
+{
+"vnum": 33314,
+"name": "a padded leather head guard",
+"area": "The Landshark Breeding Grounds",
+"identify": "Object 'a padded leather head guard' is type armor, extra flags magic.\nWeight is 0.8 pounds, value is 100, level is 10.\nMaterial is leather.\nrestrict flags none.\nArmor class is 6 pierce, 6 bash, 6 slash, and 1 vs. magic.\nAffects hp by 25.\nAffects armor class by -6.\n"
+},
+{
+"vnum": 33313,
+"name": "a reinforced leather handler's breastplate",
+"area": "The Landshark Breeding Grounds",
+"identify": "Object 'a reinforced leather handler's breastplate' is type armor, extra flags magic.\nWeight is 1.2 pounds, value is 120, level is 10.\nMaterial is leather.\nrestrict flags none.\nArmor class is 5 pierce, 5 bash, 5 slash, and 5 vs. magic.\nAffects damage roll by 2.\nAffects hit roll by 2.\nAffects hp by 15.\nAffects armor class by -5.\n"
+},
+{
+"vnum": 33312,
+"name": "padded leather handler's leggings",
+"area": "The Landshark Breeding Grounds",
+"identify": "Object 'padded leather handler's leggings' is type armor, extra flags magic.\nWeight is 0.8 pounds, value is 90, level is 10.\nMaterial is leather.\nrestrict flags none.\nArmor class is 4 pierce, 4 bash, 4 slash, and 4 vs. magic.\nAffects damage roll by 1.\nAffects hit roll by 1.\nAffects hp by 10.\nAffects armor class by -4.\n"
+},
+{
+"vnum": 33311,
+"name": "a pair of heavy handler's gloves",
+"area": "The Landshark Breeding Grounds",
+"identify": "Object 'a pair of heavy handler's gloves' is type armor, extra flags magic.\nWeight is 0.5 pounds, value is 70, level is 10.\nMaterial is leather.\nrestrict flags none.\nArmor class is 3 pierce, 3 bash, 3 slash, and 3 vs. magic.\nAffects damage roll by 1.\nAffects hit roll by 1.\nAffects armor class by -3.\n"
+},
+{
+"vnum": 33310,
+"name": "a wide leather handler's belt",
+"area": "The Landshark Breeding Grounds",
+"identify": "Object 'a wide leather handler's belt' is type armor, extra flags magic.\nWeight is 0.5 pounds, value is 80, level is 10.\nMaterial is leather.\nrestrict flags none.\nArmor class is 3 pierce, 3 bash, 3 slash, and 3 vs. magic.\nAffects damage roll by 2.\nAffects hit roll by 2.\nAffects hp by 15.\nAffects armor class by -3.\n"
+},
+{
+"vnum": 33309,
+"name": "a pair of reinforced leather bracers",
+"area": "The Landshark Breeding Grounds",
+"identify": "Object 'a pair of reinforced leather bracers' is type armor, extra flags magic.\nWeight is 0.5 pounds, value is 80, level is 10.\nMaterial is leather.\nrestrict flags none.\nArmor class is 2 pierce, 2 bash, 2 slash, and 2 vs. magic.\nAffects damage roll by 1.\nAffects hit roll by 1.\nAffects hp by 10.\nAffects armor class by -2.\n"
+},
+{
+"vnum": 33308,
+"name": "a reinforced handler's buckler",
+"area": "The Landshark Breeding Grounds",
+"identify": "Object 'a reinforced handler's buckler' is type armor, extra flags magic.\nWeight is 1.0 pounds, value is 150, level is 10.\nMaterial is steel.\nrestrict flags none.\nArmor class is 10 pierce, 10 bash, 10 slash, and 10 vs. magic.\nAffects damage roll by 1.\nAffects hit roll by 1.\nAffects hp by 25.\nAffects armor class by -10.\n"
+},
+{
+"vnum": 33307,
+"name": "a reinforced handler's staff",
+"area": "The Landshark Breeding Grounds",
+"identify": "Object 'a reinforced handler's staff' is type weapon, extra flags magic.\nWeight is 0.8 pounds, value is 100, level is 10.\nMaterial is hardwood.\nrestrict flags none.\nWeapon type is staff.\nDamage is 5d8 (average 22).\nWeapons flags: frost\nAffects hp by 15.\nAffects damage roll by 3.\nAffects hit roll by 3.\n"
+},
+{
+"vnum": 33306,
+"name": "a handler's axe",
+"area": "The Landshark Breeding Grounds",
+"identify": "Object 'a handler's axe' is type weapon, extra flags magic.\nWeight is 0.8 pounds, value is 100, level is 10.\nMaterial is iron.\nrestrict flags none.\nWeapon type is axe.\nDamage is 5d8 (average 22).\nWeapons flags: flaming\nAffects hp by 15.\nAffects damage roll by 3.\nAffects hit roll by 3.\n"
+},
+{
+"vnum": 33305,
+"name": "a pair of fighting claws",
+"area": "The Landshark Breeding Grounds",
+"identify": "Object 'a pair of fighting claws' is type weapon, extra flags magic.\nWeight is 0.8 pounds, value is 100, level is 10.\nMaterial is iron.\nrestrict flags none.\nWeapon type is exotic.\nDamage is 5d8 (average 22).\nWeapons flags: sharp\nAffects hp by 15.\nAffects damage roll by 3.\nAffects hit roll by 3.\n"
+},
+{
+"vnum": 33304,
+"name": "a handler's glaive",
+"area": "The Landshark Breeding Grounds",
+"identify": "Object 'a handler's glaive' is type weapon, extra flags magic.\nWeight is 0.8 pounds, value is 100, level is 10.\nMaterial is iron.\nrestrict flags none.\nWeapon type is polearm.\nDamage is 5d8 (average 22).\nWeapons flags: frost\nAffects hp by 15.\nAffects damage roll by 3.\nAffects hit roll by 3.\n"
+},
+{
+"vnum": 33303,
+"name": "a handler's whip",
+"area": "The Landshark Breeding Grounds",
+"identify": "Object 'a handler's whip' is type weapon, extra flags magic.\nWeight is 0.8 pounds, value is 100, level is 10.\nMaterial is leather.\nrestrict flags none.\nWeapon type is whip.\nDamage is 5d8 (average 22).\nWeapons flags: flaming\nAffects hp by 15.\nAffects damage roll by 3.\nAffects hit roll by 3.\n"
+},
+{
+"vnum": 33302,
+"name": "a handler's flail",
+"area": "The Landshark Breeding Grounds",
+"identify": "Object 'a handler's flail' is type weapon, extra flags magic.\nWeight is 0.8 pounds, value is 100, level is 10.\nMaterial is iron.\nrestrict flags none.\nWeapon type is flail.\nDamage is 5d8 (average 22).\nWeapons flags: flaming\nAffects hp by 15.\nAffects damage roll by 3.\nAffects hit roll by 3.\n"
+},
+{
+"vnum": 33301,
+"name": "a handler's dagger",
+"area": "The Landshark Breeding Grounds",
+"identify": "Object 'a handler's dagger' is type weapon, extra flags magic.\nWeight is 0.8 pounds, value is 100, level is 10.\nMaterial is iron.\nrestrict flags none.\nWeapon type is dagger.\nDamage is 5d8 (average 22).\nWeapons flags: flaming\nAffects hp by 15.\nAffects damage roll by 3.\nAffects hit roll by 3.\n"
+},
+{
+"vnum": 33300,
+"name": "a handler's longsword",
+"area": "The Landshark Breeding Grounds",
+"identify": "Object 'a handler's longsword' is type weapon, extra flags magic.\nWeight is 0.8 pounds, value is 100, level is 10.\nMaterial is iron.\nrestrict flags none.\nWeapon type is sword.\nDamage is 5d8 (average 22).\nWeapons flags: flaming\nAffects hp by 15.\nAffects damage roll by 3.\nAffects hit roll by 3.\n"
 }
 ],
 "rooms": {
@@ -135307,14 +136801,7 @@ mapAreas = {
 "1392": {
 "name": "Inside the Energy Field",
 "area": "High Tower",
-"exits": {"north": {
-"vnum": 27774,
-"door": false,
-"closed": false,
-"locked": false
-}
-,
-"east": {
+"exits": {"east": {
 "vnum": 708,
 "door": false,
 "closed": false,
@@ -135322,6 +136809,13 @@ mapAreas = {
 }
 ,
 "south": {
+"vnum": 3001,
+"door": false,
+"closed": false,
+"locked": false
+}
+,
+"west": {
 "vnum": 555,
 "door": false,
 "closed": false,
@@ -135329,14 +136823,14 @@ mapAreas = {
 }
 ,
 "up": {
-"vnum": 10601,
+"vnum": 27774,
 "door": false,
 "closed": false,
 "locked": false
 }
 ,
 "down": {
-"vnum": 3001,
+"vnum": 10601,
 "door": false,
 "closed": false,
 "locked": false
@@ -136829,28 +138323,28 @@ mapAreas = {
 "name": "The Shadow Grove",
 "area": "High Tower",
 "exits": {"north": {
-"vnum": 1303,
-"door": false,
-"closed": false,
-"locked": false
-}
-,
-"east": {
 "vnum": 1308,
 "door": false,
 "closed": false,
 "locked": false
 }
 ,
-"south": {
+"east": {
 "vnum": 1306,
 "door": false,
 "closed": false,
 "locked": false
 }
 ,
-"west": {
+"south": {
 "vnum": 1307,
+"door": false,
+"closed": false,
+"locked": false
+}
+,
+"west": {
+"vnum": 1303,
 "door": false,
 "closed": false,
 "locked": false
@@ -136861,28 +138355,28 @@ mapAreas = {
 "name": "The Shadow Grove",
 "area": "High Tower",
 "exits": {"north": {
-"vnum": 1305,
+"vnum": 1309,
 "door": false,
 "closed": false,
 "locked": false
 }
 ,
 "east": {
-"vnum": 1307,
+"vnum": 1305,
 "door": false,
 "closed": false,
 "locked": false
 }
 ,
 "south": {
-"vnum": 1300,
+"vnum": 1307,
 "door": false,
 "closed": false,
 "locked": false
 }
 ,
 "west": {
-"vnum": 1309,
+"vnum": 1300,
 "door": false,
 "closed": false,
 "locked": false
@@ -136893,28 +138387,28 @@ mapAreas = {
 "name": "The Shadow Grove",
 "area": "High Tower",
 "exits": {"north": {
-"vnum": 1301,
-"door": false,
-"closed": false,
-"locked": false
-}
-,
-"east": {
-"vnum": 1309,
-"door": false,
-"closed": false,
-"locked": false
-}
-,
-"south": {
 "vnum": 1308,
 "door": false,
 "closed": false,
 "locked": false
 }
 ,
-"west": {
+"east": {
 "vnum": 1304,
+"door": false,
+"closed": false,
+"locked": false
+}
+,
+"south": {
+"vnum": 1309,
+"door": false,
+"closed": false,
+"locked": false
+}
+,
+"west": {
+"vnum": 1301,
 "door": false,
 "closed": false,
 "locked": false
@@ -136925,7 +138419,7 @@ mapAreas = {
 "name": "The Shadow Grove",
 "area": "High Tower",
 "exits": {"north": {
-"vnum": 1303,
+"vnum": 1309,
 "door": false,
 "closed": false,
 "locked": false
@@ -136939,7 +138433,7 @@ mapAreas = {
 }
 ,
 "south": {
-"vnum": 1309,
+"vnum": 1303,
 "door": false,
 "closed": false,
 "locked": false
@@ -136957,14 +138451,14 @@ mapAreas = {
 "name": "The Shadow Grove",
 "area": "High Tower",
 "exits": {"north": {
-"vnum": 1302,
+"vnum": 12200,
 "door": false,
 "closed": false,
 "locked": false
 }
 ,
 "east": {
-"vnum": 1304,
+"vnum": 1302,
 "door": false,
 "closed": false,
 "locked": false
@@ -136978,7 +138472,7 @@ mapAreas = {
 }
 ,
 "west": {
-"vnum": 12200,
+"vnum": 1304,
 "door": false,
 "closed": false,
 "locked": false
@@ -136989,14 +138483,14 @@ mapAreas = {
 "name": "The Shadow Grove",
 "area": "High Tower",
 "exits": {"north": {
-"vnum": 32600,
+"vnum": 1305,
 "door": false,
 "closed": false,
 "locked": false
 }
 ,
 "east": {
-"vnum": 1301,
+"vnum": 32600,
 "door": false,
 "closed": false,
 "locked": false
@@ -137010,7 +138504,7 @@ mapAreas = {
 }
 ,
 "west": {
-"vnum": 1305,
+"vnum": 1301,
 "door": false,
 "closed": false,
 "locked": false
@@ -137021,14 +138515,14 @@ mapAreas = {
 "name": "The Shadow Grove",
 "area": "High Tower",
 "exits": {"north": {
-"vnum": 1309,
+"vnum": 1301,
 "door": false,
 "closed": false,
 "locked": false
 }
 ,
 "east": {
-"vnum": 1301,
+"vnum": 1302,
 "door": false,
 "closed": false,
 "locked": false
@@ -137042,7 +138536,7 @@ mapAreas = {
 }
 ,
 "west": {
-"vnum": 1302,
+"vnum": 1309,
 "door": false,
 "closed": false,
 "locked": false
@@ -137053,7 +138547,7 @@ mapAreas = {
 "name": "The Shadow Grove",
 "area": "High Tower",
 "exits": {"north": {
-"vnum": 1301,
+"vnum": 1303,
 "door": false,
 "closed": false,
 "locked": false
@@ -137067,7 +138561,7 @@ mapAreas = {
 }
 ,
 "south": {
-"vnum": 1303,
+"vnum": 1301,
 "door": false,
 "closed": false,
 "locked": false
@@ -137092,21 +138586,21 @@ mapAreas = {
 }
 ,
 "east": {
-"vnum": 1302,
+"vnum": 1307,
 "door": false,
 "closed": false,
 "locked": false
 }
 ,
 "south": {
-"vnum": 1303,
+"vnum": 1302,
 "door": false,
 "closed": false,
 "locked": false
 }
 ,
 "west": {
-"vnum": 1307,
+"vnum": 1303,
 "door": false,
 "closed": false,
 "locked": false
@@ -138338,7 +139832,7 @@ mapAreas = {
 "11904": {
 "name": "A Choice of Ways",
 "area": "The Labyrinth",
-"exits": {"east": {
+"exits": {"north": {
 "vnum": 11905,
 "door": false,
 "closed": false,
@@ -142030,21 +143524,21 @@ mapAreas = {
 "name": "The Void",
 "area": "Old Thalos",
 "exits": {"north": {
-"vnum": 8903,
-"door": false,
-"closed": false,
-"locked": false
-}
-,
-"east": {
 "vnum": 5377,
 "door": false,
 "closed": false,
 "locked": false
 }
 ,
+"east": {
+"vnum": 8903,
+"door": false,
+"closed": false,
+"locked": false
+}
+,
 "south": {
-"vnum": 83401,
+"vnum": 5375,
 "door": false,
 "closed": false,
 "locked": false
@@ -142058,7 +143552,7 @@ mapAreas = {
 }
 ,
 "up": {
-"vnum": 5375,
+"vnum": 83401,
 "door": false,
 "closed": false,
 "locked": false
@@ -142083,21 +143577,21 @@ mapAreas = {
 }
 ,
 "east": {
-"vnum": 5378,
-"door": false,
-"closed": false,
-"locked": false
-}
-,
-"south": {
 "vnum": 5376,
 "door": false,
 "closed": false,
 "locked": false
 }
 ,
-"west": {
+"south": {
 "vnum": 5377,
+"door": false,
+"closed": false,
+"locked": false
+}
+,
+"west": {
+"vnum": 5376,
 "door": false,
 "closed": false,
 "locked": false
@@ -142111,7 +143605,7 @@ mapAreas = {
 }
 ,
 "down": {
-"vnum": 5376,
+"vnum": 5378,
 "door": false,
 "closed": false,
 "locked": false
@@ -142122,14 +143616,14 @@ mapAreas = {
 "name": "The Void",
 "area": "Old Thalos",
 "exits": {"north": {
-"vnum": 5376,
+"vnum": 5377,
 "door": false,
 "closed": false,
 "locked": false
 }
 ,
 "east": {
-"vnum": 5377,
+"vnum": 5376,
 "door": false,
 "closed": false,
 "locked": false
@@ -142143,7 +143637,7 @@ mapAreas = {
 }
 ,
 "west": {
-"vnum": 5376,
+"vnum": 5375,
 "door": false,
 "closed": false,
 "locked": false
@@ -142157,7 +143651,7 @@ mapAreas = {
 }
 ,
 "down": {
-"vnum": 5375,
+"vnum": 5376,
 "door": false,
 "closed": false,
 "locked": false
@@ -142168,35 +143662,35 @@ mapAreas = {
 "name": "The Void",
 "area": "Old Thalos",
 "exits": {"north": {
-"vnum": 5376,
+"vnum": 5378,
 "door": false,
 "closed": false,
 "locked": false
 }
 ,
 "east": {
-"vnum": 83401,
+"vnum": 5378,
 "door": false,
 "closed": false,
 "locked": false
 }
 ,
 "south": {
-"vnum": 5378,
-"door": false,
-"closed": false,
-"locked": false
-}
-,
-"west": {
 "vnum": 5368,
 "door": false,
 "closed": false,
 "locked": false
 }
 ,
+"west": {
+"vnum": 83401,
+"door": false,
+"closed": false,
+"locked": false
+}
+,
 "up": {
-"vnum": 5378,
+"vnum": 5376,
 "door": false,
 "closed": false,
 "locked": false
@@ -144583,7 +146077,7 @@ mapAreas = {
 "20597": {
 "name": "Sea of Sand",
 "area": "Gypsy Camp",
-"exits": {"north": {
+"exits": {"east": {
 "vnum": 20598,
 "door": false,
 "closed": false,
@@ -144602,14 +146096,14 @@ mapAreas = {
 "name": "Sea of Sand",
 "area": "Gypsy Camp",
 "exits": {"north": {
-"vnum": 20594,
+"vnum": 20597,
 "door": false,
 "closed": false,
 "locked": false
 }
 ,
 "east": {
-"vnum": 20597,
+"vnum": 20594,
 "door": false,
 "closed": false,
 "locked": false
@@ -144673,7 +146167,7 @@ mapAreas = {
 "20592": {
 "name": "Sea of Sand",
 "area": "Gypsy Camp",
-"exits": {"north": {
+"exits": {"east": {
 "vnum": 20593,
 "door": false,
 "closed": false,
@@ -144692,14 +146186,14 @@ mapAreas = {
 "name": "Sea of Sand",
 "area": "Gypsy Camp",
 "exits": {"north": {
-"vnum": 20592,
+"vnum": 20590,
 "door": false,
 "closed": false,
 "locked": false
 }
 ,
 "east": {
-"vnum": 20590,
+"vnum": 20592,
 "door": false,
 "closed": false,
 "locked": false
@@ -144742,7 +146236,7 @@ mapAreas = {
 "name": "Sea of Sand",
 "area": "Gypsy Camp",
 "exits": {"north": {
-"vnum": 20590,
+"vnum": 20585,
 "door": false,
 "closed": false,
 "locked": false
@@ -144756,7 +146250,7 @@ mapAreas = {
 }
 ,
 "south": {
-"vnum": 20585,
+"vnum": 20590,
 "door": false,
 "closed": false,
 "locked": false
@@ -144767,7 +146261,7 @@ mapAreas = {
 "name": "Sea of Sand",
 "area": "Gypsy Camp",
 "exits": {"north": {
-"vnum": 20587,
+"vnum": 20584,
 "door": false,
 "closed": false,
 "locked": false
@@ -144781,7 +146275,7 @@ mapAreas = {
 }
 ,
 "south": {
-"vnum": 20584,
+"vnum": 20587,
 "door": false,
 "closed": false,
 "locked": false
@@ -144816,7 +146310,7 @@ mapAreas = {
 "locked": false
 }
 ,
-"south": {
+"east": {
 "vnum": 20582,
 "door": false,
 "closed": false,
@@ -144835,28 +146329,28 @@ mapAreas = {
 "name": "Sea of Sand",
 "area": "Gypsy Camp",
 "exits": {"north": {
-"vnum": 20589,
-"door": false,
-"closed": false,
-"locked": false
-}
-,
-"east": {
 "vnum": 20581,
 "door": false,
 "closed": false,
 "locked": false
 }
 ,
+"east": {
+"vnum": 20589,
+"door": false,
+"closed": false,
+"locked": false
+}
+,
 "south": {
-"vnum": 20584,
+"vnum": 20586,
 "door": false,
 "closed": false,
 "locked": false
 }
 ,
 "west": {
-"vnum": 20586,
+"vnum": 20584,
 "door": false,
 "closed": false,
 "locked": false
@@ -144867,14 +146361,14 @@ mapAreas = {
 "name": "Sea of Sand",
 "area": "Gypsy Camp",
 "exits": {"north": {
-"vnum": 20585,
+"vnum": 20580,
 "door": false,
 "closed": false,
 "locked": false
 }
 ,
 "east": {
-"vnum": 20583,
+"vnum": 20585,
 "door": false,
 "closed": false,
 "locked": false
@@ -144888,7 +146382,7 @@ mapAreas = {
 }
 ,
 "west": {
-"vnum": 20580,
+"vnum": 20583,
 "door": false,
 "closed": false,
 "locked": false
@@ -144898,7 +146392,7 @@ mapAreas = {
 "20583": {
 "name": "Sea of Sand",
 "area": "Gypsy Camp",
-"exits": {"north": {
+"exits": {"east": {
 "vnum": 20584,
 "door": false,
 "closed": false,
@@ -144942,14 +146436,14 @@ mapAreas = {
 "name": "Sea of Sand",
 "area": "Gypsy Camp",
 "exits": {"north": {
-"vnum": 20580,
+"vnum": 20582,
 "door": false,
 "closed": false,
 "locked": false
 }
 ,
-"south": {
-"vnum": 20582,
+"east": {
+"vnum": 20580,
 "door": false,
 "closed": false,
 "locked": false
@@ -144967,7 +146461,7 @@ mapAreas = {
 "name": "Sea of Sand",
 "area": "Gypsy Camp",
 "exits": {"north": {
-"vnum": 20579,
+"vnum": 20581,
 "door": false,
 "closed": false,
 "locked": false
@@ -144981,14 +146475,14 @@ mapAreas = {
 }
 ,
 "south": {
-"vnum": 20584,
+"vnum": 20579,
 "door": false,
 "closed": false,
 "locked": false
 }
 ,
 "west": {
-"vnum": 20581,
+"vnum": 20584,
 "door": false,
 "closed": false,
 "locked": false
@@ -145049,28 +146543,28 @@ mapAreas = {
 "name": "Sea of Sand",
 "area": "Gypsy Camp",
 "exits": {"north": {
-"vnum": 20578,
-"door": false,
-"closed": false,
-"locked": false
-}
-,
-"east": {
 "vnum": 20576,
 "door": false,
 "closed": false,
 "locked": false
 }
 ,
+"east": {
+"vnum": 20579,
+"door": false,
+"closed": false,
+"locked": false
+}
+,
 "south": {
-"vnum": 20574,
+"vnum": 20578,
 "door": false,
 "closed": false,
 "locked": false
 }
 ,
 "west": {
-"vnum": 20579,
+"vnum": 20574,
 "door": false,
 "closed": false,
 "locked": false
@@ -145123,7 +146617,7 @@ mapAreas = {
 "locked": false
 }
 ,
-"east": {
+"south": {
 "vnum": 20573,
 "door": false,
 "closed": false,
@@ -145142,14 +146636,14 @@ mapAreas = {
 "name": "Sea of Sand",
 "area": "Gypsy Camp",
 "exits": {"north": {
-"vnum": 20574,
+"vnum": 20572,
 "door": false,
 "closed": false,
 "locked": false
 }
 ,
-"east": {
-"vnum": 20572,
+"south": {
+"vnum": 20574,
 "door": false,
 "closed": false,
 "locked": false
@@ -145678,14 +147172,14 @@ mapAreas = {
 "name": "Sea of Sand",
 "area": "Gypsy Camp",
 "exits": {"north": {
-"vnum": 20543,
+"vnum": 20539,
 "door": false,
 "closed": false,
 "locked": false
 }
 ,
 "east": {
-"vnum": 20539,
+"vnum": 20543,
 "door": false,
 "closed": false,
 "locked": false
@@ -145696,21 +147190,21 @@ mapAreas = {
 "name": "Sea of Sand",
 "area": "Gypsy Camp",
 "exits": {"north": {
-"vnum": 20538,
-"door": false,
-"closed": false,
-"locked": false
-}
-,
-"east": {
 "vnum": 20542,
 "door": false,
 "closed": false,
 "locked": false
 }
 ,
-"south": {
+"east": {
 "vnum": 20544,
+"door": false,
+"closed": false,
+"locked": false
+}
+,
+"south": {
+"vnum": 20538,
 "door": false,
 "closed": false,
 "locked": false
@@ -145746,7 +147240,7 @@ mapAreas = {
 "name": "Sea of Sand",
 "area": "Gypsy Camp",
 "exits": {"north": {
-"vnum": 20542,
+"vnum": 20537,
 "door": false,
 "closed": false,
 "locked": false
@@ -145760,7 +147254,7 @@ mapAreas = {
 }
 ,
 "south": {
-"vnum": 20537,
+"vnum": 20542,
 "door": false,
 "closed": false,
 "locked": false
@@ -145770,7 +147264,7 @@ mapAreas = {
 "20540": {
 "name": "Sea of Sand",
 "area": "Gypsy Camp",
-"exits": {"east": {
+"exits": {"north": {
 "vnum": 20536,
 "door": false,
 "closed": false,
@@ -145813,7 +147307,7 @@ mapAreas = {
 "locked": false
 }
 ,
-"south": {
+"east": {
 "vnum": 20535,
 "door": false,
 "closed": false,
@@ -145831,15 +147325,15 @@ mapAreas = {
 "20537": {
 "name": "Sea of Sand",
 "area": "Gypsy Camp",
-"exits": {"east": {
-"vnum": 20533,
+"exits": {"north": {
+"vnum": 20536,
 "door": false,
 "closed": false,
 "locked": false
 }
 ,
 "south": {
-"vnum": 20536,
+"vnum": 20533,
 "door": false,
 "closed": false,
 "locked": false
@@ -145863,7 +147357,7 @@ mapAreas = {
 "locked": false
 }
 ,
-"south": {
+"east": {
 "vnum": 20532,
 "door": false,
 "closed": false,
@@ -145881,7 +147375,7 @@ mapAreas = {
 "20535": {
 "name": "Sea of Sand",
 "area": "Gypsy Camp",
-"exits": {"east": {
+"exits": {"north": {
 "vnum": 20534,
 "door": false,
 "closed": false,
@@ -145900,21 +147394,21 @@ mapAreas = {
 "name": "Sea of Sand",
 "area": "Gypsy Camp",
 "exits": {"north": {
-"vnum": 20529,
+"vnum": 20535,
 "door": false,
 "closed": false,
 "locked": false
 }
 ,
 "east": {
-"vnum": 20533,
+"vnum": 20529,
 "door": false,
 "closed": false,
 "locked": false
 }
 ,
 "south": {
-"vnum": 20535,
+"vnum": 20533,
 "door": false,
 "closed": false,
 "locked": false
@@ -145925,14 +147419,14 @@ mapAreas = {
 "name": "Sea of Sand",
 "area": "Gypsy Camp",
 "exits": {"north": {
-"vnum": 20537,
+"vnum": 20532,
 "door": false,
 "closed": false,
 "locked": false
 }
 ,
 "east": {
-"vnum": 20532,
+"vnum": 20537,
 "door": false,
 "closed": false,
 "locked": false
@@ -145956,7 +147450,7 @@ mapAreas = {
 "20532": {
 "name": "Sea of Sand",
 "area": "Gypsy Camp",
-"exits": {"north": {
+"exits": {"east": {
 "vnum": 20533,
 "door": false,
 "closed": false,
@@ -146036,28 +147530,28 @@ mapAreas = {
 "name": "Sea of Sand",
 "area": "Gypsy Camp",
 "exits": {"north": {
-"vnum": 20527,
+"vnum": 20522,
 "door": false,
 "closed": false,
 "locked": false
 }
 ,
 "east": {
-"vnum": 20533,
-"door": false,
-"closed": false,
-"locked": false
-}
-,
-"south": {
 "vnum": 20529,
 "door": false,
 "closed": false,
 "locked": false
 }
 ,
+"south": {
+"vnum": 20533,
+"door": false,
+"closed": false,
+"locked": false
+}
+,
 "west": {
-"vnum": 20522,
+"vnum": 20527,
 "door": false,
 "closed": false,
 "locked": false
@@ -146067,15 +147561,15 @@ mapAreas = {
 "20527": {
 "name": "Sea of Sand",
 "area": "Gypsy Camp",
-"exits": {"north": {
-"vnum": 20528,
+"exits": {"east": {
+"vnum": 20521,
 "door": false,
 "closed": false,
 "locked": false
 }
 ,
 "south": {
-"vnum": 20521,
+"vnum": 20528,
 "door": false,
 "closed": false,
 "locked": false
@@ -146092,7 +147586,7 @@ mapAreas = {
 "20526": {
 "name": "Sea of Sand",
 "area": "Gypsy Camp",
-"exits": {"east": {
+"exits": {"north": {
 "vnum": 20525,
 "door": false,
 "closed": false,
@@ -146110,7 +147604,7 @@ mapAreas = {
 "20525": {
 "name": "Sea of Sand",
 "area": "Gypsy Camp",
-"exits": {"north": {
+"exits": {"east": {
 "vnum": 20524,
 "door": false,
 "closed": false,
@@ -146136,7 +147630,7 @@ mapAreas = {
 "name": "Sea of Sand",
 "area": "Gypsy Camp",
 "exits": {"north": {
-"vnum": 20520,
+"vnum": 20523,
 "door": false,
 "closed": false,
 "locked": false
@@ -146150,7 +147644,7 @@ mapAreas = {
 }
 ,
 "south": {
-"vnum": 20523,
+"vnum": 20520,
 "door": false,
 "closed": false,
 "locked": false
@@ -146160,7 +147654,7 @@ mapAreas = {
 "20523": {
 "name": "Sea of Sand",
 "area": "Gypsy Camp",
-"exits": {"north": {
+"exits": {"east": {
 "vnum": 20522,
 "door": false,
 "closed": false,
@@ -146179,14 +147673,14 @@ mapAreas = {
 "name": "Sea of Sand",
 "area": "Gypsy Camp",
 "exits": {"north": {
-"vnum": 20521,
+"vnum": 20528,
 "door": false,
 "closed": false,
 "locked": false
 }
 ,
 "east": {
-"vnum": 20523,
+"vnum": 20521,
 "door": false,
 "closed": false,
 "locked": false
@@ -146200,7 +147694,7 @@ mapAreas = {
 }
 ,
 "west": {
-"vnum": 20528,
+"vnum": 20523,
 "door": false,
 "closed": false,
 "locked": false
@@ -146210,14 +147704,14 @@ mapAreas = {
 "20521": {
 "name": "Sea of Sand",
 "area": "Gypsy Camp",
-"exits": {"north": {
+"exits": {"east": {
 "vnum": 20518,
 "door": false,
 "closed": false,
 "locked": false
 }
 ,
-"east": {
+"south": {
 "vnum": 20522,
 "door": false,
 "closed": false,
@@ -146254,14 +147748,14 @@ mapAreas = {
 "name": "Sea of Sand",
 "area": "Gypsy Camp",
 "exits": {"north": {
-"vnum": 20515,
+"vnum": 20518,
 "door": false,
 "closed": false,
 "locked": false
 }
 ,
-"south": {
-"vnum": 20518,
+"east": {
+"vnum": 20515,
 "door": false,
 "closed": false,
 "locked": false
@@ -146278,15 +147772,15 @@ mapAreas = {
 "20518": {
 "name": "Sea of Sand",
 "area": "Gypsy Camp",
-"exits": {"east": {
-"vnum": 20519,
+"exits": {"north": {
+"vnum": 20514,
 "door": false,
 "closed": false,
 "locked": false
 }
 ,
 "south": {
-"vnum": 20514,
+"vnum": 20519,
 "door": false,
 "closed": false,
 "locked": false
@@ -146303,7 +147797,7 @@ mapAreas = {
 "20517": {
 "name": "Sea of Sand",
 "area": "Gypsy Camp",
-"exits": {"north": {
+"exits": {"east": {
 "vnum": 20516,
 "door": false,
 "closed": false,
@@ -146322,21 +147816,21 @@ mapAreas = {
 "name": "Sea of Sand",
 "area": "Gypsy Camp",
 "exits": {"north": {
-"vnum": 20515,
-"door": false,
-"closed": false,
-"locked": false
-}
-,
-"east": {
 "vnum": 20517,
 "door": false,
 "closed": false,
 "locked": false
 }
 ,
-"south": {
+"east": {
 "vnum": 20513,
+"door": false,
+"closed": false,
+"locked": false
+}
+,
+"south": {
+"vnum": 20515,
 "door": false,
 "closed": false,
 "locked": false
@@ -146347,14 +147841,14 @@ mapAreas = {
 "name": "Sea of Sand",
 "area": "Gypsy Camp",
 "exits": {"north": {
-"vnum": 20516,
+"vnum": 20514,
 "door": false,
 "closed": false,
 "locked": false
 }
 ,
 "east": {
-"vnum": 20514,
+"vnum": 20516,
 "door": false,
 "closed": false,
 "locked": false
@@ -146419,28 +147913,28 @@ mapAreas = {
 "name": "Sea of Sand",
 "area": "Gypsy Camp",
 "exits": {"north": {
-"vnum": 20510,
+"vnum": 20512,
 "door": false,
 "closed": false,
 "locked": false
 }
 ,
 "east": {
-"vnum": 20509,
-"door": false,
-"closed": false,
-"locked": false
-}
-,
-"south": {
 "vnum": 20513,
 "door": false,
 "closed": false,
 "locked": false
 }
 ,
+"south": {
+"vnum": 20510,
+"door": false,
+"closed": false,
+"locked": false
+}
+,
 "west": {
-"vnum": 20512,
+"vnum": 20509,
 "door": false,
 "closed": false,
 "locked": false
@@ -146450,7 +147944,7 @@ mapAreas = {
 "20510": {
 "name": "Sea of Sand",
 "area": "Gypsy Camp",
-"exits": {"east": {
+"exits": {"north": {
 "vnum": 20508,
 "door": false,
 "closed": false,
@@ -146487,7 +147981,7 @@ mapAreas = {
 "name": "Sea of Sand",
 "area": "Gypsy Camp",
 "exits": {"north": {
-"vnum": 20509,
+"vnum": 20510,
 "door": false,
 "closed": false,
 "locked": false
@@ -146501,7 +147995,7 @@ mapAreas = {
 }
 ,
 "south": {
-"vnum": 20510,
+"vnum": 20509,
 "door": false,
 "closed": false,
 "locked": false
@@ -146518,7 +148012,7 @@ mapAreas = {
 "20507": {
 "name": "Sea of Sand",
 "area": "Gypsy Camp",
-"exits": {"north": {
+"exits": {"east": {
 "vnum": 20505,
 "door": false,
 "closed": false,
@@ -146536,15 +148030,15 @@ mapAreas = {
 "20506": {
 "name": "Sea of Sand",
 "area": "Gypsy Camp",
-"exits": {"north": {
-"vnum": 20505,
+"exits": {"east": {
+"vnum": 20503,
 "door": false,
 "closed": false,
 "locked": false
 }
 ,
 "south": {
-"vnum": 20503,
+"vnum": 20505,
 "door": false,
 "closed": false,
 "locked": false
@@ -146562,28 +148056,28 @@ mapAreas = {
 "name": "Sea of Sand",
 "area": "Gypsy Camp",
 "exits": {"north": {
-"vnum": 20501,
-"door": false,
-"closed": false,
-"locked": false
-}
-,
-"east": {
-"vnum": 20507,
-"door": false,
-"closed": false,
-"locked": false
-}
-,
-"south": {
 "vnum": 20506,
 "door": false,
 "closed": false,
 "locked": false
 }
 ,
-"west": {
+"east": {
+"vnum": 20501,
+"door": false,
+"closed": false,
+"locked": false
+}
+,
+"south": {
 "vnum": 20504,
+"door": false,
+"closed": false,
+"locked": false
+}
+,
+"west": {
+"vnum": 20507,
 "door": false,
 "closed": false,
 "locked": false
@@ -146611,7 +148105,7 @@ mapAreas = {
 "20503": {
 "name": "Sea of Sand",
 "area": "Gypsy Camp",
-"exits": {"east": {
+"exits": {"north": {
 "vnum": 20501,
 "door": false,
 "closed": false,
@@ -146648,21 +148142,21 @@ mapAreas = {
 "name": "Sea of Sand",
 "area": "Gypsy Camp",
 "exits": {"north": {
-"vnum": 20505,
-"door": false,
-"closed": false,
-"locked": false
-}
-,
-"east": {
 "vnum": 20503,
 "door": false,
 "closed": false,
 "locked": false
 }
 ,
-"south": {
+"east": {
 "vnum": 20502,
+"door": false,
+"closed": false,
+"locked": false
+}
+,
+"south": {
+"vnum": 20505,
 "door": false,
 "closed": false,
 "locked": false
@@ -171241,21 +172735,21 @@ mapAreas = {
 "name": "Icy Wastes",
 "area": "Icy Wastes & Frost Giant Cavern",
 "exits": {"north": {
-"vnum": 6717,
-"door": false,
-"closed": false,
-"locked": false
-}
-,
-"east": {
 "vnum": 6722,
 "door": false,
 "closed": false,
 "locked": false
 }
 ,
-"south": {
+"east": {
 "vnum": 6720,
+"door": false,
+"closed": false,
+"locked": false
+}
+,
+"south": {
+"vnum": 6717,
 "door": false,
 "closed": false,
 "locked": false
@@ -171272,14 +172766,7 @@ mapAreas = {
 "6722": {
 "name": "Icy Wastes",
 "area": "Icy Wastes & Frost Giant Cavern",
-"exits": {"north": {
-"vnum": 6721,
-"door": false,
-"closed": false,
-"locked": false
-}
-,
-"east": {
+"exits": {"east": {
 "vnum": 6719,
 "door": false,
 "closed": false,
@@ -171287,6 +172774,13 @@ mapAreas = {
 }
 ,
 "south": {
+"vnum": 6721,
+"door": false,
+"closed": false,
+"locked": false
+}
+,
+"west": {
 "vnum": 6723,
 "door": false,
 "closed": false,
@@ -171312,28 +172806,28 @@ mapAreas = {
 "name": "Icy Wastes",
 "area": "Icy Wastes & Frost Giant Cavern",
 "exits": {"north": {
-"vnum": 6722,
+"vnum": 6718,
 "door": false,
 "closed": false,
 "locked": false
 }
 ,
 "east": {
-"vnum": 6723,
+"vnum": 6722,
 "door": false,
 "closed": false,
 "locked": false
 }
 ,
 "south": {
-"vnum": 6715,
+"vnum": 6723,
 "door": false,
 "closed": false,
 "locked": false
 }
 ,
 "west": {
-"vnum": 6718,
+"vnum": 6715,
 "door": false,
 "closed": false,
 "locked": false
@@ -171344,21 +172838,21 @@ mapAreas = {
 "name": "Icy Wastes",
 "area": "Icy Wastes & Frost Giant Cavern",
 "exits": {"north": {
-"vnum": 6717,
-"door": false,
-"closed": false,
-"locked": false
-}
-,
-"east": {
 "vnum": 6719,
 "door": false,
 "closed": false,
 "locked": false
 }
 ,
-"south": {
+"east": {
 "vnum": 6723,
+"door": false,
+"closed": false,
+"locked": false
+}
+,
+"south": {
+"vnum": 6717,
 "door": false,
 "closed": false,
 "locked": false
@@ -171376,28 +172870,28 @@ mapAreas = {
 "name": "Icy Wastes",
 "area": "Icy Wastes & Frost Giant Cavern",
 "exits": {"north": {
-"vnum": 6716,
-"door": false,
-"closed": false,
-"locked": false
-}
-,
-"east": {
 "vnum": 6720,
 "door": false,
 "closed": false,
 "locked": false
 }
 ,
-"south": {
+"east": {
 "vnum": 6722,
 "door": false,
 "closed": false,
 "locked": false
 }
 ,
-"west": {
+"south": {
 "vnum": 6718,
+"door": false,
+"closed": false,
+"locked": false
+}
+,
+"west": {
+"vnum": 6716,
 "door": false,
 "closed": false,
 "locked": false
@@ -171415,21 +172909,21 @@ mapAreas = {
 }
 ,
 "east": {
-"vnum": 6721,
+"vnum": 6715,
 "door": false,
 "closed": false,
 "locked": false
 }
 ,
 "south": {
-"vnum": 6719,
+"vnum": 6721,
 "door": false,
 "closed": false,
 "locked": false
 }
 ,
 "west": {
-"vnum": 6715,
+"vnum": 6719,
 "door": false,
 "closed": false,
 "locked": false
@@ -171447,14 +172941,14 @@ mapAreas = {
 }
 ,
 "east": {
-"vnum": 6716,
+"vnum": 6715,
 "door": false,
 "closed": false,
 "locked": false
 }
 ,
 "south": {
-"vnum": 6715,
+"vnum": 6716,
 "door": false,
 "closed": false,
 "locked": false
@@ -171472,28 +172966,28 @@ mapAreas = {
 "name": "Icy Wastes",
 "area": "Icy Wastes & Frost Giant Cavern",
 "exits": {"north": {
-"vnum": 6719,
-"door": false,
-"closed": false,
-"locked": false
-}
-,
-"east": {
-"vnum": 6715,
-"door": false,
-"closed": false,
-"locked": false
-}
-,
-"south": {
 "vnum": 6717,
 "door": false,
 "closed": false,
 "locked": false
 }
 ,
-"west": {
+"east": {
+"vnum": 6719,
+"door": false,
+"closed": false,
+"locked": false
+}
+,
+"south": {
 "vnum": 6714,
+"door": false,
+"closed": false,
+"locked": false
+}
+,
+"west": {
+"vnum": 6715,
 "door": false,
 "closed": false,
 "locked": false
@@ -171504,28 +172998,28 @@ mapAreas = {
 "name": "Icy Wastes",
 "area": "Icy Wastes & Frost Giant Cavern",
 "exits": {"north": {
-"vnum": 6721,
-"door": false,
-"closed": false,
-"locked": false
-}
-,
-"east": {
 "vnum": 6718,
 "door": false,
 "closed": false,
 "locked": false
 }
 ,
+"east": {
+"vnum": 6721,
+"door": false,
+"closed": false,
+"locked": false
+}
+,
 "south": {
-"vnum": 6717,
+"vnum": 6716,
 "door": false,
 "closed": false,
 "locked": false
 }
 ,
 "west": {
-"vnum": 6716,
+"vnum": 6717,
 "door": false,
 "closed": false,
 "locked": false
@@ -171771,6 +173265,13 @@ mapAreas = {
 "area": "Icy Wastes & Frost Giant Cavern",
 "exits": {"south": {
 "vnum": 6795,
+"door": false,
+"closed": false,
+"locked": false
+}
+,
+"up": {
+"vnum": 1888,
 "door": false,
 "closed": false,
 "locked": false
@@ -172140,14 +173641,14 @@ mapAreas = {
 "28258": {
 "name": "Deep within the Mountains of Frost",
 "area": "The Mountains of Frost",
-"exits": {"east": {
+"exits": {"north": {
 "vnum": 28259,
 "door": false,
 "closed": false,
 "locked": false
 }
 ,
-"south": {
+"east": {
 "vnum": 28253,
 "door": false,
 "closed": false,
@@ -172166,7 +173667,7 @@ mapAreas = {
 "name": "Deep within the Mountains of Frost",
 "area": "The Mountains of Frost",
 "exits": {"north": {
-"vnum": 28256,
+"vnum": 28252,
 "door": false,
 "closed": false,
 "locked": false
@@ -172180,14 +173681,14 @@ mapAreas = {
 }
 ,
 "south": {
-"vnum": 28252,
+"vnum": 28258,
 "door": false,
 "closed": false,
 "locked": false
 }
 ,
 "west": {
-"vnum": 28258,
+"vnum": 28256,
 "door": false,
 "closed": false,
 "locked": false
@@ -172197,15 +173698,15 @@ mapAreas = {
 "28256": {
 "name": "Deep within the Mountains of Frost",
 "area": "The Mountains of Frost",
-"exits": {"north": {
-"vnum": 28257,
+"exits": {"east": {
+"vnum": 28251,
 "door": false,
 "closed": false,
 "locked": false
 }
 ,
 "south": {
-"vnum": 28251,
+"vnum": 28257,
 "door": false,
 "closed": false,
 "locked": false
@@ -172273,21 +173774,21 @@ mapAreas = {
 }
 ,
 "east": {
-"vnum": 28254,
+"vnum": 28258,
 "door": false,
 "closed": false,
 "locked": false
 }
 ,
 "south": {
-"vnum": 28248,
+"vnum": 28254,
 "door": false,
 "closed": false,
 "locked": false
 }
 ,
 "west": {
-"vnum": 28258,
+"vnum": 28248,
 "door": false,
 "closed": false,
 "locked": false
@@ -172312,14 +173813,14 @@ mapAreas = {
 }
 ,
 "south": {
-"vnum": 28247,
+"vnum": 28253,
 "door": false,
 "closed": false,
 "locked": false
 }
 ,
 "west": {
-"vnum": 28253,
+"vnum": 28247,
 "door": false,
 "closed": false,
 "locked": false
@@ -172330,28 +173831,28 @@ mapAreas = {
 "name": "Deep within the Mountains of Frost",
 "area": "The Mountains of Frost",
 "exits": {"north": {
-"vnum": 28256,
-"door": false,
-"closed": false,
-"locked": false
-}
-,
-"east": {
 "vnum": 28252,
 "door": false,
 "closed": false,
 "locked": false
 }
 ,
+"east": {
+"vnum": 28256,
+"door": false,
+"closed": false,
+"locked": false
+}
+,
 "south": {
-"vnum": 28245,
+"vnum": 28250,
 "door": false,
 "closed": false,
 "locked": false
 }
 ,
 "west": {
-"vnum": 28250,
+"vnum": 28245,
 "door": false,
 "closed": false,
 "locked": false
@@ -172430,14 +173931,14 @@ mapAreas = {
 "name": "Deep within the Mountains of Frost",
 "area": "The Mountains of Frost",
 "exits": {"north": {
-"vnum": 28252,
+"vnum": 28248,
 "door": false,
 "closed": false,
 "locked": false
 }
 ,
 "south": {
-"vnum": 28248,
+"vnum": 28252,
 "door": false,
 "closed": false,
 "locked": false
@@ -172473,14 +173974,14 @@ mapAreas = {
 "name": "Deep within the Mountains of Frost",
 "area": "The Mountains of Frost",
 "exits": {"north": {
-"vnum": 28247,
+"vnum": 28244,
 "door": false,
 "closed": false,
 "locked": false
 }
 ,
 "east": {
-"vnum": 28244,
+"vnum": 28246,
 "door": false,
 "closed": false,
 "locked": false
@@ -172494,7 +173995,7 @@ mapAreas = {
 }
 ,
 "west": {
-"vnum": 28246,
+"vnum": 28247,
 "door": false,
 "closed": false,
 "locked": false
@@ -174121,14 +175622,14 @@ mapAreas = {
 "name": "Chilly Catacombs",
 "area": "The Frosted Chasm of Buraf",
 "exits": {"north": {
-"vnum": 32216,
+"vnum": 32215,
 "door": false,
 "closed": false,
 "locked": false
 }
 ,
 "east": {
-"vnum": 32207,
+"vnum": 32216,
 "door": false,
 "closed": false,
 "locked": false
@@ -174142,7 +175643,7 @@ mapAreas = {
 }
 ,
 "west": {
-"vnum": 32215,
+"vnum": 32207,
 "door": false,
 "closed": false,
 "locked": false
@@ -174153,28 +175654,28 @@ mapAreas = {
 "name": "Chilly Catacombs",
 "area": "The Frosted Chasm of Buraf",
 "exits": {"north": {
-"vnum": 32206,
-"door": false,
-"closed": false,
-"locked": false
-}
-,
-"east": {
 "vnum": 32214,
 "door": false,
 "closed": false,
 "locked": false
 }
 ,
+"east": {
+"vnum": 32206,
+"door": false,
+"closed": false,
+"locked": false
+}
+,
 "south": {
-"vnum": 32217,
+"vnum": 32216,
 "door": false,
 "closed": false,
 "locked": false
 }
 ,
 "west": {
-"vnum": 32216,
+"vnum": 32217,
 "door": false,
 "closed": false,
 "locked": false
@@ -174185,7 +175686,7 @@ mapAreas = {
 "name": "Chilly Catacombs",
 "area": "The Frosted Chasm of Buraf",
 "exits": {"north": {
-"vnum": 32208,
+"vnum": 32212,
 "door": false,
 "closed": false,
 "locked": false
@@ -174199,14 +175700,14 @@ mapAreas = {
 }
 ,
 "south": {
-"vnum": 32212,
+"vnum": 32214,
 "door": false,
 "closed": false,
 "locked": false
 }
 ,
 "west": {
-"vnum": 32214,
+"vnum": 32208,
 "door": false,
 "closed": false,
 "locked": false
@@ -174235,21 +175736,21 @@ mapAreas = {
 }
 ,
 "east": {
-"vnum": 32209,
-"door": false,
-"closed": false,
-"locked": false
-}
-,
-"south": {
 "vnum": 32214,
 "door": false,
 "closed": false,
 "locked": false
 }
 ,
-"west": {
+"south": {
 "vnum": 32213,
+"door": false,
+"closed": false,
+"locked": false
+}
+,
+"west": {
+"vnum": 32209,
 "door": false,
 "closed": false,
 "locked": false
@@ -174267,21 +175768,21 @@ mapAreas = {
 }
 ,
 "east": {
-"vnum": 32212,
-"door": false,
-"closed": false,
-"locked": false
-}
-,
-"south": {
 "vnum": 32210,
 "door": false,
 "closed": false,
 "locked": false
 }
 ,
-"west": {
+"south": {
 "vnum": 32211,
+"door": false,
+"closed": false,
+"locked": false
+}
+,
+"west": {
+"vnum": 32212,
 "door": false,
 "closed": false,
 "locked": false
@@ -174292,28 +175793,28 @@ mapAreas = {
 "name": "Chilly Catacombs",
 "area": "The Frosted Chasm of Buraf",
 "exits": {"north": {
-"vnum": 32211,
+"vnum": 32210,
 "door": false,
 "closed": false,
 "locked": false
 }
 ,
 "east": {
-"vnum": 32210,
+"vnum": 32209,
 "door": false,
 "closed": false,
 "locked": false
 }
 ,
 "south": {
-"vnum": 32210,
+"vnum": 32211,
 "door": false,
 "closed": false,
 "locked": false
 }
 ,
 "west": {
-"vnum": 32209,
+"vnum": 32210,
 "door": false,
 "closed": false,
 "locked": false
@@ -174324,28 +175825,28 @@ mapAreas = {
 "name": "Chilly Catacombs",
 "area": "The Frosted Chasm of Buraf",
 "exits": {"north": {
-"vnum": 32212,
+"vnum": 32204,
 "door": false,
 "closed": false,
 "locked": false
 }
 ,
 "east": {
-"vnum": 32208,
+"vnum": 32212,
 "door": false,
 "closed": false,
 "locked": false
 }
 ,
 "south": {
-"vnum": 32210,
+"vnum": 32208,
 "door": false,
 "closed": false,
 "locked": false
 }
 ,
 "west": {
-"vnum": 32204,
+"vnum": 32210,
 "door": false,
 "closed": false,
 "locked": false
@@ -174363,21 +175864,21 @@ mapAreas = {
 }
 ,
 "east": {
-"vnum": 32214,
+"vnum": 32203,
 "door": false,
 "closed": false,
 "locked": false
 }
 ,
 "south": {
-"vnum": 32206,
+"vnum": 32214,
 "door": false,
 "closed": false,
 "locked": false
 }
 ,
 "west": {
-"vnum": 32203,
+"vnum": 32206,
 "door": false,
 "closed": false,
 "locked": false
@@ -174420,28 +175921,28 @@ mapAreas = {
 "name": "Chilly Catacombs",
 "area": "The Frosted Chasm of Buraf",
 "exits": {"north": {
-"vnum": 32215,
+"vnum": 32207,
 "door": false,
 "closed": false,
 "locked": false
 }
 ,
 "east": {
-"vnum": 32205,
-"door": false,
-"closed": false,
-"locked": false
-}
-,
-"south": {
 "vnum": 32208,
 "door": false,
 "closed": false,
 "locked": false
 }
 ,
+"south": {
+"vnum": 32205,
+"door": false,
+"closed": false,
+"locked": false
+}
+,
 "west": {
-"vnum": 32207,
+"vnum": 32215,
 "door": false,
 "closed": false,
 "locked": false
@@ -174452,7 +175953,7 @@ mapAreas = {
 "name": "Chilly Catacombs",
 "area": "The Frosted Chasm of Buraf",
 "exits": {"north": {
-"vnum": 32203,
+"vnum": 32206,
 "door": false,
 "closed": false,
 "locked": false
@@ -174466,14 +175967,14 @@ mapAreas = {
 }
 ,
 "south": {
-"vnum": 32205,
+"vnum": 32203,
 "door": false,
 "closed": false,
 "locked": false
 }
 ,
 "west": {
-"vnum": 32206,
+"vnum": 32205,
 "door": false,
 "closed": false,
 "locked": false
@@ -174484,21 +175985,21 @@ mapAreas = {
 "name": "Chilly Catacombs",
 "area": "The Frosted Chasm of Buraf",
 "exits": {"north": {
-"vnum": 32209,
+"vnum": 32204,
 "door": false,
 "closed": false,
 "locked": false
 }
 ,
 "east": {
-"vnum": 32203,
+"vnum": 32209,
 "door": false,
 "closed": false,
 "locked": false
 }
 ,
 "south": {
-"vnum": 32204,
+"vnum": 32203,
 "door": false,
 "closed": false,
 "locked": false
@@ -174530,14 +176031,14 @@ mapAreas = {
 }
 ,
 "south": {
-"vnum": 32204,
+"vnum": 32202,
 "door": false,
 "closed": false,
 "locked": false
 }
 ,
 "west": {
-"vnum": 32202,
+"vnum": 32204,
 "door": false,
 "closed": false,
 "locked": false
@@ -179855,28 +181356,28 @@ mapAreas = {
 "name": "Deep Forest",
 "area": "Luniin Forest",
 "exits": {"north": {
-"vnum": 26325,
-"door": false,
-"closed": false,
-"locked": false
-}
-,
-"east": {
 "vnum": 26323,
 "door": false,
 "closed": false,
 "locked": false
 }
 ,
+"east": {
+"vnum": 26325,
+"door": false,
+"closed": false,
+"locked": false
+}
+,
 "south": {
-"vnum": 26319,
+"vnum": 26328,
 "door": false,
 "closed": false,
 "locked": false
 }
 ,
 "west": {
-"vnum": 26328,
+"vnum": 26319,
 "door": false,
 "closed": false,
 "locked": false
@@ -179962,14 +181463,14 @@ mapAreas = {
 "name": "Deep Forest",
 "area": "Luniin Forest",
 "exits": {"north": {
-"vnum": 26325,
+"vnum": 26319,
 "door": false,
 "closed": false,
 "locked": false
 }
 ,
 "east": {
-"vnum": 26319,
+"vnum": 26315,
 "door": false,
 "closed": false,
 "locked": false
@@ -179983,7 +181484,7 @@ mapAreas = {
 }
 ,
 "west": {
-"vnum": 26315,
+"vnum": 26325,
 "door": false,
 "closed": false,
 "locked": false
@@ -179994,7 +181495,7 @@ mapAreas = {
 "name": "Deep Forest",
 "area": "Luniin Forest",
 "exits": {"north": {
-"vnum": 26318,
+"vnum": 26314,
 "door": false,
 "closed": false,
 "locked": false
@@ -180015,7 +181516,7 @@ mapAreas = {
 }
 ,
 "west": {
-"vnum": 26314,
+"vnum": 26318,
 "door": false,
 "closed": false,
 "locked": false
@@ -180033,21 +181534,21 @@ mapAreas = {
 }
 ,
 "east": {
-"vnum": 26319,
-"door": false,
-"closed": false,
-"locked": false
-}
-,
-"south": {
 "vnum": 26313,
 "door": false,
 "closed": false,
 "locked": false
 }
 ,
-"west": {
+"south": {
 "vnum": 26323,
+"door": false,
+"closed": false,
+"locked": false
+}
+,
+"west": {
+"vnum": 26319,
 "door": false,
 "closed": false,
 "locked": false
@@ -180108,28 +181609,28 @@ mapAreas = {
 "name": "Deep Forest",
 "area": "Luniin Forest",
 "exits": {"north": {
-"vnum": 26320,
-"door": false,
-"closed": false,
-"locked": false
-}
-,
-"east": {
-"vnum": 26316,
-"door": false,
-"closed": false,
-"locked": false
-}
-,
-"south": {
 "vnum": 26310,
 "door": false,
 "closed": false,
 "locked": false
 }
 ,
-"west": {
+"east": {
+"vnum": 26320,
+"door": false,
+"closed": false,
+"locked": false
+}
+,
+"south": {
 "vnum": 26314,
+"door": false,
+"closed": false,
+"locked": false
+}
+,
+"west": {
+"vnum": 26316,
 "door": false,
 "closed": false,
 "locked": false
@@ -180172,7 +181673,7 @@ mapAreas = {
 "name": "Deep Forest",
 "area": "Luniin Forest",
 "exits": {"north": {
-"vnum": 26312,
+"vnum": 26318,
 "door": false,
 "closed": false,
 "locked": false
@@ -180186,7 +181687,7 @@ mapAreas = {
 }
 ,
 "south": {
-"vnum": 26318,
+"vnum": 26312,
 "door": false,
 "closed": false,
 "locked": false
@@ -180293,21 +181794,21 @@ mapAreas = {
 }
 ,
 "east": {
-"vnum": 26308,
-"door": false,
-"closed": false,
-"locked": false
-}
-,
-"south": {
 "vnum": 26304,
 "door": false,
 "closed": false,
 "locked": false
 }
 ,
-"west": {
+"south": {
 "vnum": 26310,
+"door": false,
+"closed": false,
+"locked": false
+}
+,
+"west": {
+"vnum": 26308,
 "door": false,
 "closed": false,
 "locked": false
@@ -180318,14 +181819,14 @@ mapAreas = {
 "name": "Deep Forest",
 "area": "Luniin Forest",
 "exits": {"north": {
-"vnum": 26303,
+"vnum": 26313,
 "door": false,
 "closed": false,
 "locked": false
 }
 ,
 "east": {
-"vnum": 26313,
+"vnum": 26309,
 "door": false,
 "closed": false,
 "locked": false
@@ -180339,7 +181840,7 @@ mapAreas = {
 }
 ,
 "west": {
-"vnum": 26309,
+"vnum": 26303,
 "door": false,
 "closed": false,
 "locked": false
@@ -181321,42 +182822,42 @@ mapAreas = {
 "name": "Vortex of power",
 "area": "Goblin Village",
 "exits": {"north": {
-"vnum": 8775,
+"vnum": 0,
 "door": false,
 "closed": false,
 "locked": false
 }
 ,
 "east": {
-"vnum": 561,
-"door": false,
-"closed": false,
-"locked": false
-}
-,
-"south": {
-"vnum": 0,
-"door": false,
-"closed": false,
-"locked": false
-}
-,
-"west": {
 "vnum": 322,
 "door": false,
 "closed": false,
 "locked": false
 }
 ,
-"up": {
+"south": {
+"vnum": 1805,
+"door": false,
+"closed": false,
+"locked": false
+}
+,
+"west": {
 "vnum": 0,
 "door": false,
 "closed": false,
 "locked": false
 }
 ,
+"up": {
+"vnum": 8775,
+"door": false,
+"closed": false,
+"locked": false
+}
+,
 "down": {
-"vnum": 1805,
+"vnum": 561,
 "door": false,
 "closed": false,
 "locked": false
@@ -185841,6 +187342,42 @@ mapAreas = {
 "area": "Council of Elven Law",
 "exits": {}
 },
+"1899": {
+"name": "Mysterious Wintery Path",
+"area": "Magic Forest",
+"exits": {"north": {
+"vnum": 1879,
+"door": false,
+"closed": false,
+"locked": false
+}
+,
+"south": {
+"vnum": 1898,
+"door": false,
+"closed": false,
+"locked": false
+}
+}
+},
+"1898": {
+"name": "Mysterious Path",
+"area": "Magic Forest",
+"exits": {"north": {
+"vnum": 1899,
+"door": false,
+"closed": false,
+"locked": false
+}
+,
+"south": {
+"vnum": 1808,
+"door": false,
+"closed": false,
+"locked": false
+}
+}
+},
 "1897": {
 "name": "Winding Path",
 "area": "Magic Forest",
@@ -185990,6 +187527,186 @@ mapAreas = {
 "area": "Magic Forest",
 "exits": {"up": {
 "vnum": 1861,
+"door": false,
+"closed": false,
+"locked": false
+}
+}
+},
+"1888": {
+"name": "A Sudden Icy Slope!!!",
+"area": "Magic Forest",
+"exits": {"south": {
+"vnum": 1887,
+"door": false,
+"closed": false,
+"locked": false
+}
+,
+"down": {
+"vnum": 6701,
+"door": false,
+"closed": false,
+"locked": false
+}
+}
+},
+"1887": {
+"name": "A Mysterious Wintery Path",
+"area": "Magic Forest",
+"exits": {"north": {
+"vnum": 1888,
+"door": false,
+"closed": false,
+"locked": false
+}
+,
+"south": {
+"vnum": 1886,
+"door": false,
+"closed": false,
+"locked": false
+}
+}
+},
+"1886": {
+"name": "A Mysterious Wintery Path",
+"area": "Magic Forest",
+"exits": {"north": {
+"vnum": 1887,
+"door": false,
+"closed": false,
+"locked": false
+}
+,
+"south": {
+"vnum": 1885,
+"door": false,
+"closed": false,
+"locked": false
+}
+}
+},
+"1885": {
+"name": "A Mysterious Wintery Path",
+"area": "Magic Forest",
+"exits": {"north": {
+"vnum": 1886,
+"door": false,
+"closed": false,
+"locked": false
+}
+,
+"south": {
+"vnum": 1884,
+"door": false,
+"closed": false,
+"locked": false
+}
+}
+},
+"1884": {
+"name": "A Mysterious Wintery Path",
+"area": "Magic Forest",
+"exits": {"north": {
+"vnum": 1885,
+"door": false,
+"closed": false,
+"locked": false
+}
+,
+"up": {
+"vnum": 1883,
+"door": false,
+"closed": false,
+"locked": false
+}
+}
+},
+"1883": {
+"name": "An Icy Slope!",
+"area": "Magic Forest",
+"exits": {"up": {
+"vnum": 1882,
+"door": false,
+"closed": false,
+"locked": false
+}
+,
+"down": {
+"vnum": 1884,
+"door": false,
+"closed": false,
+"locked": false
+}
+}
+},
+"1882": {
+"name": "A Mysterious Wintery Path",
+"area": "Magic Forest",
+"exits": {"south": {
+"vnum": 1881,
+"door": false,
+"closed": false,
+"locked": false
+}
+,
+"down": {
+"vnum": 1883,
+"door": false,
+"closed": false,
+"locked": false
+}
+}
+},
+"1881": {
+"name": "A Mysterious Wintery Path",
+"area": "Magic Forest",
+"exits": {"north": {
+"vnum": 1882,
+"door": false,
+"closed": false,
+"locked": false
+}
+,
+"south": {
+"vnum": 1880,
+"door": false,
+"closed": false,
+"locked": false
+}
+}
+},
+"1880": {
+"name": "A Mysterious Wintery Path",
+"area": "Magic Forest",
+"exits": {"north": {
+"vnum": 1881,
+"door": false,
+"closed": false,
+"locked": false
+}
+,
+"south": {
+"vnum": 1879,
+"door": false,
+"closed": false,
+"locked": false
+}
+}
+},
+"1879": {
+"name": "A Mysterious Wintery Path",
+"area": "Magic Forest",
+"exits": {"north": {
+"vnum": 1880,
+"door": false,
+"closed": false,
+"locked": false
+}
+,
+"south": {
+"vnum": 0,
 "door": false,
 "closed": false,
 "locked": false
@@ -187951,7 +189668,14 @@ mapAreas = {
 "1808": {
 "name": "By the northeast corner",
 "area": "Magic Forest",
-"exits": {"south": {
+"exits": {"north": {
+"vnum": 1898,
+"door": false,
+"closed": false,
+"locked": false
+}
+,
+"south": {
 "vnum": 1816,
 "door": false,
 "closed": false,
@@ -216116,14 +217840,14 @@ mapAreas = {
 }
 ,
 "east": {
-"vnum": 24467,
+"vnum": 24470,
 "door": false,
 "closed": false,
 "locked": false
 }
 ,
 "south": {
-"vnum": 24470,
+"vnum": 24467,
 "door": false,
 "closed": false,
 "locked": false
@@ -216141,7 +217865,7 @@ mapAreas = {
 "name": "In the Clown Corner",
 "area": "the Strange Carnival",
 "exits": {"north": {
-"vnum": 24469,
+"vnum": 24474,
 "door": false,
 "closed": false,
 "locked": false
@@ -216155,7 +217879,7 @@ mapAreas = {
 }
 ,
 "south": {
-"vnum": 24474,
+"vnum": 24469,
 "door": false,
 "closed": false,
 "locked": false
@@ -216173,7 +217897,7 @@ mapAreas = {
 "name": "Before the Turning Wheel",
 "area": "the Strange Carnival",
 "exits": {"north": {
-"vnum": 24469,
+"vnum": 24475,
 "door": false,
 "closed": false,
 "locked": false
@@ -216187,7 +217911,7 @@ mapAreas = {
 }
 ,
 "south": {
-"vnum": 24475,
+"vnum": 24469,
 "door": false,
 "closed": false,
 "locked": false
@@ -216244,14 +217968,14 @@ mapAreas = {
 }
 ,
 "east": {
-"vnum": 24471,
+"vnum": 24475,
 "door": false,
 "closed": false,
 "locked": false
 }
 ,
 "south": {
-"vnum": 24475,
+"vnum": 24471,
 "door": false,
 "closed": false,
 "locked": false
@@ -216276,14 +218000,14 @@ mapAreas = {
 }
 ,
 "east": {
-"vnum": 24470,
+"vnum": 24467,
 "door": false,
 "closed": false,
 "locked": false
 }
 ,
 "south": {
-"vnum": 24467,
+"vnum": 24470,
 "door": false,
 "closed": false,
 "locked": false
@@ -216340,14 +218064,14 @@ mapAreas = {
 }
 ,
 "east": {
-"vnum": 24468,
+"vnum": 24472,
 "door": false,
 "closed": false,
 "locked": false
 }
 ,
 "south": {
-"vnum": 24472,
+"vnum": 24468,
 "door": false,
 "closed": false,
 "locked": false
@@ -216372,21 +218096,21 @@ mapAreas = {
 "name": "Lost in the Misty Ring",
 "area": "the Strange Carnival",
 "exits": {"north": {
-"vnum": 24467,
-"door": false,
-"closed": false,
-"locked": false
-}
-,
-"east": {
 "vnum": 24473,
 "door": false,
 "closed": false,
 "locked": false
 }
 ,
-"south": {
+"east": {
 "vnum": 24471,
+"door": false,
+"closed": false,
+"locked": false
+}
+,
+"south": {
+"vnum": 24467,
 "door": false,
 "closed": false,
 "locked": false
@@ -216411,14 +218135,14 @@ mapAreas = {
 }
 ,
 "east": {
-"vnum": 24467,
+"vnum": 24472,
 "door": false,
 "closed": false,
 "locked": false
 }
 ,
 "south": {
-"vnum": 24472,
+"vnum": 24467,
 "door": false,
 "closed": false,
 "locked": false
@@ -216475,14 +218199,14 @@ mapAreas = {
 }
 ,
 "east": {
-"vnum": 24468,
+"vnum": 24473,
 "door": false,
 "closed": false,
 "locked": false
 }
 ,
 "south": {
-"vnum": 24473,
+"vnum": 24468,
 "door": false,
 "closed": false,
 "locked": false
@@ -281505,7 +283229,7 @@ mapAreas = {
 "29918": {
 "name": "Thick Jungle",
 "area": "Southern Jungle",
-"exits": {"east": {
+"exits": {"north": {
 "vnum": 29915,
 "door": false,
 "closed": false,
@@ -281541,7 +283265,7 @@ mapAreas = {
 "29916": {
 "name": "Thick Jungle",
 "area": "Southern Jungle",
-"exits": {"north": {
+"exits": {"east": {
 "vnum": 29914,
 "door": false,
 "closed": false,
@@ -281560,7 +283284,7 @@ mapAreas = {
 "name": "Thick Jungle",
 "area": "Southern Jungle",
 "exits": {"north": {
-"vnum": 29914,
+"vnum": 29919,
 "door": false,
 "closed": false,
 "locked": false
@@ -281574,14 +283298,14 @@ mapAreas = {
 }
 ,
 "south": {
-"vnum": 29919,
+"vnum": 29918,
 "door": false,
 "closed": false,
 "locked": false
 }
 ,
 "west": {
-"vnum": 29918,
+"vnum": 29914,
 "door": false,
 "closed": false,
 "locked": false
@@ -281631,21 +283355,21 @@ mapAreas = {
 "name": "Thick Jungle",
 "area": "Southern Jungle",
 "exits": {"north": {
-"vnum": 29910,
-"door": false,
-"closed": false,
-"locked": false
-}
-,
-"east": {
 "vnum": 29911,
 "door": false,
 "closed": false,
 "locked": false
 }
 ,
-"south": {
+"east": {
 "vnum": 29916,
+"door": false,
+"closed": false,
+"locked": false
+}
+,
+"south": {
+"vnum": 29910,
 "door": false,
 "closed": false,
 "locked": false
@@ -281656,7 +283380,7 @@ mapAreas = {
 "name": "Thick Jungle",
 "area": "Southern Jungle",
 "exits": {"north": {
-"vnum": 29920,
+"vnum": 29909,
 "door": false,
 "closed": false,
 "locked": false
@@ -281670,14 +283394,14 @@ mapAreas = {
 }
 ,
 "south": {
-"vnum": 29909,
+"vnum": 29910,
 "door": false,
 "closed": false,
 "locked": false
 }
 ,
 "west": {
-"vnum": 29910,
+"vnum": 29920,
 "door": false,
 "closed": false,
 "locked": false
@@ -281688,14 +283412,14 @@ mapAreas = {
 "name": "Thick Jungle",
 "area": "Southern Jungle",
 "exits": {"north": {
-"vnum": 29908,
+"vnum": 29913,
 "door": false,
 "closed": false,
 "locked": false
 }
 ,
 "east": {
-"vnum": 29913,
+"vnum": 29908,
 "door": false,
 "closed": false,
 "locked": false
@@ -281737,7 +283461,7 @@ mapAreas = {
 "29909": {
 "name": "Thick Jungle",
 "area": "Southern Jungle",
-"exits": {"east": {
+"exits": {"north": {
 "vnum": 29912,
 "door": false,
 "closed": false,
@@ -281756,28 +283480,28 @@ mapAreas = {
 "name": "Thick Jungle",
 "area": "Southern Jungle",
 "exits": {"north": {
-"vnum": 29907,
-"door": false,
-"closed": false,
-"locked": false
-}
-,
-"east": {
 "vnum": 29911,
 "door": false,
 "closed": false,
 "locked": false
 }
 ,
+"east": {
+"vnum": 29909,
+"door": false,
+"closed": false,
+"locked": false
+}
+,
 "south": {
-"vnum": 29910,
+"vnum": 29907,
 "door": false,
 "closed": false,
 "locked": false
 }
 ,
 "west": {
-"vnum": 29909,
+"vnum": 29910,
 "door": false,
 "closed": false,
 "locked": false
@@ -392689,14 +394413,14 @@ mapAreas = {
 }
 ,
 "east": {
-"vnum": 12120,
+"vnum": 12114,
 "door": false,
 "closed": false,
 "locked": false
 }
 ,
 "south": {
-"vnum": 12114,
+"vnum": 12120,
 "door": false,
 "closed": false,
 "locked": false
@@ -392714,28 +394438,28 @@ mapAreas = {
 "name": "Lost in the sands",
 "area": "The Forbidden Sands",
 "exits": {"north": {
-"vnum": 12119,
-"door": false,
-"closed": false,
-"locked": false
-}
-,
-"east": {
-"vnum": 12117,
-"door": false,
-"closed": false,
-"locked": false
-}
-,
-"south": {
 "vnum": 12123,
 "door": false,
 "closed": false,
 "locked": false
 }
 ,
-"west": {
+"east": {
+"vnum": 12119,
+"door": false,
+"closed": false,
+"locked": false
+}
+,
+"south": {
 "vnum": 12113,
+"door": false,
+"closed": false,
+"locked": false
+}
+,
+"west": {
+"vnum": 12117,
 "door": false,
 "closed": false,
 "locked": false
@@ -392745,14 +394469,14 @@ mapAreas = {
 "12117": {
 "name": "Lost in the sands",
 "area": "The Forbidden Sands",
-"exits": {"east": {
+"exits": {"north": {
 "vnum": 12118,
 "door": false,
 "closed": false,
 "locked": false
 }
 ,
-"south": {
+"east": {
 "vnum": 12112,
 "door": false,
 "closed": false,
@@ -392771,14 +394495,14 @@ mapAreas = {
 "name": "Lost in the sands",
 "area": "The Forbidden Sands",
 "exits": {"north": {
-"vnum": 12111,
+"vnum": 12117,
 "door": false,
 "closed": false,
 "locked": false
 }
 ,
 "east": {
-"vnum": 12117,
+"vnum": 12111,
 "door": false,
 "closed": false,
 "locked": false
@@ -392789,14 +394513,14 @@ mapAreas = {
 "name": "Lost in the sands",
 "area": "The Forbidden Sands",
 "exits": {"north": {
-"vnum": 12120,
+"vnum": 12110,
 "door": false,
 "closed": false,
 "locked": false
 }
 ,
 "east": {
-"vnum": 12110,
+"vnum": 12120,
 "door": false,
 "closed": false,
 "locked": false
@@ -392828,14 +394552,14 @@ mapAreas = {
 }
 ,
 "south": {
-"vnum": 12119,
+"vnum": 12113,
 "door": false,
 "closed": false,
 "locked": false
 }
 ,
 "west": {
-"vnum": 12113,
+"vnum": 12119,
 "door": false,
 "closed": false,
 "locked": false
@@ -392846,28 +394570,28 @@ mapAreas = {
 "name": "Lost in the sands",
 "area": "The Forbidden Sands",
 "exits": {"north": {
-"vnum": 12119,
-"door": false,
-"closed": false,
-"locked": false
-}
-,
-"east": {
-"vnum": 12108,
-"door": false,
-"closed": false,
-"locked": false
-}
-,
-"south": {
 "vnum": 12114,
 "door": false,
 "closed": false,
 "locked": false
 }
 ,
-"west": {
+"east": {
 "vnum": 12112,
+"door": false,
+"closed": false,
+"locked": false
+}
+,
+"south": {
+"vnum": 12119,
+"door": false,
+"closed": false,
+"locked": false
+}
+,
+"west": {
+"vnum": 12108,
 "door": false,
 "closed": false,
 "locked": false
@@ -392878,7 +394602,7 @@ mapAreas = {
 "name": "Lost in the sands",
 "area": "The Forbidden Sands",
 "exits": {"north": {
-"vnum": 12111,
+"vnum": 12113,
 "door": false,
 "closed": false,
 "locked": false
@@ -392892,14 +394616,14 @@ mapAreas = {
 }
 ,
 "south": {
-"vnum": 12107,
+"vnum": 12111,
 "door": false,
 "closed": false,
 "locked": false
 }
 ,
 "west": {
-"vnum": 12113,
+"vnum": 12107,
 "door": false,
 "closed": false,
 "locked": false
@@ -392910,7 +394634,7 @@ mapAreas = {
 "name": "Lost in the sands",
 "area": "The Forbidden Sands",
 "exits": {"north": {
-"vnum": 12106,
+"vnum": 12112,
 "door": false,
 "closed": false,
 "locked": false
@@ -392924,7 +394648,7 @@ mapAreas = {
 }
 ,
 "south": {
-"vnum": 12112,
+"vnum": 12106,
 "door": false,
 "closed": false,
 "locked": false
@@ -392941,14 +394665,14 @@ mapAreas = {
 "locked": false
 }
 ,
-"east": {
+"south": {
 "vnum": 12105,
 "door": false,
 "closed": false,
 "locked": false
 }
 ,
-"south": {
+"west": {
 "vnum": 12109,
 "door": false,
 "closed": false,
@@ -392960,14 +394684,14 @@ mapAreas = {
 "name": "Lost in the sands",
 "area": "The Forbidden Sands",
 "exits": {"north": {
-"vnum": 12114,
+"vnum": 12104,
 "door": false,
 "closed": false,
 "locked": false
 }
 ,
 "east": {
-"vnum": 12108,
+"vnum": 12114,
 "door": false,
 "closed": false,
 "locked": false
@@ -392981,7 +394705,7 @@ mapAreas = {
 }
 ,
 "west": {
-"vnum": 12104,
+"vnum": 12108,
 "door": false,
 "closed": false,
 "locked": false
@@ -392992,14 +394716,14 @@ mapAreas = {
 "name": "Lost in the sands",
 "area": "The Forbidden Sands",
 "exits": {"north": {
-"vnum": 12109,
+"vnum": 12107,
 "door": false,
 "closed": false,
 "locked": false
 }
 ,
 "east": {
-"vnum": 12107,
+"vnum": 12113,
 "door": false,
 "closed": false,
 "locked": false
@@ -393013,7 +394737,7 @@ mapAreas = {
 }
 ,
 "west": {
-"vnum": 12113,
+"vnum": 12109,
 "door": false,
 "closed": false,
 "locked": false
@@ -393024,14 +394748,14 @@ mapAreas = {
 "name": "Lost in the sands",
 "area": "The Forbidden Sands",
 "exits": {"north": {
-"vnum": 12106,
+"vnum": 12108,
 "door": false,
 "closed": false,
 "locked": false
 }
 ,
 "east": {
-"vnum": 12108,
+"vnum": 12106,
 "door": false,
 "closed": false,
 "locked": false
@@ -393056,7 +394780,7 @@ mapAreas = {
 "name": "Lost in the sands",
 "area": "The Forbidden Sands",
 "exits": {"north": {
-"vnum": 12101,
+"vnum": 12111,
 "door": false,
 "closed": false,
 "locked": false
@@ -393070,7 +394794,7 @@ mapAreas = {
 }
 ,
 "south": {
-"vnum": 12111,
+"vnum": 12101,
 "door": false,
 "closed": false,
 "locked": false
@@ -393112,7 +394836,7 @@ mapAreas = {
 "locked": false
 }
 ,
-"east": {
+"south": {
 "vnum": 12105,
 "door": false,
 "closed": false,
@@ -393131,28 +394855,28 @@ mapAreas = {
 "name": "On top of a dune",
 "area": "The Forbidden Sands",
 "exits": {"north": {
-"vnum": 12102,
+"vnum": 12104,
 "door": false,
 "closed": false,
 "locked": false
 }
 ,
 "east": {
-"vnum": 12108,
-"door": false,
-"closed": false,
-"locked": false
-}
-,
-"south": {
 "vnum": 12100,
 "door": false,
 "closed": false,
 "locked": false
 }
 ,
+"south": {
+"vnum": 12108,
+"door": false,
+"closed": false,
+"locked": false
+}
+,
 "west": {
-"vnum": 12104,
+"vnum": 12102,
 "door": false,
 "closed": false,
 "locked": false
@@ -393162,15 +394886,15 @@ mapAreas = {
 "12102": {
 "name": "Lost in the sands",
 "area": "The Forbidden Sands",
-"exits": {"north": {
-"vnum": 12103,
+"exits": {"east": {
+"vnum": 12107,
 "door": false,
 "closed": false,
 "locked": false
 }
 ,
 "south": {
-"vnum": 12107,
+"vnum": 12103,
 "door": false,
 "closed": false,
 "locked": false
@@ -393187,7 +394911,7 @@ mapAreas = {
 "12101": {
 "name": "Lost in the sands",
 "area": "The Forbidden Sands",
-"exits": {"north": {
+"exits": {"east": {
 "vnum": 12102,
 "door": false,
 "closed": false,
@@ -403663,7 +405387,7 @@ mapAreas = {
 "12473": {
 "name": "Lost in the Twisted Pines",
 "area": "Pine Forest",
-"exits": {"north": {
+"exits": {"east": {
 "vnum": 12468,
 "door": false,
 "closed": false,
@@ -403681,7 +405405,7 @@ mapAreas = {
 "12470": {
 "name": "Lost in the Twisted Pines",
 "area": "Pine Forest",
-"exits": {"east": {
+"exits": {"north": {
 "vnum": 12469,
 "door": false,
 "closed": false,
@@ -403699,14 +405423,14 @@ mapAreas = {
 "12469": {
 "name": "Lost in the Twisted Pines",
 "area": "Pine Forest",
-"exits": {"east": {
+"exits": {"north": {
 "vnum": 12468,
 "door": false,
 "closed": false,
 "locked": false
 }
 ,
-"south": {
+"east": {
 "vnum": 12466,
 "door": false,
 "closed": false,
@@ -403768,14 +405492,14 @@ mapAreas = {
 }
 ,
 "east": {
-"vnum": 12473,
+"vnum": 12460,
 "door": false,
 "closed": false,
 "locked": false
 }
 ,
 "south": {
-"vnum": 12460,
+"vnum": 12473,
 "door": false,
 "closed": false,
 "locked": false
@@ -405263,14 +406987,14 @@ mapAreas = {
 }
 ,
 "east": {
-"vnum": 28871,
+"vnum": 28868,
 "door": false,
 "closed": false,
 "locked": false
 }
 ,
 "south": {
-"vnum": 28868,
+"vnum": 28871,
 "door": false,
 "closed": false,
 "locked": false
@@ -405280,7 +407004,7 @@ mapAreas = {
 "28869": {
 "name": "A dark tunnel",
 "area": "Nest of the Antfolk",
-"exits": {"east": {
+"exits": {"north": {
 "vnum": 28866,
 "door": false,
 "closed": false,
@@ -405299,21 +407023,21 @@ mapAreas = {
 "name": "A dark tunnel",
 "area": "Nest of the Antfolk",
 "exits": {"north": {
-"vnum": 28870,
+"vnum": 28869,
 "door": false,
 "closed": false,
 "locked": false
 }
 ,
 "east": {
-"vnum": 28867,
+"vnum": 28870,
 "door": false,
 "closed": false,
 "locked": false
 }
 ,
 "south": {
-"vnum": 28869,
+"vnum": 28867,
 "door": false,
 "closed": false,
 "locked": false
@@ -405323,7 +407047,7 @@ mapAreas = {
 "28867": {
 "name": "A dark tunnel",
 "area": "Nest of the Antfolk",
-"exits": {"north": {
+"exits": {"east": {
 "vnum": 28866,
 "door": false,
 "closed": false,
@@ -405342,14 +407066,14 @@ mapAreas = {
 "name": "A dark tunnel",
 "area": "Nest of the Antfolk",
 "exits": {"north": {
-"vnum": 28869,
+"vnum": 28865,
 "door": false,
 "closed": false,
 "locked": false
 }
 ,
 "east": {
-"vnum": 28865,
+"vnum": 28869,
 "door": false,
 "closed": false,
 "locked": false
@@ -405407,14 +407131,14 @@ mapAreas = {
 "name": "A dark tunnel",
 "area": "Nest of the Antfolk",
 "exits": {"north": {
-"vnum": 28863,
+"vnum": 28860,
 "door": false,
 "closed": false,
 "locked": false
 }
 ,
 "east": {
-"vnum": 28860,
+"vnum": 28863,
 "door": false,
 "closed": false,
 "locked": false
@@ -405443,14 +407167,14 @@ mapAreas = {
 "name": "A dark tunnel",
 "area": "Nest of the Antfolk",
 "exits": {"north": {
-"vnum": 28862,
+"vnum": 28861,
 "door": false,
 "closed": false,
 "locked": false
 }
 ,
 "south": {
-"vnum": 28861,
+"vnum": 28862,
 "door": false,
 "closed": false,
 "locked": false
@@ -405479,14 +407203,14 @@ mapAreas = {
 "name": "A dark tunnel",
 "area": "Nest of the Antfolk",
 "exits": {"north": {
-"vnum": 28859,
+"vnum": 28860,
 "door": false,
 "closed": false,
 "locked": false
 }
 ,
 "south": {
-"vnum": 28860,
+"vnum": 28859,
 "door": false,
 "closed": false,
 "locked": false
@@ -405515,14 +407239,14 @@ mapAreas = {
 "name": "A dark tunnel",
 "area": "Nest of the Antfolk",
 "exits": {"north": {
-"vnum": 28855,
+"vnum": 28857,
 "door": false,
 "closed": false,
 "locked": false
 }
 ,
 "east": {
-"vnum": 28857,
+"vnum": 28855,
 "door": false,
 "closed": false,
 "locked": false
@@ -406122,14 +407846,14 @@ mapAreas = {
 "name": "Sandy tunnel",
 "area": "Nest of the Antfolk",
 "exits": {"north": {
-"vnum": 28827,
+"vnum": 28824,
 "door": false,
 "closed": false,
 "locked": false
 }
 ,
 "east": {
-"vnum": 28824,
+"vnum": 28816,
 "door": false,
 "closed": false,
 "locked": false
@@ -406143,7 +407867,7 @@ mapAreas = {
 }
 ,
 "west": {
-"vnum": 28816,
+"vnum": 28827,
 "door": false,
 "closed": false,
 "locked": false
@@ -406265,7 +407989,7 @@ mapAreas = {
 "28817": {
 "name": "Sandy Tunnel",
 "area": "Nest of the Antfolk",
-"exits": {"north": {
+"exits": {"east": {
 "vnum": 28818,
 "door": false,
 "closed": false,
@@ -406291,14 +408015,14 @@ mapAreas = {
 }
 ,
 "east": {
-"vnum": 28823,
+"vnum": 28825,
 "door": false,
 "closed": false,
 "locked": false
 }
 ,
 "south": {
-"vnum": 28825,
+"vnum": 28823,
 "door": false,
 "closed": false,
 "locked": false
@@ -434604,7 +436328,7 @@ mapAreas = {
 "13463": {
 "name": "Underground Cavern",
 "area": "Aesil am Gomany",
-"exits": {"north": {
+"exits": {"east": {
 "vnum": 13460,
 "door": false,
 "closed": false,
@@ -434622,14 +436346,14 @@ mapAreas = {
 "13462": {
 "name": "Underground Cavern",
 "area": "Aesil am Gomany",
-"exits": {"north": {
+"exits": {"east": {
 "vnum": 13459,
 "door": false,
 "closed": false,
 "locked": false
 }
 ,
-"east": {
+"south": {
 "vnum": 13463,
 "door": false,
 "closed": false,
@@ -434648,14 +436372,14 @@ mapAreas = {
 "name": "Underground Cavern",
 "area": "Aesil am Gomany",
 "exits": {"north": {
-"vnum": 13462,
+"vnum": 13458,
 "door": false,
 "closed": false,
 "locked": false
 }
 ,
 "east": {
-"vnum": 13458,
+"vnum": 13462,
 "door": false,
 "closed": false,
 "locked": false
@@ -434666,7 +436390,7 @@ mapAreas = {
 "name": "Underground Cavern",
 "area": "Aesil am Gomany",
 "exits": {"north": {
-"vnum": 13464,
+"vnum": 13459,
 "door": false,
 "closed": false,
 "locked": false
@@ -434680,7 +436404,7 @@ mapAreas = {
 }
 ,
 "south": {
-"vnum": 13459,
+"vnum": 13464,
 "door": false,
 "closed": false,
 "locked": false
@@ -434698,28 +436422,28 @@ mapAreas = {
 "name": "Underground Cavern",
 "area": "Aesil am Gomany",
 "exits": {"north": {
-"vnum": 13460,
+"vnum": 13462,
 "door": false,
 "closed": false,
 "locked": false
 }
 ,
 "east": {
-"vnum": 13458,
+"vnum": 13460,
 "door": false,
 "closed": false,
 "locked": false
 }
 ,
 "south": {
-"vnum": 13456,
+"vnum": 13458,
 "door": false,
 "closed": false,
 "locked": false
 }
 ,
 "west": {
-"vnum": 13462,
+"vnum": 13456,
 "door": false,
 "closed": false,
 "locked": false
@@ -434737,14 +436461,14 @@ mapAreas = {
 }
 ,
 "east": {
-"vnum": 13461,
+"vnum": 13459,
 "door": false,
 "closed": false,
 "locked": false
 }
 ,
 "south": {
-"vnum": 13459,
+"vnum": 13461,
 "door": false,
 "closed": false,
 "locked": false
@@ -434772,15 +436496,15 @@ mapAreas = {
 "13456": {
 "name": "Underground Cavern",
 "area": "Aesil am Gomany",
-"exits": {"north": {
-"vnum": 13459,
+"exits": {"east": {
+"vnum": 13457,
 "door": false,
 "closed": false,
 "locked": false
 }
 ,
 "south": {
-"vnum": 13457,
+"vnum": 13459,
 "door": false,
 "closed": false,
 "locked": false
@@ -434876,7 +436600,7 @@ mapAreas = {
 "13451": {
 "name": "Underground Cavern",
 "area": "Aesil am Gomany",
-"exits": {"east": {
+"exits": {"north": {
 "vnum": 13448,
 "door": false,
 "closed": false,
@@ -434920,14 +436644,14 @@ mapAreas = {
 "name": "Underground Cavern",
 "area": "Aesil am Gomany",
 "exits": {"north": {
-"vnum": 13452,
+"vnum": 13446,
 "door": false,
 "closed": false,
 "locked": false
 }
 ,
-"east": {
-"vnum": 13446,
+"south": {
+"vnum": 13452,
 "door": false,
 "closed": false,
 "locked": false
@@ -434945,7 +436669,7 @@ mapAreas = {
 "name": "Underground Cavern",
 "area": "Aesil am Gomany",
 "exits": {"north": {
-"vnum": 13449,
+"vnum": 13451,
 "door": false,
 "closed": false,
 "locked": false
@@ -434959,14 +436683,14 @@ mapAreas = {
 }
 ,
 "south": {
-"vnum": 13447,
+"vnum": 13449,
 "door": false,
 "closed": false,
 "locked": false
 }
 ,
 "west": {
-"vnum": 13451,
+"vnum": 13447,
 "door": false,
 "closed": false,
 "locked": false
@@ -434977,21 +436701,21 @@ mapAreas = {
 "name": "Underground Cavern",
 "area": "Aesil am Gomany",
 "exits": {"north": {
-"vnum": 13466,
+"vnum": 13444,
 "door": false,
 "closed": false,
 "locked": false
 }
 ,
 "east": {
-"vnum": 13448,
+"vnum": 13466,
 "door": false,
 "closed": false,
 "locked": false
 }
 ,
 "south": {
-"vnum": 13444,
+"vnum": 13448,
 "door": false,
 "closed": false,
 "locked": false
@@ -435026,15 +436750,15 @@ mapAreas = {
 "13445": {
 "name": "Underground Cavern",
 "area": "Aesil am Gomany",
-"exits": {"north": {
-"vnum": 13446,
+"exits": {"east": {
+"vnum": 13448,
 "door": false,
 "closed": false,
 "locked": false
 }
 ,
 "south": {
-"vnum": 13448,
+"vnum": 13446,
 "door": false,
 "closed": false,
 "locked": false
@@ -435130,15 +436854,15 @@ mapAreas = {
 "13440": {
 "name": "Underground Cavern",
 "area": "Aesil am Gomany",
-"exits": {"east": {
-"vnum": 13437,
+"exits": {"north": {
+"vnum": 13441,
 "door": false,
 "closed": false,
 "locked": false
 }
 ,
 "south": {
-"vnum": 13441,
+"vnum": 13437,
 "door": false,
 "closed": false,
 "locked": false
@@ -435155,7 +436879,7 @@ mapAreas = {
 "13439": {
 "name": "Underground Cavern",
 "area": "Aesil am Gomany",
-"exits": {"north": {
+"exits": {"east": {
 "vnum": 13440,
 "door": false,
 "closed": false,
@@ -435174,14 +436898,14 @@ mapAreas = {
 "name": "Underground Cavern",
 "area": "Aesil am Gomany",
 "exits": {"north": {
-"vnum": 13437,
+"vnum": 13441,
 "door": false,
 "closed": false,
 "locked": false
 }
 ,
 "east": {
-"vnum": 13441,
+"vnum": 13437,
 "door": false,
 "closed": false,
 "locked": false
@@ -435213,14 +436937,14 @@ mapAreas = {
 }
 ,
 "east": {
-"vnum": 13436,
+"vnum": 13434,
 "door": false,
 "closed": false,
 "locked": false
 }
 ,
 "south": {
-"vnum": 13434,
+"vnum": 13436,
 "door": false,
 "closed": false,
 "locked": false
@@ -435244,7 +436968,7 @@ mapAreas = {
 "locked": false
 }
 ,
-"south": {
+"east": {
 "vnum": 13437,
 "door": false,
 "closed": false,
@@ -435273,7 +436997,7 @@ mapAreas = {
 "13434": {
 "name": "Underground Cavern",
 "area": "Aesil am Gomany",
-"exits": {"east": {
+"exits": {"north": {
 "vnum": 13435,
 "door": false,
 "closed": false,
@@ -438038,14 +439762,7 @@ mapAreas = {
 "693": {
 "name": "A Dark Trail",
 "area": "City of Ofcol",
-"exits": {"north": {
-"vnum": 0,
-"door": false,
-"closed": false,
-"locked": false
-}
-,
-"east": {
+"exits": {"east": {
 "vnum": 694,
 "door": false,
 "closed": false,
@@ -438054,6 +439771,13 @@ mapAreas = {
 ,
 "south": {
 "vnum": 314,
+"door": false,
+"closed": false,
+"locked": false
+}
+,
+"west": {
+"vnum": 31800,
 "door": false,
 "closed": false,
 "locked": false
@@ -449999,6 +451723,13 @@ mapAreas = {
 "closed": false,
 "locked": false
 }
+,
+"south": {
+"vnum": 33300,
+"door": false,
+"closed": false,
+"locked": false
+}
 }
 },
 "10576": {
@@ -456404,7 +458135,7 @@ mapAreas = {
 "locked": false
 }
 ,
-"up": {
+"west": {
 "vnum": 32534,
 "door": false,
 "closed": false,
@@ -456434,28 +458165,28 @@ mapAreas = {
 "name": "Within the Strange Chamber",
 "area": "The Hive of Cthuulor",
 "exits": {"north": {
-"vnum": 32538,
-"door": false,
-"closed": false,
-"locked": false
-}
-,
-"east": {
 "vnum": 32534,
 "door": false,
 "closed": false,
 "locked": false
 }
 ,
-"south": {
+"east": {
 "vnum": 32542,
 "door": false,
 "closed": false,
 "locked": false
 }
 ,
-"west": {
+"south": {
 "vnum": 32539,
+"door": false,
+"closed": false,
+"locked": false
+}
+,
+"west": {
+"vnum": 32538,
 "door": false,
 "closed": false,
 "locked": false
@@ -456466,35 +458197,35 @@ mapAreas = {
 "name": "Intersection the Strange Chamber",
 "area": "The Hive of Cthuulor",
 "exits": {"north": {
-"vnum": 32593,
-"door": false,
-"closed": false,
-"locked": false
-}
-,
-"east": {
-"vnum": 32537,
-"door": false,
-"closed": false,
-"locked": false
-}
-,
-"south": {
-"vnum": 32533,
-"door": false,
-"closed": false,
-"locked": false
-}
-,
-"west": {
 "vnum": 32536,
 "door": false,
 "closed": false,
 "locked": false
 }
 ,
-"up": {
+"east": {
+"vnum": 32593,
+"door": false,
+"closed": false,
+"locked": false
+}
+,
+"south": {
 "vnum": 32535,
+"door": false,
+"closed": false,
+"locked": false
+}
+,
+"west": {
+"vnum": 32537,
+"door": false,
+"closed": false,
+"locked": false
+}
+,
+"up": {
+"vnum": 32533,
 "door": false,
 "closed": false,
 "locked": false
@@ -459589,7 +461320,7 @@ mapAreas = {
 "29111": {
 "name": "Twisted Forest Path",
 "area": "Cratered Forest",
-"exits": {"north": {
+"exits": {"south": {
 "vnum": 29110,
 "door": false,
 "closed": false,
@@ -459600,15 +461331,15 @@ mapAreas = {
 "29110": {
 "name": "Twisted Forest Path",
 "area": "Cratered Forest",
-"exits": {"north": {
-"vnum": 29111,
+"exits": {"east": {
+"vnum": 29112,
 "door": false,
 "closed": false,
 "locked": false
 }
 ,
-"east": {
-"vnum": 29112,
+"south": {
+"vnum": 29111,
 "door": false,
 "closed": false,
 "locked": false
@@ -459632,7 +461363,7 @@ mapAreas = {
 "locked": false
 }
 ,
-"east": {
+"south": {
 "vnum": 29106,
 "door": false,
 "closed": false,
@@ -514967,15 +516698,15 @@ mapAreas = {
 "19963": {
 "name": "Within The Maze",
 "area": "Covenant Boot Camp Maze",
-"exits": {"north": {
-"vnum": 19962,
+"exits": {"east": {
+"vnum": 19954,
 "door": false,
 "closed": false,
 "locked": false
 }
 ,
 "south": {
-"vnum": 19954,
+"vnum": 19962,
 "door": false,
 "closed": false,
 "locked": false
@@ -515042,7 +516773,7 @@ mapAreas = {
 "19960": {
 "name": "Within The Maze",
 "area": "Covenant Boot Camp Maze",
-"exits": {"north": {
+"exits": {"east": {
 "vnum": 19961,
 "door": false,
 "closed": false,
@@ -515086,21 +516817,21 @@ mapAreas = {
 "name": "Within The Maze",
 "area": "Covenant Boot Camp Maze",
 "exits": {"north": {
-"vnum": 19959,
-"door": false,
-"closed": false,
-"locked": false
-}
-,
-"east": {
 "vnum": 19949,
 "door": false,
 "closed": false,
 "locked": false
 }
 ,
-"south": {
+"east": {
 "vnum": 19957,
+"door": false,
+"closed": false,
+"locked": false
+}
+,
+"south": {
+"vnum": 19959,
 "door": false,
 "closed": false,
 "locked": false
@@ -515150,7 +516881,7 @@ mapAreas = {
 }
 ,
 "east": {
-"vnum": 19951,
+"vnum": 19955,
 "door": false,
 "closed": false,
 "locked": false
@@ -515164,7 +516895,7 @@ mapAreas = {
 }
 ,
 "west": {
-"vnum": 19955,
+"vnum": 19951,
 "door": false,
 "closed": false,
 "locked": false
@@ -515231,8 +516962,8 @@ mapAreas = {
 "19953": {
 "name": "Within The Maze",
 "area": "Covenant Boot Camp Maze",
-"exits": {"north": {
-"vnum": 19954,
+"exits": {"east": {
+"vnum": 19952,
 "door": false,
 "closed": false,
 "locked": false
@@ -515246,7 +516977,7 @@ mapAreas = {
 }
 ,
 "west": {
-"vnum": 19952,
+"vnum": 19954,
 "door": false,
 "closed": false,
 "locked": false
@@ -515264,14 +516995,14 @@ mapAreas = {
 }
 ,
 "east": {
-"vnum": 19953,
+"vnum": 19945,
 "door": false,
 "closed": false,
 "locked": false
 }
 ,
 "south": {
-"vnum": 19945,
+"vnum": 19953,
 "door": false,
 "closed": false,
 "locked": false
@@ -515289,14 +517020,14 @@ mapAreas = {
 "name": "Within The Maze",
 "area": "Covenant Boot Camp Maze",
 "exits": {"north": {
-"vnum": 19950,
+"vnum": 19946,
 "door": false,
 "closed": false,
 "locked": false
 }
 ,
 "east": {
-"vnum": 19956,
+"vnum": 19950,
 "door": false,
 "closed": false,
 "locked": false
@@ -515310,7 +517041,7 @@ mapAreas = {
 }
 ,
 "west": {
-"vnum": 19946,
+"vnum": 19956,
 "door": false,
 "closed": false,
 "locked": false
@@ -515321,28 +517052,28 @@ mapAreas = {
 "name": "Within The Maze",
 "area": "Covenant Boot Camp Maze",
 "exits": {"north": {
-"vnum": 19951,
-"door": false,
-"closed": false,
-"locked": false
-}
-,
-"east": {
-"vnum": 19957,
-"door": false,
-"closed": false,
-"locked": false
-}
-,
-"south": {
 "vnum": 19949,
 "door": false,
 "closed": false,
 "locked": false
 }
 ,
-"west": {
+"east": {
+"vnum": 19951,
+"door": false,
+"closed": false,
+"locked": false
+}
+,
+"south": {
 "vnum": 19947,
+"door": false,
+"closed": false,
+"locked": false
+}
+,
+"west": {
+"vnum": 19957,
 "door": false,
 "closed": false,
 "locked": false
@@ -515378,21 +517109,21 @@ mapAreas = {
 "name": "Within The Maze",
 "area": "Covenant Boot Camp Maze",
 "exits": {"north": {
-"vnum": 19941,
-"door": false,
-"closed": false,
-"locked": false
-}
-,
-"east": {
 "vnum": 19949,
 "door": false,
 "closed": false,
 "locked": false
 }
 ,
-"west": {
+"east": {
 "vnum": 19947,
+"door": false,
+"closed": false,
+"locked": false
+}
+,
+"west": {
+"vnum": 19941,
 "door": false,
 "closed": false,
 "locked": false
@@ -515403,28 +517134,28 @@ mapAreas = {
 "name": "Within The Maze",
 "area": "Covenant Boot Camp Maze",
 "exits": {"north": {
-"vnum": 19946,
-"door": false,
-"closed": false,
-"locked": false
-}
-,
-"east": {
-"vnum": 19952,
-"door": false,
-"closed": false,
-"locked": false
-}
-,
-"south": {
 "vnum": 19940,
 "door": false,
 "closed": false,
 "locked": false
 }
 ,
-"west": {
+"east": {
+"vnum": 19946,
+"door": false,
+"closed": false,
+"locked": false
+}
+,
+"south": {
 "vnum": 19948,
+"door": false,
+"closed": false,
+"locked": false
+}
+,
+"west": {
+"vnum": 19952,
 "door": false,
 "closed": false,
 "locked": false
@@ -515449,14 +517180,14 @@ mapAreas = {
 }
 ,
 "south": {
-"vnum": 19951,
+"vnum": 19946,
 "door": false,
 "closed": false,
 "locked": false
 }
 ,
 "west": {
-"vnum": 19946,
+"vnum": 19951,
 "door": false,
 "closed": false,
 "locked": false
@@ -515498,7 +517229,7 @@ mapAreas = {
 "19944": {
 "name": "Within The Maze",
 "area": "Covenant Boot Camp Maze",
-"exits": {"east": {
+"exits": {"north": {
 "vnum": 19943,
 "door": false,
 "closed": false,
@@ -515542,20 +517273,20 @@ mapAreas = {
 "name": "Within The Maze",
 "area": "Covenant Boot Camp Maze",
 "exits": {"north": {
-"vnum": 19945,
-"door": false,
-"closed": false,
-"locked": false
-}
-,
-"east": {
 "vnum": 19939,
 "door": false,
 "closed": false,
 "locked": false
 }
 ,
-"west": {
+"east": {
+"vnum": 19945,
+"door": false,
+"closed": false,
+"locked": false
+}
+,
+"south": {
 "vnum": 19943,
 "door": false,
 "closed": false,
@@ -515566,7 +517297,7 @@ mapAreas = {
 "19941": {
 "name": "Within The Maze",
 "area": "Covenant Boot Camp Maze",
-"exits": {"north": {
+"exits": {"east": {
 "vnum": 19940,
 "door": false,
 "closed": false,
@@ -523414,7 +525145,7 @@ mapAreas = {
 "name": "Underground Labyrinth",
 "area": "The Marauder Tunnels",
 "exits": {"north": {
-"vnum": 30232,
+"vnum": 30225,
 "door": false,
 "closed": false,
 "locked": false
@@ -523428,7 +525159,7 @@ mapAreas = {
 }
 ,
 "south": {
-"vnum": 30225,
+"vnum": 30232,
 "door": false,
 "closed": false,
 "locked": false
@@ -523532,14 +525263,14 @@ mapAreas = {
 }
 ,
 "east": {
-"vnum": 30210,
+"vnum": 30225,
 "door": false,
 "closed": false,
 "locked": false
 }
 ,
 "south": {
-"vnum": 30225,
+"vnum": 30210,
 "door": false,
 "closed": false,
 "locked": false
@@ -523761,14 +525492,14 @@ mapAreas = {
 "name": "Underground Labyrinth",
 "area": "The Marauder Tunnels",
 "exits": {"north": {
-"vnum": 30210,
+"vnum": 30218,
 "door": false,
 "closed": false,
 "locked": false
 }
 ,
 "south": {
-"vnum": 30218,
+"vnum": 30210,
 "door": false,
 "closed": false,
 "locked": false
@@ -523836,21 +525567,21 @@ mapAreas = {
 "name": "Underground Labyrinth",
 "area": "The Marauder Tunnels",
 "exits": {"north": {
-"vnum": 30205,
-"door": false,
-"closed": false,
-"locked": false
-}
-,
-"east": {
 "vnum": 30216,
 "door": false,
 "closed": false,
 "locked": false
 }
 ,
-"south": {
+"east": {
 "vnum": 30201,
+"door": false,
+"closed": false,
+"locked": false
+}
+,
+"south": {
+"vnum": 30205,
 "door": false,
 "closed": false,
 "locked": false
@@ -526696,21 +528427,21 @@ mapAreas = {
 }
 ,
 "east": {
-"vnum": 23515,
-"door": false,
-"closed": false,
-"locked": false
-}
-,
-"south": {
 "vnum": 23528,
 "door": false,
 "closed": false,
 "locked": false
 }
 ,
-"west": {
+"south": {
 "vnum": 23518,
+"door": false,
+"closed": false,
+"locked": false
+}
+,
+"west": {
+"vnum": 23515,
 "door": false,
 "closed": false,
 "locked": false
@@ -526944,7 +528675,7 @@ mapAreas = {
 "name": "Within the Crystal Tunnel",
 "area": "The Crystal Cavern",
 "exits": {"north": {
-"vnum": 23512,
+"vnum": 23502,
 "door": false,
 "closed": false,
 "locked": false
@@ -526958,7 +528689,7 @@ mapAreas = {
 }
 ,
 "south": {
-"vnum": 23502,
+"vnum": 23512,
 "door": false,
 "closed": false,
 "locked": false
@@ -527051,7 +528782,7 @@ mapAreas = {
 "23495": {
 "name": "Within the Crystal Tunnel",
 "area": "The Crystal Cavern",
-"exits": {"east": {
+"exits": {"north": {
 "vnum": 23496,
 "door": false,
 "closed": false,
@@ -527131,14 +528862,14 @@ mapAreas = {
 "name": "Within the Crystal Tunnel",
 "area": "The Crystal Cavern",
 "exits": {"north": {
-"vnum": 23492,
+"vnum": 23527,
 "door": false,
 "closed": false,
 "locked": false
 }
 ,
-"south": {
-"vnum": 23527,
+"east": {
+"vnum": 23492,
 "door": false,
 "closed": false,
 "locked": false
@@ -534131,11 +535862,649 @@ mapAreas = {
 }
 }
 },
+"82102": {
+"name": "Jail Cell",
+"area": "The City of Sudharma",
+"exits": {"east": {
+"vnum": 82098,
+"door": true,
+"closed": true,
+"locked": false
+}
+}
+},
+"82101": {
+"name": "Jail Cell",
+"area": "The City of Sudharma",
+"exits": {"north": {
+"vnum": 82098,
+"door": true,
+"closed": true,
+"locked": false
+}
+}
+},
+"82100": {
+"name": "Jail Cell",
+"area": "The City of Sudharma",
+"exits": {"west": {
+"vnum": 82098,
+"door": true,
+"closed": true,
+"locked": false
+}
+}
+},
+"82099": {
+"name": "Jail Cell",
+"area": "The City of Sudharma",
+"exits": {"south": {
+"vnum": 82098,
+"door": true,
+"closed": true,
+"locked": false
+}
+}
+},
+"82098": {
+"name": "Sudharma City Jail",
+"area": "The City of Sudharma",
+"exits": {"north": {
+"vnum": 82099,
+"door": true,
+"closed": true,
+"locked": false
+}
+,
+"east": {
+"vnum": 82100,
+"door": true,
+"closed": true,
+"locked": false
+}
+,
+"south": {
+"vnum": 82101,
+"door": true,
+"closed": true,
+"locked": false
+}
+,
+"west": {
+"vnum": 82102,
+"door": true,
+"closed": true,
+"locked": false
+}
+,
+"up": {
+"vnum": 82097,
+"door": false,
+"closed": false,
+"locked": false
+}
+}
+},
+"82097": {
+"name": "Sudharma Cityguard Department Headquarters",
+"area": "The City of Sudharma",
+"exits": {"east": {
+"vnum": 82031,
+"door": false,
+"closed": false,
+"locked": false
+}
+,
+"down": {
+"vnum": 82098,
+"door": false,
+"closed": false,
+"locked": false
+}
+}
+},
+"82096": {
+"name": "Ny's Wonders and Baubles - Third Storey",
+"area": "The City of Sudharma",
+"exits": {"down": {
+"vnum": 82095,
+"door": false,
+"closed": false,
+"locked": false
+}
+}
+},
+"82095": {
+"name": "Ny's Wonders and Baubles - Second Storey",
+"area": "The City of Sudharma",
+"exits": {"up": {
+"vnum": 82096,
+"door": false,
+"closed": false,
+"locked": false
+}
+,
+"down": {
+"vnum": 82094,
+"door": false,
+"closed": false,
+"locked": false
+}
+}
+},
+"82094": {
+"name": "Ny's Wonders and Baubles - Ground Floor",
+"area": "The City of Sudharma",
+"exits": {"east": {
+"vnum": 82028,
+"door": false,
+"closed": false,
+"locked": false
+}
+,
+"up": {
+"vnum": 82095,
+"door": false,
+"closed": false,
+"locked": false
+}
+}
+},
+"82093": {
+"name": "Drinny's Secret",
+"area": "The City of Sudharma",
+"exits": {"east": {
+"vnum": 82029,
+"door": false,
+"closed": false,
+"locked": false
+}
+}
+},
+"82092": {
+"name": "Upstairs in a Nice House",
+"area": "The City of Sudharma",
+"exits": {"down": {
+"vnum": 82091,
+"door": false,
+"closed": false,
+"locked": false
+}
+}
+},
+"82091": {
+"name": "A Nice House",
+"area": "The City of Sudharma",
+"exits": {"south": {
+"vnum": 82049,
+"door": true,
+"closed": true,
+"locked": false
+}
+,
+"up": {
+"vnum": 82092,
+"door": false,
+"closed": false,
+"locked": false
+}
+}
+},
+"82090": {
+"name": "Upstairs in a Nice House",
+"area": "The City of Sudharma",
+"exits": {"down": {
+"vnum": 82089,
+"door": false,
+"closed": false,
+"locked": false
+}
+}
+},
+"82089": {
+"name": "A Nice House",
+"area": "The City of Sudharma",
+"exits": {"south": {
+"vnum": 82048,
+"door": true,
+"closed": true,
+"locked": false
+}
+,
+"up": {
+"vnum": 82090,
+"door": false,
+"closed": false,
+"locked": false
+}
+}
+},
+"82088": {
+"name": "Upstairs in a Nice House",
+"area": "The City of Sudharma",
+"exits": {"down": {
+"vnum": 82087,
+"door": false,
+"closed": false,
+"locked": false
+}
+}
+},
+"82087": {
+"name": "A Nice House",
+"area": "The City of Sudharma",
+"exits": {"south": {
+"vnum": 82047,
+"door": true,
+"closed": true,
+"locked": false
+}
+,
+"up": {
+"vnum": 82088,
+"door": false,
+"closed": false,
+"locked": false
+}
+}
+},
+"82086": {
+"name": "Upstairs in a Nice House",
+"area": "The City of Sudharma",
+"exits": {"down": {
+"vnum": 82085,
+"door": false,
+"closed": false,
+"locked": false
+}
+}
+},
+"82085": {
+"name": "A Nice House",
+"area": "The City of Sudharma",
+"exits": {"south": {
+"vnum": 82044,
+"door": true,
+"closed": true,
+"locked": false
+}
+,
+"up": {
+"vnum": 82086,
+"door": false,
+"closed": false,
+"locked": false
+}
+}
+},
+"82084": {
+"name": "Upstairs in a Nice House",
+"area": "The City of Sudharma",
+"exits": {"down": {
+"vnum": 82083,
+"door": false,
+"closed": false,
+"locked": false
+}
+}
+},
+"82083": {
+"name": "A Nice House",
+"area": "The City of Sudharma",
+"exits": {"south": {
+"vnum": 82045,
+"door": true,
+"closed": true,
+"locked": false
+}
+,
+"up": {
+"vnum": 82084,
+"door": false,
+"closed": false,
+"locked": false
+}
+}
+},
+"82082": {
+"name": "Upstairs in a Nice House",
+"area": "The City of Sudharma",
+"exits": {"down": {
+"vnum": 82081,
+"door": false,
+"closed": false,
+"locked": false
+}
+}
+},
+"82081": {
+"name": "A Nice House",
+"area": "The City of Sudharma",
+"exits": {"south": {
+"vnum": 82046,
+"door": true,
+"closed": true,
+"locked": false
+}
+,
+"up": {
+"vnum": 82082,
+"door": false,
+"closed": false,
+"locked": false
+}
+}
+},
+"82080": {
+"name": "A Modest House",
+"area": "The City of Sudharma",
+"exits": {"north": {
+"vnum": 82037,
+"door": true,
+"closed": true,
+"locked": false
+}
+}
+},
+"82079": {
+"name": "A Modest House",
+"area": "The City of Sudharma",
+"exits": {"north": {
+"vnum": 82038,
+"door": true,
+"closed": true,
+"locked": false
+}
+}
+},
+"82078": {
+"name": "A Modest House",
+"area": "The City of Sudharma",
+"exits": {"north": {
+"vnum": 82039,
+"door": true,
+"closed": true,
+"locked": false
+}
+}
+},
+"82077": {
+"name": "A Modest House",
+"area": "The City of Sudharma",
+"exits": {"north": {
+"vnum": 82041,
+"door": true,
+"closed": true,
+"locked": false
+}
+}
+},
+"82076": {
+"name": "A Modest House",
+"area": "The City of Sudharma",
+"exits": {"north": {
+"vnum": 82042,
+"door": true,
+"closed": true,
+"locked": false
+}
+}
+},
+"82075": {
+"name": "A Modest House",
+"area": "The City of Sudharma",
+"exits": {"north": {
+"vnum": 82043,
+"door": true,
+"closed": true,
+"locked": false
+}
+}
+},
+"82074": {
+"name": "Authors' Supply Shop",
+"area": "The City of Sudharma",
+"exits": {"west": {
+"vnum": 82053,
+"door": false,
+"closed": false,
+"locked": false
+}
+}
+},
+"82073": {
+"name": "The Restaurant Section",
+"area": "The City of Sudharma",
+"exits": {"east": {
+"vnum": 82072,
+"door": false,
+"closed": false,
+"locked": false
+}
+}
+},
+"82072": {
+"name": "Bottoms Up!",
+"area": "The City of Sudharma",
+"exits": {"east": {
+"vnum": 82035,
+"door": false,
+"closed": false,
+"locked": false
+}
+,
+"west": {
+"vnum": 82073,
+"door": false,
+"closed": false,
+"locked": false
+}
+}
+},
+"82071": {
+"name": "First Theran Bank of Sudharma",
+"area": "The City of Sudharma",
+"exits": {"east": {
+"vnum": 82026,
+"door": false,
+"closed": false,
+"locked": false
+}
+}
+},
+"82070": {
+"name": "Little House of Magic",
+"area": "The City of Sudharma",
+"exits": {"east": {
+"vnum": 82052,
+"door": false,
+"closed": false,
+"locked": false
+}
+}
+},
+"82069": {
+"name": "City Harmacy",
+"area": "The City of Sudharma",
+"exits": {"west": {
+"vnum": 82025,
+"door": false,
+"closed": false,
+"locked": false
+}
+}
+},
+"82068": {
+"name": "Yin and Yang Construction Company",
+"area": "The City of Sudharma",
+"exits": {"east": {
+"vnum": 82025,
+"door": false,
+"closed": false,
+"locked": false
+}
+}
+},
+"82067": {
+"name": "Sudharma City Kennel",
+"area": "The City of Sudharma",
+"exits": {}
+},
+"82066": {
+"name": "Sudharma City Pet Shop",
+"area": "The City of Sudharma",
+"exits": {"north": {
+"vnum": 82009,
+"door": false,
+"closed": false,
+"locked": false
+}
+}
+},
+"82065": {
+"name": "The East Main Street Weapon Smithy",
+"area": "The City of Sudharma",
+"exits": {"north": {
+"vnum": 82011,
+"door": false,
+"closed": false,
+"locked": false
+}
+}
+},
+"82064": {
+"name": "The East Main Street Armory",
+"area": "The City of Sudharma",
+"exits": {"south": {
+"vnum": 82011,
+"door": false,
+"closed": false,
+"locked": false
+}
+}
+},
+"82063": {
+"name": "Butchery of the City of Sudharma",
+"area": "The City of Sudharma",
+"exits": {"north": {
+"vnum": 82006,
+"door": false,
+"closed": false,
+"locked": false
+}
+}
+},
+"82062": {
+"name": "City Bakery of Sudharma",
+"area": "The City of Sudharma",
+"exits": {"north": {
+"vnum": 82007,
+"door": false,
+"closed": false,
+"locked": false
+}
+}
+},
+"82061": {
+"name": "The General Store",
+"area": "The City of Sudharma",
+"exits": {"south": {
+"vnum": 82009,
+"door": false,
+"closed": false,
+"locked": false
+}
+}
+},
+"82060": {
+"name": "Temple of Templars",
+"area": "The City of Sudharma",
+"exits": {"west": {
+"vnum": 82023,
+"door": false,
+"closed": false,
+"locked": false
+}
+}
+},
+"82059": {
+"name": "Woodskeeper's World",
+"area": "The City of Sudharma",
+"exits": {"east": {
+"vnum": 82018,
+"door": false,
+"closed": false,
+"locked": false
+}
+}
+},
+"82058": {
+"name": "The Kaiden's Korner",
+"area": "The City of Sudharma",
+"exits": {"east": {
+"vnum": 82023,
+"door": false,
+"closed": false,
+"locked": false
+}
+}
+},
+"82057": {
+"name": "The School of Hard Knocks and Deep Cuts",
+"area": "The City of Sudharma",
+"exits": {"east": {
+"vnum": 82021,
+"door": false,
+"closed": false,
+"locked": false
+}
+}
+},
+"82056": {
+"name": "School of the Elements",
+"area": "The City of Sudharma",
+"exits": {"east": {
+"vnum": 82022,
+"door": false,
+"closed": false,
+"locked": false
+}
+}
+},
+"82055": {
+"name": "School of Enchantment",
+"area": "The City of Sudharma",
+"exits": {"east": {
+"vnum": 82017,
+"door": false,
+"closed": false,
+"locked": false
+}
+}
+},
+"82054": {
+"name": "Sudharma Seminary",
+"area": "The City of Sudharma",
+"exits": {"west": {
+"vnum": 82050,
+"door": false,
+"closed": false,
+"locked": false
+}
+}
+},
 "82053": {
 "name": "Central Road",
 "area": "The City of Sudharma",
 "exits": {"north": {
 "vnum": 82052,
+"door": false,
+"closed": false,
+"locked": false
+}
+,
+"east": {
+"vnum": 82074,
 "door": false,
 "closed": false,
 "locked": false
@@ -534161,6 +536530,13 @@ mapAreas = {
 ,
 "south": {
 "vnum": 82053,
+"door": false,
+"closed": false,
+"locked": false
+}
+,
+"west": {
+"vnum": 82070,
 "door": false,
 "closed": false,
 "locked": false
@@ -534195,6 +536571,13 @@ mapAreas = {
 "locked": false
 }
 ,
+"east": {
+"vnum": 82054,
+"door": false,
+"closed": false,
+"locked": false
+}
+,
 "south": {
 "vnum": 82005,
 "door": false,
@@ -534206,7 +536589,14 @@ mapAreas = {
 "82049": {
 "name": "North-Side Road",
 "area": "The City of Sudharma",
-"exits": {"east": {
+"exits": {"north": {
+"vnum": 82091,
+"door": true,
+"closed": true,
+"locked": false
+}
+,
+"east": {
 "vnum": 82048,
 "door": false,
 "closed": false,
@@ -534224,7 +536614,14 @@ mapAreas = {
 "82048": {
 "name": "North-Side Road",
 "area": "The City of Sudharma",
-"exits": {"east": {
+"exits": {"north": {
+"vnum": 82089,
+"door": true,
+"closed": true,
+"locked": false
+}
+,
+"east": {
 "vnum": 82047,
 "door": false,
 "closed": false,
@@ -534242,7 +536639,14 @@ mapAreas = {
 "82047": {
 "name": "North-Side Road",
 "area": "The City of Sudharma",
-"exits": {"east": {
+"exits": {"north": {
+"vnum": 82087,
+"door": true,
+"closed": true,
+"locked": false
+}
+,
+"east": {
 "vnum": 82027,
 "door": false,
 "closed": false,
@@ -534260,7 +536664,14 @@ mapAreas = {
 "82046": {
 "name": "North-Side Road",
 "area": "The City of Sudharma",
-"exits": {"east": {
+"exits": {"north": {
+"vnum": 82081,
+"door": true,
+"closed": true,
+"locked": false
+}
+,
+"east": {
 "vnum": 82045,
 "door": false,
 "closed": false,
@@ -534278,7 +536689,14 @@ mapAreas = {
 "82045": {
 "name": "North-Side Road",
 "area": "The City of Sudharma",
-"exits": {"east": {
+"exits": {"north": {
+"vnum": 82083,
+"door": true,
+"closed": true,
+"locked": false
+}
+,
+"east": {
 "vnum": 82044,
 "door": false,
 "closed": false,
@@ -534296,7 +536714,14 @@ mapAreas = {
 "82044": {
 "name": "North-Side Road",
 "area": "The City of Sudharma",
-"exits": {"east": {
+"exits": {"north": {
+"vnum": 82085,
+"door": true,
+"closed": true,
+"locked": false
+}
+,
+"east": {
 "vnum": 82030,
 "door": false,
 "closed": false,
@@ -534321,6 +536746,13 @@ mapAreas = {
 "locked": false
 }
 ,
+"south": {
+"vnum": 82075,
+"door": true,
+"closed": true,
+"locked": false
+}
+,
 "west": {
 "vnum": 82033,
 "door": false,
@@ -534339,6 +536771,13 @@ mapAreas = {
 "locked": false
 }
 ,
+"south": {
+"vnum": 82076,
+"door": true,
+"closed": true,
+"locked": false
+}
+,
 "west": {
 "vnum": 82043,
 "door": false,
@@ -534354,6 +536793,13 @@ mapAreas = {
 "vnum": 82040,
 "door": false,
 "closed": false,
+"locked": false
+}
+,
+"south": {
+"vnum": 82077,
+"door": true,
+"closed": true,
 "locked": false
 }
 ,
@@ -534400,6 +536846,13 @@ mapAreas = {
 "locked": false
 }
 ,
+"south": {
+"vnum": 82078,
+"door": true,
+"closed": true,
+"locked": false
+}
+,
 "west": {
 "vnum": 82040,
 "door": false,
@@ -534418,6 +536871,13 @@ mapAreas = {
 "locked": false
 }
 ,
+"south": {
+"vnum": 82079,
+"door": true,
+"closed": true,
+"locked": false
+}
+,
 "west": {
 "vnum": 82039,
 "door": false,
@@ -534433,6 +536893,13 @@ mapAreas = {
 "vnum": 82036,
 "door": false,
 "closed": false,
+"locked": false
+}
+,
+"south": {
+"vnum": 82080,
+"door": true,
+"closed": true,
 "locked": false
 }
 ,
@@ -534474,6 +536941,13 @@ mapAreas = {
 ,
 "south": {
 "vnum": 82036,
+"door": false,
+"closed": false,
+"locked": false
+}
+,
+"west": {
+"vnum": 82072,
 "door": false,
 "closed": false,
 "locked": false
@@ -534550,6 +537024,13 @@ mapAreas = {
 "closed": false,
 "locked": false
 }
+,
+"west": {
+"vnum": 82097,
+"door": false,
+"closed": false,
+"locked": false
+}
 }
 },
 "82030": {
@@ -534586,6 +537067,13 @@ mapAreas = {
 "closed": false,
 "locked": false
 }
+,
+"west": {
+"vnum": 82093,
+"door": false,
+"closed": false,
+"locked": false
+}
 }
 },
 "82028": {
@@ -534600,6 +537088,13 @@ mapAreas = {
 ,
 "south": {
 "vnum": 82019,
+"door": false,
+"closed": false,
+"locked": false
+}
+,
+"west": {
+"vnum": 82094,
 "door": false,
 "closed": false,
 "locked": false
@@ -534647,6 +537142,13 @@ mapAreas = {
 "closed": false,
 "locked": false
 }
+,
+"west": {
+"vnum": 82071,
+"door": false,
+"closed": false,
+"locked": false
+}
 }
 },
 "82025": {
@@ -534659,8 +537161,22 @@ mapAreas = {
 "locked": false
 }
 ,
+"east": {
+"vnum": 82069,
+"door": false,
+"closed": false,
+"locked": false
+}
+,
 "south": {
 "vnum": 82021,
+"door": false,
+"closed": false,
+"locked": false
+}
+,
+"west": {
+"vnum": 82068,
 "door": false,
 "closed": false,
 "locked": false
@@ -534695,8 +537211,22 @@ mapAreas = {
 "locked": false
 }
 ,
+"east": {
+"vnum": 82060,
+"door": false,
+"closed": false,
+"locked": false
+}
+,
 "south": {
 "vnum": 82022,
+"door": false,
+"closed": false,
+"locked": false
+}
+,
+"west": {
+"vnum": 82058,
 "door": false,
 "closed": false,
 "locked": false
@@ -534726,6 +537256,13 @@ mapAreas = {
 "closed": false,
 "locked": false
 }
+,
+"west": {
+"vnum": 82056,
+"door": false,
+"closed": false,
+"locked": false
+}
 }
 },
 "82021": {
@@ -534740,6 +537277,13 @@ mapAreas = {
 ,
 "south": {
 "vnum": 82008,
+"door": false,
+"closed": false,
+"locked": false
+}
+,
+"west": {
+"vnum": 82057,
 "door": false,
 "closed": false,
 "locked": false
@@ -534798,6 +537342,13 @@ mapAreas = {
 "closed": false,
 "locked": false
 }
+,
+"west": {
+"vnum": 82059,
+"door": false,
+"closed": false,
+"locked": false
+}
 }
 },
 "82017": {
@@ -534812,6 +537363,13 @@ mapAreas = {
 ,
 "south": {
 "vnum": 82004,
+"door": false,
+"closed": false,
+"locked": false
+}
+,
+"west": {
+"vnum": 82055,
 "door": false,
 "closed": false,
 "locked": false
@@ -534925,8 +537483,22 @@ mapAreas = {
 "82011": {
 "name": "East Main Street",
 "area": "The City of Sudharma",
-"exits": {"east": {
+"exits": {"north": {
+"vnum": 82064,
+"door": false,
+"closed": false,
+"locked": false
+}
+,
+"east": {
 "vnum": 82012,
+"door": false,
+"closed": false,
+"locked": false
+}
+,
+"south": {
+"vnum": 82065,
 "door": false,
 "closed": false,
 "locked": false
@@ -534961,8 +537533,22 @@ mapAreas = {
 "82009": {
 "name": "East Main Street",
 "area": "The City of Sudharma",
-"exits": {"east": {
+"exits": {"north": {
+"vnum": 82061,
+"door": false,
+"closed": false,
+"locked": false
+}
+,
+"east": {
 "vnum": 82010,
+"door": false,
+"closed": false,
+"locked": false
+}
+,
+"south": {
+"vnum": 82066,
 "door": false,
 "closed": false,
 "locked": false
@@ -535018,6 +537604,13 @@ mapAreas = {
 "locked": false
 }
 ,
+"south": {
+"vnum": 82062,
+"door": false,
+"closed": false,
+"locked": false
+}
+,
 "west": {
 "vnum": 82006,
 "door": false,
@@ -535031,6 +537624,13 @@ mapAreas = {
 "area": "The City of Sudharma",
 "exits": {"east": {
 "vnum": 82007,
+"door": false,
+"closed": false,
+"locked": false
+}
+,
+"south": {
+"vnum": 82063,
 "door": false,
 "closed": false,
 "locked": false
@@ -541908,7 +544508,7 @@ mapAreas = {
 }
 ,
 "east": {
-"vnum": 20083,
+"vnum": 20076,
 "door": false,
 "closed": false,
 "locked": false
@@ -541922,14 +544522,14 @@ mapAreas = {
 }
 ,
 "west": {
-"vnum": 20076,
+"vnum": 20075,
 "door": false,
 "closed": false,
 "locked": false
 }
 ,
 "up": {
-"vnum": 20075,
+"vnum": 20083,
 "door": false,
 "closed": false,
 "locked": false
@@ -546778,6 +549378,5400 @@ mapAreas = {
 ,
 "west": {
 "vnum": 17707,
+"door": false,
+"closed": false,
+"locked": false
+}
+}
+},
+"31924": {
+"name": "The Hollow of Gorath",
+"area": "Whispering Timberlands",
+"exits": {"north": {
+"vnum": 31917,
+"door": false,
+"closed": false,
+"locked": false
+}
+,
+"west": {
+"vnum": 31923,
+"door": false,
+"closed": false,
+"locked": false
+}
+}
+},
+"31923": {
+"name": "Thornwall Passage",
+"area": "Whispering Timberlands",
+"exits": {"north": {
+"vnum": 31916,
+"door": false,
+"closed": false,
+"locked": false
+}
+,
+"east": {
+"vnum": 31924,
+"door": false,
+"closed": false,
+"locked": false
+}
+,
+"west": {
+"vnum": 31922,
+"door": false,
+"closed": false,
+"locked": false
+}
+}
+},
+"31922": {
+"name": "Grove Antechamber",
+"area": "Whispering Timberlands",
+"exits": {"north": {
+"vnum": 31915,
+"door": false,
+"closed": false,
+"locked": false
+}
+,
+"east": {
+"vnum": 31923,
+"door": false,
+"closed": false,
+"locked": false
+}
+,
+"west": {
+"vnum": 31921,
+"door": false,
+"closed": false,
+"locked": false
+}
+}
+},
+"31921": {
+"name": "Deepwood Outer Shrine",
+"area": "Whispering Timberlands",
+"exits": {"north": {
+"vnum": 31914,
+"door": false,
+"closed": false,
+"locked": false
+}
+,
+"east": {
+"vnum": 31922,
+"door": false,
+"closed": false,
+"locked": false
+}
+}
+},
+"31920": {
+"name": "Ruin Floor",
+"area": "Whispering Timberlands",
+"exits": {"north": {
+"vnum": 31913,
+"door": false,
+"closed": false,
+"locked": false
+}
+,
+"west": {
+"vnum": 31919,
+"door": false,
+"closed": false,
+"locked": false
+}
+}
+},
+"31919": {
+"name": "Collapsed Ring",
+"area": "Whispering Timberlands",
+"exits": {"north": {
+"vnum": 31912,
+"door": false,
+"closed": false,
+"locked": false
+}
+,
+"east": {
+"vnum": 31920,
+"door": false,
+"closed": false,
+"locked": false
+}
+,
+"west": {
+"vnum": 31918,
+"door": false,
+"closed": false,
+"locked": false
+}
+}
+},
+"31918": {
+"name": "The Thorn Throne",
+"area": "Whispering Timberlands",
+"exits": {"north": {
+"vnum": 31911,
+"door": false,
+"closed": false,
+"locked": false
+}
+,
+"east": {
+"vnum": 31919,
+"door": false,
+"closed": false,
+"locked": false
+}
+,
+"west": {
+"vnum": 31917,
+"door": false,
+"closed": false,
+"locked": false
+}
+}
+},
+"31917": {
+"name": "Rootbound Court",
+"area": "Whispering Timberlands",
+"exits": {"north": {
+"vnum": 31910,
+"door": false,
+"closed": false,
+"locked": false
+}
+,
+"east": {
+"vnum": 31918,
+"door": false,
+"closed": false,
+"locked": false
+}
+,
+"south": {
+"vnum": 31924,
+"door": false,
+"closed": false,
+"locked": false
+}
+,
+"west": {
+"vnum": 31916,
+"door": false,
+"closed": false,
+"locked": false
+}
+}
+},
+"31916": {
+"name": "Broken Ward Stone",
+"area": "Whispering Timberlands",
+"exits": {"north": {
+"vnum": 31909,
+"door": false,
+"closed": false,
+"locked": false
+}
+,
+"east": {
+"vnum": 31917,
+"door": false,
+"closed": false,
+"locked": false
+}
+,
+"south": {
+"vnum": 31923,
+"door": false,
+"closed": false,
+"locked": false
+}
+,
+"west": {
+"vnum": 31915,
+"door": false,
+"closed": false,
+"locked": false
+}
+}
+},
+"31915": {
+"name": "Blackroot Walk",
+"area": "Whispering Timberlands",
+"exits": {"north": {
+"vnum": 31908,
+"door": false,
+"closed": false,
+"locked": false
+}
+,
+"east": {
+"vnum": 31916,
+"door": false,
+"closed": false,
+"locked": false
+}
+,
+"south": {
+"vnum": 31922,
+"door": false,
+"closed": false,
+"locked": false
+}
+,
+"west": {
+"vnum": 31914,
+"door": false,
+"closed": false,
+"locked": false
+}
+}
+},
+"31914": {
+"name": "Ancient Grove",
+"area": "Whispering Timberlands",
+"exits": {"north": {
+"vnum": 31907,
+"door": false,
+"closed": false,
+"locked": false
+}
+,
+"east": {
+"vnum": 31915,
+"door": false,
+"closed": false,
+"locked": false
+}
+,
+"south": {
+"vnum": 31921,
+"door": false,
+"closed": false,
+"locked": false
+}
+}
+},
+"31913": {
+"name": "Heartwood Court",
+"area": "Whispering Timberlands",
+"exits": {"south": {
+"vnum": 31920,
+"door": false,
+"closed": false,
+"locked": false
+}
+,
+"west": {
+"vnum": 31912,
+"door": false,
+"closed": false,
+"locked": false
+}
+}
+},
+"31912": {
+"name": "Ruin of the Wardens",
+"area": "Whispering Timberlands",
+"exits": {"north": {
+"vnum": 31906,
+"door": false,
+"closed": false,
+"locked": false
+}
+,
+"east": {
+"vnum": 31913,
+"door": false,
+"closed": false,
+"locked": false
+}
+,
+"south": {
+"vnum": 31919,
+"door": false,
+"closed": false,
+"locked": false
+}
+,
+"west": {
+"vnum": 31911,
+"door": false,
+"closed": false,
+"locked": false
+}
+}
+},
+"31911": {
+"name": "Sunken Shrine",
+"area": "Whispering Timberlands",
+"exits": {"north": {
+"vnum": 31905,
+"door": false,
+"closed": false,
+"locked": false
+}
+,
+"east": {
+"vnum": 31912,
+"door": false,
+"closed": false,
+"locked": false
+}
+,
+"south": {
+"vnum": 31918,
+"door": false,
+"closed": false,
+"locked": false
+}
+,
+"west": {
+"vnum": 31910,
+"door": false,
+"closed": false,
+"locked": false
+}
+}
+},
+"31910": {
+"name": "Thorned Clearing",
+"area": "Whispering Timberlands",
+"exits": {"north": {
+"vnum": 31904,
+"door": false,
+"closed": false,
+"locked": false
+}
+,
+"east": {
+"vnum": 31911,
+"door": false,
+"closed": false,
+"locked": false
+}
+,
+"south": {
+"vnum": 31917,
+"door": false,
+"closed": false,
+"locked": false
+}
+,
+"west": {
+"vnum": 31909,
+"door": false,
+"closed": false,
+"locked": false
+}
+}
+},
+"31909": {
+"name": "Ruined Grove Threshold",
+"area": "Whispering Timberlands",
+"exits": {"north": {
+"vnum": 31903,
+"door": false,
+"closed": false,
+"locked": false
+}
+,
+"east": {
+"vnum": 31910,
+"door": false,
+"closed": false,
+"locked": false
+}
+,
+"south": {
+"vnum": 31916,
+"door": false,
+"closed": false,
+"locked": false
+}
+,
+"west": {
+"vnum": 31908,
+"door": false,
+"closed": false,
+"locked": false
+}
+}
+},
+"31908": {
+"name": "Broken Stone Path",
+"area": "Whispering Timberlands",
+"exits": {"north": {
+"vnum": 31902,
+"door": false,
+"closed": false,
+"locked": false
+}
+,
+"east": {
+"vnum": 31909,
+"door": false,
+"closed": false,
+"locked": false
+}
+,
+"south": {
+"vnum": 31915,
+"door": false,
+"closed": false,
+"locked": false
+}
+,
+"west": {
+"vnum": 31907,
+"door": false,
+"closed": false,
+"locked": false
+}
+}
+},
+"31907": {
+"name": "Bark Ruin",
+"area": "Whispering Timberlands",
+"exits": {"north": {
+"vnum": 31901,
+"door": false,
+"closed": false,
+"locked": false
+}
+,
+"east": {
+"vnum": 31908,
+"door": false,
+"closed": false,
+"locked": false
+}
+,
+"south": {
+"vnum": 31914,
+"door": false,
+"closed": false,
+"locked": false
+}
+}
+},
+"31906": {
+"name": "Thorn Approach",
+"area": "Whispering Timberlands",
+"exits": {"north": {
+"vnum": 31900,
+"door": false,
+"closed": false,
+"locked": false
+}
+,
+"south": {
+"vnum": 31912,
+"door": false,
+"closed": false,
+"locked": false
+}
+,
+"west": {
+"vnum": 31905,
+"door": false,
+"closed": false,
+"locked": false
+}
+}
+},
+"31905": {
+"name": "Ruin Margin",
+"area": "Whispering Timberlands",
+"exits": {"north": {
+"vnum": 31899,
+"door": false,
+"closed": false,
+"locked": false
+}
+,
+"east": {
+"vnum": 31906,
+"door": false,
+"closed": false,
+"locked": false
+}
+,
+"south": {
+"vnum": 31911,
+"door": false,
+"closed": false,
+"locked": false
+}
+,
+"west": {
+"vnum": 31904,
+"door": false,
+"closed": false,
+"locked": false
+}
+}
+},
+"31904": {
+"name": "Hollow Approach",
+"area": "Whispering Timberlands",
+"exits": {"north": {
+"vnum": 31898,
+"door": false,
+"closed": false,
+"locked": false
+}
+,
+"east": {
+"vnum": 31905,
+"door": false,
+"closed": false,
+"locked": false
+}
+,
+"south": {
+"vnum": 31910,
+"door": false,
+"closed": false,
+"locked": false
+}
+,
+"west": {
+"vnum": 31903,
+"door": false,
+"closed": false,
+"locked": false
+}
+}
+},
+"31903": {
+"name": "Rootchoked Approach",
+"area": "Whispering Timberlands",
+"exits": {"north": {
+"vnum": 31897,
+"door": false,
+"closed": false,
+"locked": false
+}
+,
+"east": {
+"vnum": 31904,
+"door": false,
+"closed": false,
+"locked": false
+}
+,
+"south": {
+"vnum": 31909,
+"door": false,
+"closed": false,
+"locked": false
+}
+,
+"west": {
+"vnum": 31902,
+"door": false,
+"closed": false,
+"locked": false
+}
+}
+},
+"31902": {
+"name": "Mast Floor",
+"area": "Whispering Timberlands",
+"exits": {"north": {
+"vnum": 31896,
+"door": false,
+"closed": false,
+"locked": false
+}
+,
+"east": {
+"vnum": 31903,
+"door": false,
+"closed": false,
+"locked": false
+}
+,
+"south": {
+"vnum": 31908,
+"door": false,
+"closed": false,
+"locked": false
+}
+,
+"west": {
+"vnum": 31901,
+"door": false,
+"closed": false,
+"locked": false
+}
+}
+},
+"31901": {
+"name": "Canopy Breach",
+"area": "Whispering Timberlands",
+"exits": {"north": {
+"vnum": 31895,
+"door": false,
+"closed": false,
+"locked": false
+}
+,
+"east": {
+"vnum": 31902,
+"door": false,
+"closed": false,
+"locked": false
+}
+,
+"south": {
+"vnum": 31907,
+"door": false,
+"closed": false,
+"locked": false
+}
+}
+},
+"31900": {
+"name": "North Heartwood Reach",
+"area": "Whispering Timberlands",
+"exits": {"north": {
+"vnum": 31894,
+"door": false,
+"closed": false,
+"locked": false
+}
+,
+"south": {
+"vnum": 31906,
+"door": false,
+"closed": false,
+"locked": false
+}
+,
+"west": {
+"vnum": 31899,
+"door": false,
+"closed": false,
+"locked": false
+}
+}
+},
+"31899": {
+"name": "Blackroot Corridor",
+"area": "Whispering Timberlands",
+"exits": {"north": {
+"vnum": 31893,
+"door": false,
+"closed": false,
+"locked": false
+}
+,
+"east": {
+"vnum": 31900,
+"door": false,
+"closed": false,
+"locked": false
+}
+,
+"south": {
+"vnum": 31905,
+"door": false,
+"closed": false,
+"locked": false
+}
+,
+"west": {
+"vnum": 31898,
+"door": false,
+"closed": false,
+"locked": false
+}
+}
+},
+"31898": {
+"name": "Dark Heartwood",
+"area": "Whispering Timberlands",
+"exits": {"north": {
+"vnum": 31892,
+"door": false,
+"closed": false,
+"locked": false
+}
+,
+"east": {
+"vnum": 31899,
+"door": false,
+"closed": false,
+"locked": false
+}
+,
+"south": {
+"vnum": 31904,
+"door": false,
+"closed": false,
+"locked": false
+}
+,
+"west": {
+"vnum": 31897,
+"door": false,
+"closed": false,
+"locked": false
+}
+}
+},
+"31897": {
+"name": "Bark Shadow",
+"area": "Whispering Timberlands",
+"exits": {"north": {
+"vnum": 31891,
+"door": false,
+"closed": false,
+"locked": false
+}
+,
+"east": {
+"vnum": 31898,
+"door": false,
+"closed": false,
+"locked": false
+}
+,
+"south": {
+"vnum": 31903,
+"door": false,
+"closed": false,
+"locked": false
+}
+,
+"west": {
+"vnum": 31896,
+"door": false,
+"closed": false,
+"locked": false
+}
+}
+},
+"31896": {
+"name": "Thorn Margin",
+"area": "Whispering Timberlands",
+"exits": {"north": {
+"vnum": 31890,
+"door": false,
+"closed": false,
+"locked": false
+}
+,
+"east": {
+"vnum": 31897,
+"door": false,
+"closed": false,
+"locked": false
+}
+,
+"south": {
+"vnum": 31902,
+"door": false,
+"closed": false,
+"locked": false
+}
+,
+"west": {
+"vnum": 31895,
+"door": false,
+"closed": false,
+"locked": false
+}
+}
+},
+"31895": {
+"name": "Deepwood Sink",
+"area": "Whispering Timberlands",
+"exits": {"north": {
+"vnum": 31889,
+"door": false,
+"closed": false,
+"locked": false
+}
+,
+"east": {
+"vnum": 31896,
+"door": false,
+"closed": false,
+"locked": false
+}
+,
+"south": {
+"vnum": 31901,
+"door": false,
+"closed": false,
+"locked": false
+}
+}
+},
+"31894": {
+"name": "Heavy Canopy Run",
+"area": "Whispering Timberlands",
+"exits": {"north": {
+"vnum": 31887,
+"door": false,
+"closed": false,
+"locked": false
+}
+,
+"south": {
+"vnum": 31900,
+"door": false,
+"closed": false,
+"locked": false
+}
+,
+"west": {
+"vnum": 31893,
+"door": false,
+"closed": false,
+"locked": false
+}
+}
+},
+"31893": {
+"name": "Heartwood Press",
+"area": "Whispering Timberlands",
+"exits": {"north": {
+"vnum": 31886,
+"door": false,
+"closed": false,
+"locked": false
+}
+,
+"east": {
+"vnum": 31894,
+"door": false,
+"closed": false,
+"locked": false
+}
+,
+"south": {
+"vnum": 0,
+"door": false,
+"closed": false,
+"locked": false
+}
+,
+"west": {
+"vnum": 31893,
+"door": false,
+"closed": false,
+"locked": false
+}
+}
+},
+"31892": {
+"name": "Matted Fern Hollow",
+"area": "Whispering Timberlands",
+"exits": {"north": {
+"vnum": 31885,
+"door": false,
+"closed": false,
+"locked": false
+}
+,
+"east": {
+"vnum": 31893,
+"door": false,
+"closed": false,
+"locked": false
+}
+,
+"south": {
+"vnum": 31898,
+"door": false,
+"closed": false,
+"locked": false
+}
+,
+"west": {
+"vnum": 31891,
+"door": false,
+"closed": false,
+"locked": false
+}
+}
+},
+"31891": {
+"name": "Shadowed Approach",
+"area": "Whispering Timberlands",
+"exits": {"north": {
+"vnum": 31884,
+"door": false,
+"closed": false,
+"locked": false
+}
+,
+"east": {
+"vnum": 31892,
+"door": false,
+"closed": false,
+"locked": false
+}
+,
+"south": {
+"vnum": 31897,
+"door": false,
+"closed": false,
+"locked": false
+}
+,
+"west": {
+"vnum": 31890,
+"door": false,
+"closed": false,
+"locked": false
+}
+}
+},
+"31890": {
+"name": "Ravenwood Cut",
+"area": "Whispering Timberlands",
+"exits": {"north": {
+"vnum": 31883,
+"door": false,
+"closed": false,
+"locked": false
+}
+,
+"east": {
+"vnum": 31891,
+"door": false,
+"closed": false,
+"locked": false
+}
+,
+"south": {
+"vnum": 31896,
+"door": false,
+"closed": false,
+"locked": false
+}
+,
+"west": {
+"vnum": 31889,
+"door": false,
+"closed": false,
+"locked": false
+}
+}
+},
+"31889": {
+"name": "Thickbark Stand",
+"area": "Whispering Timberlands",
+"exits": {"north": {
+"vnum": 31882,
+"door": false,
+"closed": false,
+"locked": false
+}
+,
+"east": {
+"vnum": 31890,
+"door": false,
+"closed": false,
+"locked": false
+}
+,
+"south": {
+"vnum": 31895,
+"door": false,
+"closed": false,
+"locked": false
+}
+,
+"west": {
+"vnum": 31888,
+"door": false,
+"closed": false,
+"locked": false
+}
+}
+},
+"31888": {
+"name": "Dim Green Hollow",
+"area": "Whispering Timberlands",
+"exits": {"north": {
+"vnum": 31881,
+"door": false,
+"closed": false,
+"locked": false
+}
+,
+"east": {
+"vnum": 31889,
+"door": false,
+"closed": false,
+"locked": false
+}
+}
+},
+"31887": {
+"name": "Rootsnare Path",
+"area": "Whispering Timberlands",
+"exits": {"north": {
+"vnum": 31887,
+"door": false,
+"closed": false,
+"locked": false
+}
+,
+"south": {
+"vnum": 31894,
+"door": false,
+"closed": false,
+"locked": false
+}
+,
+"west": {
+"vnum": 31886,
+"door": false,
+"closed": false,
+"locked": false
+}
+}
+},
+"31886": {
+"name": "Old Blood Trail",
+"area": "Whispering Timberlands",
+"exits": {"north": {
+"vnum": 31879,
+"door": false,
+"closed": false,
+"locked": false
+}
+,
+"east": {
+"vnum": 31887,
+"door": false,
+"closed": false,
+"locked": false
+}
+,
+"south": {
+"vnum": 31893,
+"door": false,
+"closed": false,
+"locked": false
+}
+,
+"west": {
+"vnum": 31885,
+"door": false,
+"closed": false,
+"locked": false
+}
+}
+},
+"31885": {
+"name": "Heartwood Buffer",
+"area": "Whispering Timberlands",
+"exits": {"north": {
+"vnum": 31878,
+"door": false,
+"closed": false,
+"locked": false
+}
+,
+"east": {
+"vnum": 31886,
+"door": false,
+"closed": false,
+"locked": false
+}
+,
+"south": {
+"vnum": 31892,
+"door": false,
+"closed": false,
+"locked": false
+}
+,
+"west": {
+"vnum": 31884,
+"door": false,
+"closed": false,
+"locked": false
+}
+}
+},
+"31884": {
+"name": "Camp Northern Reach",
+"area": "Whispering Timberlands",
+"exits": {"north": {
+"vnum": 31877,
+"door": false,
+"closed": false,
+"locked": false
+}
+,
+"east": {
+"vnum": 31885,
+"door": false,
+"closed": false,
+"locked": false
+}
+,
+"south": {
+"vnum": 31891,
+"door": false,
+"closed": false,
+"locked": false
+}
+,
+"west": {
+"vnum": 31883,
+"door": false,
+"closed": false,
+"locked": false
+}
+}
+},
+"31883": {
+"name": "Northern Loop",
+"area": "Whispering Timberlands",
+"exits": {"north": {
+"vnum": 31876,
+"door": false,
+"closed": false,
+"locked": false
+}
+,
+"east": {
+"vnum": 31884,
+"door": false,
+"closed": false,
+"locked": false
+}
+,
+"south": {
+"vnum": 31890,
+"door": false,
+"closed": false,
+"locked": false
+}
+,
+"west": {
+"vnum": 31882,
+"door": false,
+"closed": false,
+"locked": false
+}
+}
+},
+"31882": {
+"name": "Deepwood Patrol",
+"area": "Whispering Timberlands",
+"exits": {"north": {
+"vnum": 31875,
+"door": false,
+"closed": false,
+"locked": false
+}
+,
+"east": {
+"vnum": 31883,
+"door": false,
+"closed": false,
+"locked": false
+}
+,
+"south": {
+"vnum": 31889,
+"door": false,
+"closed": false,
+"locked": false
+}
+,
+"west": {
+"vnum": 31881,
+"door": false,
+"closed": false,
+"locked": false
+}
+}
+},
+"31881": {
+"name": "Inner Loop",
+"area": "Whispering Timberlands",
+"exits": {"north": {
+"vnum": 31874,
+"door": false,
+"closed": false,
+"locked": false
+}
+,
+"east": {
+"vnum": 31882,
+"door": false,
+"closed": false,
+"locked": false
+}
+,
+"west": {
+"vnum": 31888,
+"door": false,
+"closed": false,
+"locked": false
+}
+}
+},
+"31880": {
+"name": "Outer Loop",
+"area": "Whispering Timberlands",
+"exits": {"north": {
+"vnum": 31872,
+"door": false,
+"closed": false,
+"locked": false
+}
+,
+"south": {
+"vnum": 31887,
+"door": false,
+"closed": false,
+"locked": false
+}
+,
+"west": {
+"vnum": 31879,
+"door": false,
+"closed": false,
+"locked": false
+}
+}
+},
+"31879": {
+"name": "Patrol Loop",
+"area": "Whispering Timberlands",
+"exits": {"north": {
+"vnum": 31871,
+"door": false,
+"closed": false,
+"locked": false
+}
+,
+"east": {
+"vnum": 31880,
+"door": false,
+"closed": false,
+"locked": false
+}
+,
+"south": {
+"vnum": 31886,
+"door": false,
+"closed": false,
+"locked": false
+}
+,
+"west": {
+"vnum": 31878,
+"door": false,
+"closed": false,
+"locked": false
+}
+}
+},
+"31878": {
+"name": "Camp East Approach",
+"area": "Whispering Timberlands",
+"exits": {"north": {
+"vnum": 31870,
+"door": false,
+"closed": false,
+"locked": false
+}
+,
+"east": {
+"vnum": 31879,
+"door": false,
+"closed": false,
+"locked": false
+}
+,
+"south": {
+"vnum": 31885,
+"door": false,
+"closed": false,
+"locked": false
+}
+,
+"west": {
+"vnum": 31877,
+"door": false,
+"closed": false,
+"locked": false
+}
+}
+},
+"31877": {
+"name": "North Spring Approach",
+"area": "Whispering Timberlands",
+"exits": {"north": {
+"vnum": 31869,
+"door": false,
+"closed": false,
+"locked": false
+}
+,
+"east": {
+"vnum": 31878,
+"door": false,
+"closed": false,
+"locked": false
+}
+,
+"south": {
+"vnum": 31884,
+"door": false,
+"closed": false,
+"locked": false
+}
+,
+"west": {
+"vnum": 31876,
+"door": false,
+"closed": false,
+"locked": false
+}
+}
+},
+"31876": {
+"name": "Perimeter Track",
+"area": "Whispering Timberlands",
+"exits": {"north": {
+"vnum": 31868,
+"door": false,
+"closed": false,
+"locked": false
+}
+,
+"east": {
+"vnum": 31877,
+"door": false,
+"closed": false,
+"locked": false
+}
+,
+"south": {
+"vnum": 31883,
+"door": false,
+"closed": false,
+"locked": false
+}
+,
+"west": {
+"vnum": 31875,
+"door": false,
+"closed": false,
+"locked": false
+}
+}
+},
+"31875": {
+"name": "Stag Corridor",
+"area": "Whispering Timberlands",
+"exits": {"north": {
+"vnum": 31867,
+"door": false,
+"closed": false,
+"locked": false
+}
+,
+"east": {
+"vnum": 31876,
+"door": false,
+"closed": false,
+"locked": false
+}
+,
+"south": {
+"vnum": 31883,
+"door": false,
+"closed": false,
+"locked": false
+}
+}
+},
+"31874": {
+"name": "North Patrol Cut",
+"area": "Whispering Timberlands",
+"exits": {"north": {
+"vnum": 31873,
+"door": false,
+"closed": false,
+"locked": false
+}
+,
+"west": {
+"vnum": 31864,
+"door": false,
+"closed": false,
+"locked": false
+}
+}
+},
+"31873": {
+"name": "Watchpost Trail",
+"area": "Whispering Timberlands",
+"exits": {"south": {
+"vnum": 31874,
+"door": false,
+"closed": false,
+"locked": false
+}
+,
+"west": {
+"vnum": 31864,
+"door": false,
+"closed": false,
+"locked": false
+}
+}
+},
+"31872": {
+"name": "Camo Hollow",
+"area": "Whispering Timberlands",
+"exits": {"north": {
+"vnum": 31864,
+"door": false,
+"closed": false,
+"locked": false
+}
+,
+"east": {
+"vnum": 31874,
+"door": false,
+"closed": false,
+"locked": false
+}
+,
+"south": {
+"vnum": 31880,
+"door": false,
+"closed": false,
+"locked": false
+}
+,
+"west": {
+"vnum": 31871,
+"door": false,
+"closed": false,
+"locked": false
+}
+}
+},
+"31871": {
+"name": "Firebreak Track",
+"area": "Whispering Timberlands",
+"exits": {"north": {
+"vnum": 31863,
+"door": false,
+"closed": false,
+"locked": false
+}
+,
+"east": {
+"vnum": 31872,
+"door": false,
+"closed": false,
+"locked": false
+}
+,
+"south": {
+"vnum": 31879,
+"door": false,
+"closed": false,
+"locked": false
+}
+,
+"west": {
+"vnum": 31878,
+"door": false,
+"closed": false,
+"locked": false
+}
+}
+},
+"31870": {
+"name": "Hidden Ranger Camp",
+"area": "Whispering Timberlands",
+"exits": {"north": {
+"vnum": 31862,
+"door": false,
+"closed": false,
+"locked": false
+}
+,
+"east": {
+"vnum": 31871,
+"door": false,
+"closed": false,
+"locked": false
+}
+,
+"south": {
+"vnum": 31878,
+"door": false,
+"closed": false,
+"locked": false
+}
+,
+"west": {
+"vnum": 31869,
+"door": false,
+"closed": false,
+"locked": false
+}
+}
+},
+"31869": {
+"name": "Forest Spring Glade",
+"area": "Whispering Timberlands",
+"exits": {"north": {
+"vnum": 31861,
+"door": false,
+"closed": false,
+"locked": false
+}
+,
+"east": {
+"vnum": 31870,
+"door": false,
+"closed": false,
+"locked": false
+}
+,
+"south": {
+"vnum": 31877,
+"door": false,
+"closed": false,
+"locked": false
+}
+,
+"west": {
+"vnum": 31868,
+"door": false,
+"closed": false,
+"locked": false
+}
+}
+},
+"31868": {
+"name": "Quiet Encampment",
+"area": "Whispering Timberlands",
+"exits": {"north": {
+"vnum": 31860,
+"door": false,
+"closed": false,
+"locked": false
+}
+,
+"east": {
+"vnum": 31869,
+"door": false,
+"closed": false,
+"locked": false
+}
+,
+"south": {
+"vnum": 31876,
+"door": false,
+"closed": false,
+"locked": false
+}
+,
+"west": {
+"vnum": 31867,
+"door": false,
+"closed": false,
+"locked": false
+}
+}
+},
+"31867": {
+"name": "Warden's Run",
+"area": "Whispering Timberlands",
+"exits": {"north": {
+"vnum": 31859,
+"door": false,
+"closed": false,
+"locked": false
+}
+,
+"east": {
+"vnum": 31868,
+"door": false,
+"closed": false,
+"locked": false
+}
+,
+"south": {
+"vnum": 31875,
+"door": false,
+"closed": false,
+"locked": false
+}
+,
+"west": {
+"vnum": 31866,
+"door": false,
+"closed": false,
+"locked": false
+}
+}
+},
+"31866": {
+"name": "Ranger Path",
+"area": "Whispering Timberlands",
+"exits": {"north": {
+"vnum": 31858,
+"door": false,
+"closed": false,
+"locked": false
+}
+,
+"east": {
+"vnum": 31867,
+"door": false,
+"closed": false,
+"locked": false
+}
+,
+"west": {
+"vnum": 31865,
+"door": false,
+"closed": false,
+"locked": false
+}
+}
+},
+"31865": {
+"name": "Supply Path",
+"area": "Whispering Timberlands",
+"exits": {"north": {
+"vnum": 31857,
+"door": false,
+"closed": false,
+"locked": false
+}
+,
+"east": {
+"vnum": 31866,
+"door": false,
+"closed": false,
+"locked": false
+}
+}
+},
+"31864": {
+"name": "Sentry Pines",
+"area": "Whispering Timberlands",
+"exits": {"east": {
+"vnum": 31873,
+"door": false,
+"closed": false,
+"locked": false
+}
+,
+"south": {
+"vnum": 31872,
+"door": false,
+"closed": false,
+"locked": false
+}
+,
+"west": {
+"vnum": 31863,
+"door": false,
+"closed": false,
+"locked": false
+}
+}
+},
+"31863": {
+"name": "Covered Approach",
+"area": "Whispering Timberlands",
+"exits": {"north": {
+"vnum": 31855,
+"door": false,
+"closed": false,
+"locked": false
+}
+,
+"east": {
+"vnum": 31864,
+"door": false,
+"closed": false,
+"locked": false
+}
+,
+"south": {
+"vnum": 31871,
+"door": false,
+"closed": false,
+"locked": false
+}
+,
+"west": {
+"vnum": 31862,
+"door": false,
+"closed": false,
+"locked": false
+}
+}
+},
+"31862": {
+"name": "Ranger Patrol Cut",
+"area": "Whispering Timberlands",
+"exits": {"north": {
+"vnum": 31854,
+"door": false,
+"closed": false,
+"locked": false
+}
+,
+"east": {
+"vnum": 31863,
+"door": false,
+"closed": false,
+"locked": false
+}
+,
+"south": {
+"vnum": 31870,
+"door": false,
+"closed": false,
+"locked": false
+}
+}
+},
+"31861": {
+"name": "Fern and Shadow",
+"area": "Whispering Timberlands",
+"exits": {"north": {
+"vnum": 31853,
+"door": false,
+"closed": false,
+"locked": false
+}
+,
+"south": {
+"vnum": 31869,
+"door": false,
+"closed": false,
+"locked": false
+}
+,
+"west": {
+"vnum": 31860,
+"door": false,
+"closed": false,
+"locked": false
+}
+}
+},
+"31860": {
+"name": "Bone Cache",
+"area": "Whispering Timberlands",
+"exits": {"north": {
+"vnum": 31852,
+"door": false,
+"closed": false,
+"locked": false
+}
+,
+"east": {
+"vnum": 31861,
+"door": false,
+"closed": false,
+"locked": false
+}
+,
+"south": {
+"vnum": 31868,
+"door": false,
+"closed": false,
+"locked": false
+}
+,
+"west": {
+"vnum": 31859,
+"door": false,
+"closed": false,
+"locked": false
+}
+}
+},
+"31859": {
+"name": "Gnarled Crown",
+"area": "Whispering Timberlands",
+"exits": {"north": {
+"vnum": 31851,
+"door": false,
+"closed": false,
+"locked": false
+}
+,
+"east": {
+"vnum": 31860,
+"door": false,
+"closed": false,
+"locked": false
+}
+,
+"south": {
+"vnum": 31867,
+"door": false,
+"closed": false,
+"locked": false
+}
+,
+"west": {
+"vnum": 31858,
+"door": false,
+"closed": false,
+"locked": false
+}
+}
+},
+"31858": {
+"name": "Deepwood Heart",
+"area": "Whispering Timberlands",
+"exits": {"north": {
+"vnum": 31850,
+"door": false,
+"closed": false,
+"locked": false
+}
+,
+"east": {
+"vnum": 31859,
+"door": false,
+"closed": false,
+"locked": false
+}
+,
+"south": {
+"vnum": 31866,
+"door": false,
+"closed": false,
+"locked": false
+}
+,
+"west": {
+"vnum": 31857,
+"door": false,
+"closed": false,
+"locked": false
+}
+}
+},
+"31857": {
+"name": "Hanging Moss Run",
+"area": "Whispering Timberlands",
+"exits": {"north": {
+"vnum": 31849,
+"door": false,
+"closed": false,
+"locked": false
+}
+,
+"east": {
+"vnum": 31858,
+"door": false,
+"closed": false,
+"locked": false
+}
+,
+"south": {
+"vnum": 31865,
+"door": false,
+"closed": false,
+"locked": false
+}
+,
+"west": {
+"vnum": 31856,
+"door": false,
+"closed": false,
+"locked": false
+}
+}
+},
+"31856": {
+"name": "Overgrown Waypost",
+"area": "Whispering Timberlands",
+"exits": {"north": {
+"vnum": 31848,
+"door": false,
+"closed": false,
+"locked": false
+}
+,
+"east": {
+"vnum": 31857,
+"door": false,
+"closed": false,
+"locked": false
+}
+,
+"south": {
+"vnum": 31864,
+"door": false,
+"closed": false,
+"locked": false
+}
+,
+"west": {
+"vnum": 31855,
+"door": false,
+"closed": false,
+"locked": false
+}
+}
+},
+"31855": {
+"name": "Mossy Stone Path",
+"area": "Whispering Timberlands",
+"exits": {"north": {
+"vnum": 31847,
+"door": false,
+"closed": false,
+"locked": false
+}
+,
+"east": {
+"vnum": 31856,
+"door": false,
+"closed": false,
+"locked": false
+}
+,
+"south": {
+"vnum": 31863,
+"door": false,
+"closed": false,
+"locked": false
+}
+,
+"west": {
+"vnum": 31854,
+"door": false,
+"closed": false,
+"locked": false
+}
+}
+},
+"31854": {
+"name": "Heartwood Approach",
+"area": "Whispering Timberlands",
+"exits": {"north": {
+"vnum": 31846,
+"door": false,
+"closed": false,
+"locked": false
+}
+,
+"east": {
+"vnum": 31855,
+"door": false,
+"closed": false,
+"locked": false
+}
+,
+"south": {
+"vnum": 31862,
+"door": false,
+"closed": false,
+"locked": false
+}
+}
+},
+"31853": {
+"name": "Silent Margin",
+"area": "Whispering Timberlands",
+"exits": {"north": {
+"vnum": 31845,
+"door": false,
+"closed": false,
+"locked": false
+}
+,
+"south": {
+"vnum": 31861,
+"door": false,
+"closed": false,
+"locked": false
+}
+,
+"west": {
+"vnum": 31852,
+"door": false,
+"closed": false,
+"locked": false
+}
+}
+},
+"31852": {
+"name": "Root Warren",
+"area": "Whispering Timberlands",
+"exits": {"north": {
+"vnum": 31844,
+"door": false,
+"closed": false,
+"locked": false
+}
+,
+"east": {
+"vnum": 31853,
+"door": false,
+"closed": false,
+"locked": false
+}
+,
+"south": {
+"vnum": 31860,
+"door": false,
+"closed": false,
+"locked": false
+}
+,
+"west": {
+"vnum": 31851,
+"door": false,
+"closed": false,
+"locked": false
+}
+}
+},
+"31851": {
+"name": "Antler Grove",
+"area": "Whispering Timberlands",
+"exits": {"north": {
+"vnum": 31843,
+"door": false,
+"closed": false,
+"locked": false
+}
+,
+"east": {
+"vnum": 31852,
+"door": false,
+"closed": false,
+"locked": false
+}
+,
+"south": {
+"vnum": 31859,
+"door": false,
+"closed": false,
+"locked": false
+}
+,
+"west": {
+"vnum": 31850,
+"door": false,
+"closed": false,
+"locked": false
+}
+}
+},
+"31850": {
+"name": "Heartwood Margin",
+"area": "Whispering Timberlands",
+"exits": {"north": {
+"vnum": 31842,
+"door": false,
+"closed": false,
+"locked": false
+}
+,
+"east": {
+"vnum": 31851,
+"door": false,
+"closed": false,
+"locked": false
+}
+,
+"south": {
+"vnum": 31858,
+"door": false,
+"closed": false,
+"locked": false
+}
+,
+"west": {
+"vnum": 31849,
+"door": false,
+"closed": false,
+"locked": false
+}
+}
+},
+"31849": {
+"name": "Tall Timber Cross",
+"area": "Whispering Timberlands",
+"exits": {"north": {
+"vnum": 31841,
+"door": false,
+"closed": false,
+"locked": false
+}
+,
+"east": {
+"vnum": 31850,
+"door": false,
+"closed": false,
+"locked": false
+}
+,
+"south": {
+"vnum": 31857,
+"door": false,
+"closed": false,
+"locked": false
+}
+,
+"west": {
+"vnum": 31848,
+"door": false,
+"closed": false,
+"locked": false
+}
+}
+},
+"31848": {
+"name": "Gully Run",
+"area": "Whispering Timberlands",
+"exits": {"north": {
+"vnum": 31840,
+"door": false,
+"closed": false,
+"locked": false
+}
+,
+"east": {
+"vnum": 31849,
+"door": false,
+"closed": false,
+"locked": false
+}
+,
+"south": {
+"vnum": 31856,
+"door": false,
+"closed": false,
+"locked": false
+}
+,
+"west": {
+"vnum": 31847,
+"door": false,
+"closed": false,
+"locked": false
+}
+}
+},
+"31847": {
+"name": "Canopy Vault",
+"area": "Whispering Timberlands",
+"exits": {"north": {
+"vnum": 31839,
+"door": false,
+"closed": false,
+"locked": false
+}
+,
+"east": {
+"vnum": 31848,
+"door": false,
+"closed": false,
+"locked": false
+}
+,
+"south": {
+"vnum": 31855,
+"door": false,
+"closed": false,
+"locked": false
+}
+,
+"west": {
+"vnum": 31846,
+"door": false,
+"closed": false,
+"locked": false
+}
+}
+},
+"31846": {
+"name": "Upper Stag Ground",
+"area": "Whispering Timberlands",
+"exits": {"north": {
+"vnum": 31838,
+"door": false,
+"closed": false,
+"locked": false
+}
+,
+"east": {
+"vnum": 31847,
+"door": false,
+"closed": false,
+"locked": false
+}
+,
+"south": {
+"vnum": 31854,
+"door": false,
+"closed": false,
+"locked": false
+}
+}
+},
+"31845": {
+"name": "Deepwood Edge",
+"area": "Whispering Timberlands",
+"exits": {"north": {
+"vnum": 31837,
+"door": false,
+"closed": false,
+"locked": false
+}
+,
+"south": {
+"vnum": 31853,
+"door": false,
+"closed": false,
+"locked": false
+}
+,
+"west": {
+"vnum": 31844,
+"door": false,
+"closed": false,
+"locked": false
+}
+}
+},
+"31844": {
+"name": "Root Tangle",
+"area": "Whispering Timberlands",
+"exits": {"north": {
+"vnum": 31836,
+"door": false,
+"closed": false,
+"locked": false
+}
+,
+"east": {
+"vnum": 31845,
+"door": false,
+"closed": false,
+"locked": false
+}
+,
+"south": {
+"vnum": 31852,
+"door": false,
+"closed": false,
+"locked": false
+}
+,
+"west": {
+"vnum": 31843,
+"door": false,
+"closed": false,
+"locked": false
+}
+}
+},
+"31843": {
+"name": "Greatstag Run",
+"area": "Whispering Timberlands",
+"exits": {"north": {
+"vnum": 31835,
+"door": false,
+"closed": false,
+"locked": false
+}
+,
+"east": {
+"vnum": 31844,
+"door": false,
+"closed": false,
+"locked": false
+}
+,
+"south": {
+"vnum": 31851,
+"door": false,
+"closed": false,
+"locked": false
+}
+,
+"west": {
+"vnum": 31842,
+"door": false,
+"closed": false,
+"locked": false
+}
+}
+},
+"31842": {
+"name": "Mossbark Hollow",
+"area": "Whispering Timberlands",
+"exits": {"north": {
+"vnum": 31834,
+"door": false,
+"closed": false,
+"locked": false
+}
+,
+"east": {
+"vnum": 31843,
+"door": false,
+"closed": false,
+"locked": false
+}
+,
+"south": {
+"vnum": 31850,
+"door": false,
+"closed": false,
+"locked": false
+}
+,
+"west": {
+"vnum": 31841,
+"door": false,
+"closed": false,
+"locked": false
+}
+}
+},
+"31841": {
+"name": "Ironwood Stand",
+"area": "Whispering Timberlands",
+"exits": {"north": {
+"vnum": 31833,
+"door": false,
+"closed": false,
+"locked": false
+}
+,
+"east": {
+"vnum": 31842,
+"door": false,
+"closed": false,
+"locked": false
+}
+,
+"south": {
+"vnum": 31849,
+"door": false,
+"closed": false,
+"locked": false
+}
+,
+"west": {
+"vnum": 31840,
+"door": false,
+"closed": false,
+"locked": false
+}
+}
+},
+"31840": {
+"name": "Deepwood Run",
+"area": "Whispering Timberlands",
+"exits": {"north": {
+"vnum": 31832,
+"door": false,
+"closed": false,
+"locked": false
+}
+,
+"east": {
+"vnum": 31841,
+"door": false,
+"closed": false,
+"locked": false
+}
+,
+"south": {
+"vnum": 31848,
+"door": false,
+"closed": false,
+"locked": false
+}
+,
+"west": {
+"vnum": 31839,
+"door": false,
+"closed": false,
+"locked": false
+}
+}
+},
+"31839": {
+"name": "Deepwood Threshold",
+"area": "Whispering Timberlands",
+"exits": {"north": {
+"vnum": 31831,
+"door": false,
+"closed": false,
+"locked": false
+}
+,
+"east": {
+"vnum": 31840,
+"door": false,
+"closed": false,
+"locked": false
+}
+,
+"south": {
+"vnum": 31847,
+"door": false,
+"closed": false,
+"locked": false
+}
+,
+"west": {
+"vnum": 31838,
+"door": false,
+"closed": false,
+"locked": false
+}
+}
+},
+"31838": {
+"name": "Stag Ground",
+"area": "Whispering Timberlands",
+"exits": {"north": {
+"vnum": 31830,
+"door": false,
+"closed": false,
+"locked": false
+}
+,
+"east": {
+"vnum": 31839,
+"door": false,
+"closed": false,
+"locked": false
+}
+,
+"south": {
+"vnum": 31846,
+"door": false,
+"closed": false,
+"locked": false
+}
+}
+},
+"31837": {
+"name": "Lynx Ledge",
+"area": "Whispering Timberlands",
+"exits": {"north": {
+"vnum": 31829,
+"door": false,
+"closed": false,
+"locked": false
+}
+,
+"south": {
+"vnum": 31845,
+"door": false,
+"closed": false,
+"locked": false
+}
+,
+"west": {
+"vnum": 31836,
+"door": false,
+"closed": false,
+"locked": false
+}
+}
+},
+"31836": {
+"name": "Bloodstain Flat",
+"area": "Whispering Timberlands",
+"exits": {"north": {
+"vnum": 31828,
+"door": false,
+"closed": false,
+"locked": false
+}
+,
+"east": {
+"vnum": 31837,
+"door": false,
+"closed": false,
+"locked": false
+}
+,
+"south": {
+"vnum": 31844,
+"door": false,
+"closed": false,
+"locked": false
+}
+,
+"west": {
+"vnum": 31835,
+"door": false,
+"closed": false,
+"locked": false
+}
+}
+},
+"31835": {
+"name": "Upper Wolf Sign",
+"area": "Whispering Timberlands",
+"exits": {"north": {
+"vnum": 31827,
+"door": false,
+"closed": false,
+"locked": false
+}
+,
+"east": {
+"vnum": 31836,
+"door": false,
+"closed": false,
+"locked": false
+}
+,
+"south": {
+"vnum": 31843,
+"door": false,
+"closed": false,
+"locked": false
+}
+,
+"west": {
+"vnum": 31834,
+"door": false,
+"closed": false,
+"locked": false
+}
+}
+},
+"31834": {
+"name": "Fern Hollow",
+"area": "Whispering Timberlands",
+"exits": {"north": {
+"vnum": 31826,
+"door": false,
+"closed": false,
+"locked": false
+}
+,
+"east": {
+"vnum": 31835,
+"door": false,
+"closed": false,
+"locked": false
+}
+,
+"south": {
+"vnum": 31842,
+"door": false,
+"closed": false,
+"locked": false
+}
+,
+"west": {
+"vnum": 31833,
+"door": false,
+"closed": false,
+"locked": false
+}
+}
+},
+"31833": {
+"name": "Dappled Run",
+"area": "Whispering Timberlands",
+"exits": {"north": {
+"vnum": 31825,
+"door": false,
+"closed": false,
+"locked": false
+}
+,
+"east": {
+"vnum": 31834,
+"door": false,
+"closed": false,
+"locked": false
+}
+,
+"south": {
+"vnum": 31841,
+"door": false,
+"closed": false,
+"locked": false
+}
+,
+"west": {
+"vnum": 31832,
+"door": false,
+"closed": false,
+"locked": false
+}
+}
+},
+"31832": {
+"name": "Deep Brushmaze",
+"area": "Whispering Timberlands",
+"exits": {"north": {
+"vnum": 31824,
+"door": false,
+"closed": false,
+"locked": false
+}
+,
+"east": {
+"vnum": 31833,
+"door": false,
+"closed": false,
+"locked": false
+}
+,
+"south": {
+"vnum": 31840,
+"door": false,
+"closed": false,
+"locked": false
+}
+,
+"west": {
+"vnum": 31831,
+"door": false,
+"closed": false,
+"locked": false
+}
+}
+},
+"31831": {
+"name": "Canopy Gap",
+"area": "Whispering Timberlands",
+"exits": {"north": {
+"vnum": 31823,
+"door": false,
+"closed": false,
+"locked": false
+}
+,
+"east": {
+"vnum": 31832,
+"door": false,
+"closed": false,
+"locked": false
+}
+,
+"south": {
+"vnum": 31839,
+"door": false,
+"closed": false,
+"locked": false
+}
+,
+"west": {
+"vnum": 31830,
+"door": false,
+"closed": false,
+"locked": false
+}
+}
+},
+"31830": {
+"name": "Lower Game Crossing",
+"area": "Whispering Timberlands",
+"exits": {"north": {
+"vnum": 31822,
+"door": false,
+"closed": false,
+"locked": false
+}
+,
+"east": {
+"vnum": 31831,
+"door": false,
+"closed": false,
+"locked": false
+}
+,
+"south": {
+"vnum": 31838,
+"door": false,
+"closed": false,
+"locked": false
+}
+}
+},
+"31829": {
+"name": "Quiet Timber",
+"area": "Whispering Timberlands",
+"exits": {"north": {
+"vnum": 31821,
+"door": false,
+"closed": false,
+"locked": false
+}
+,
+"south": {
+"vnum": 31837,
+"door": false,
+"closed": false,
+"locked": false
+}
+,
+"west": {
+"vnum": 31828,
+"door": false,
+"closed": false,
+"locked": false
+}
+}
+},
+"31828": {
+"name": "Bearwallow Edge",
+"area": "Whispering Timberlands",
+"exits": {"north": {
+"vnum": 31820,
+"door": false,
+"closed": false,
+"locked": false
+}
+,
+"east": {
+"vnum": 31829,
+"door": false,
+"closed": false,
+"locked": false
+}
+,
+"south": {
+"vnum": 31836,
+"door": false,
+"closed": false,
+"locked": false
+}
+,
+"west": {
+"vnum": 31827,
+"door": false,
+"closed": false,
+"locked": false
+}
+}
+},
+"31827": {
+"name": "Wolf Sign",
+"area": "Whispering Timberlands",
+"exits": {"north": {
+"vnum": 31819,
+"door": false,
+"closed": false,
+"locked": false
+}
+,
+"east": {
+"vnum": 31828,
+"door": false,
+"closed": false,
+"locked": false
+}
+,
+"south": {
+"vnum": 31835,
+"door": false,
+"closed": false,
+"locked": false
+}
+,
+"west": {
+"vnum": 31826,
+"door": false,
+"closed": false,
+"locked": false
+}
+}
+},
+"31826": {
+"name": "Hollow Bracken",
+"area": "Whispering Timberlands",
+"exits": {"north": {
+"vnum": 31818,
+"door": false,
+"closed": false,
+"locked": false
+}
+,
+"east": {
+"vnum": 31827,
+"door": false,
+"closed": false,
+"locked": false
+}
+,
+"south": {
+"vnum": 31834,
+"door": false,
+"closed": false,
+"locked": false
+}
+,
+"west": {
+"vnum": 31825,
+"door": false,
+"closed": false,
+"locked": false
+}
+}
+},
+"31825": {
+"name": "Shaded Game Run",
+"area": "Whispering Timberlands",
+"exits": {"north": {
+"vnum": 31817,
+"door": false,
+"closed": false,
+"locked": false
+}
+,
+"east": {
+"vnum": 31826,
+"door": false,
+"closed": false,
+"locked": false
+}
+,
+"south": {
+"vnum": 31833,
+"door": false,
+"closed": false,
+"locked": false
+}
+,
+"west": {
+"vnum": 31824,
+"door": false,
+"closed": false,
+"locked": false
+}
+}
+},
+"31824": {
+"name": "Brushmaze",
+"area": "Whispering Timberlands",
+"exits": {"north": {
+"vnum": 31816,
+"door": false,
+"closed": false,
+"locked": false
+}
+,
+"east": {
+"vnum": 31825,
+"door": false,
+"closed": false,
+"locked": false
+}
+,
+"south": {
+"vnum": 31832,
+"door": false,
+"closed": false,
+"locked": false
+}
+,
+"west": {
+"vnum": 31823,
+"door": false,
+"closed": false,
+"locked": false
+}
+}
+},
+"31823": {
+"name": "Hunter's Cut",
+"area": "Whispering Timberlands",
+"exits": {"north": {
+"vnum": 31815,
+"door": false,
+"closed": false,
+"locked": false
+}
+,
+"east": {
+"vnum": 31824,
+"door": false,
+"closed": false,
+"locked": false
+}
+,
+"south": {
+"vnum": 31831,
+"door": false,
+"closed": false,
+"locked": false
+}
+,
+"west": {
+"vnum": 31822,
+"door": false,
+"closed": false,
+"locked": false
+}
+}
+},
+"31822": {
+"name": "Game Trail",
+"area": "Whispering Timberlands",
+"exits": {"north": {
+"vnum": 31814,
+"door": false,
+"closed": false,
+"locked": false
+}
+,
+"east": {
+"vnum": 31823,
+"door": false,
+"closed": false,
+"locked": false
+}
+,
+"south": {
+"vnum": 31830,
+"door": false,
+"closed": false,
+"locked": false
+}
+}
+},
+"31821": {
+"name": "Northern Brushline",
+"area": "Whispering Timberlands",
+"exits": {"north": {
+"vnum": 31813,
+"door": false,
+"closed": false,
+"locked": false
+}
+,
+"south": {
+"vnum": 31829,
+"door": false,
+"closed": false,
+"locked": false
+}
+,
+"west": {
+"vnum": 31820,
+"door": false,
+"closed": false,
+"locked": false
+}
+}
+},
+"31820": {
+"name": "North Hollow",
+"area": "Whispering Timberlands",
+"exits": {"north": {
+"vnum": 31812,
+"door": false,
+"closed": false,
+"locked": false
+}
+,
+"east": {
+"vnum": 31821,
+"door": false,
+"closed": false,
+"locked": false
+}
+,
+"south": {
+"vnum": 31828,
+"door": false,
+"closed": false,
+"locked": false
+}
+,
+"west": {
+"vnum": 31819,
+"door": false,
+"closed": false,
+"locked": false
+}
+}
+},
+"31819": {
+"name": "Upper Pine Crossing",
+"area": "Whispering Timberlands",
+"exits": {"north": {
+"vnum": 31811,
+"door": false,
+"closed": false,
+"locked": false
+}
+,
+"east": {
+"vnum": 31820,
+"door": false,
+"closed": false,
+"locked": false
+}
+,
+"south": {
+"vnum": 31827,
+"door": false,
+"closed": false,
+"locked": false
+}
+,
+"west": {
+"vnum": 31818,
+"door": false,
+"closed": false,
+"locked": false
+}
+}
+},
+"31818": {
+"name": "Needlefall Flat",
+"area": "Whispering Timberlands",
+"exits": {"north": {
+"vnum": 31810,
+"door": false,
+"closed": false,
+"locked": false
+}
+,
+"east": {
+"vnum": 31819,
+"door": false,
+"closed": false,
+"locked": false
+}
+,
+"south": {
+"vnum": 31826,
+"door": false,
+"closed": false,
+"locked": false
+}
+,
+"west": {
+"vnum": 31817,
+"door": false,
+"closed": false,
+"locked": false
+}
+}
+},
+"31817": {
+"name": "Split Pine Gully",
+"area": "Whispering Timberlands",
+"exits": {"north": {
+"vnum": 31809,
+"door": false,
+"closed": false,
+"locked": false
+}
+,
+"east": {
+"vnum": 31818,
+"door": false,
+"closed": false,
+"locked": false
+}
+,
+"south": {
+"vnum": 31825,
+"door": false,
+"closed": false,
+"locked": false
+}
+,
+"west": {
+"vnum": 31816,
+"door": false,
+"closed": false,
+"locked": false
+}
+}
+},
+"31816": {
+"name": "Tangle Creek Crossing",
+"area": "Whispering Timberlands",
+"exits": {"north": {
+"vnum": 31808,
+"door": false,
+"closed": false,
+"locked": false
+}
+,
+"east": {
+"vnum": 31817,
+"door": false,
+"closed": false,
+"locked": false
+}
+,
+"south": {
+"vnum": 31824,
+"door": false,
+"closed": false,
+"locked": false
+}
+,
+"west": {
+"vnum": 31815,
+"door": false,
+"closed": false,
+"locked": false
+}
+}
+},
+"31815": {
+"name": "Oakshade Run",
+"area": "Whispering Timberlands",
+"exits": {"north": {
+"vnum": 31807,
+"door": false,
+"closed": false,
+"locked": false
+}
+,
+"east": {
+"vnum": 31816,
+"door": false,
+"closed": false,
+"locked": false
+}
+,
+"south": {
+"vnum": 31823,
+"door": false,
+"closed": false,
+"locked": false
+}
+,
+"west": {
+"vnum": 31814,
+"door": false,
+"closed": false,
+"locked": false
+}
+}
+},
+"31814": {
+"name": "Crosstrail Flat",
+"area": "Whispering Timberlands",
+"exits": {"north": {
+"vnum": 31806,
+"door": false,
+"closed": false,
+"locked": false
+}
+,
+"east": {
+"vnum": 31815,
+"door": false,
+"closed": false,
+"locked": false
+}
+,
+"south": {
+"vnum": 31822,
+"door": false,
+"closed": false,
+"locked": false
+}
+}
+},
+"31813": {
+"name": "Brushline Stand",
+"area": "Whispering Timberlands",
+"exits": {"north": {
+"vnum": 31802,
+"door": false,
+"closed": false,
+"locked": false
+}
+,
+"south": {
+"vnum": 31821,
+"door": false,
+"closed": false,
+"locked": false
+}
+,
+"west": {
+"vnum": 31812,
+"door": false,
+"closed": false,
+"locked": false
+}
+}
+},
+"31812": {
+"name": "Deertrace Hollow",
+"area": "Whispering Timberlands",
+"exits": {"north": {
+"vnum": 31803,
+"door": false,
+"closed": false,
+"locked": false
+}
+,
+"east": {
+"vnum": 31813,
+"door": false,
+"closed": false,
+"locked": false
+}
+,
+"south": {
+"vnum": 31820,
+"door": false,
+"closed": false,
+"locked": false
+}
+,
+"west": {
+"vnum": 31811,
+"door": false,
+"closed": false,
+"locked": false
+}
+}
+},
+"31811": {
+"name": "Tall Pine Crossing",
+"area": "Whispering Timberlands",
+"exits": {"north": {
+"vnum": 31804,
+"door": false,
+"closed": false,
+"locked": false
+}
+,
+"east": {
+"vnum": 31812,
+"door": false,
+"closed": false,
+"locked": false
+}
+,
+"south": {
+"vnum": 31819,
+"door": false,
+"closed": false,
+"locked": false
+}
+,
+"west": {
+"vnum": 31810,
+"door": false,
+"closed": false,
+"locked": false
+}
+}
+},
+"31810": {
+"name": "Whispering Underbrush",
+"area": "Whispering Timberlands",
+"exits": {"north": {
+"vnum": 31805,
+"door": false,
+"closed": false,
+"locked": false
+}
+,
+"east": {
+"vnum": 31811,
+"door": false,
+"closed": false,
+"locked": false
+}
+,
+"south": {
+"vnum": 31818,
+"door": false,
+"closed": false,
+"locked": false
+}
+,
+"west": {
+"vnum": 31809,
+"door": false,
+"closed": false,
+"locked": false
+}
+}
+},
+"31809": {
+"name": "Briar Edge",
+"area": "Whispering Timberlands",
+"exits": {"east": {
+"vnum": 31810,
+"door": false,
+"closed": false,
+"locked": false
+}
+,
+"south": {
+"vnum": 31817,
+"door": false,
+"closed": false,
+"locked": false
+}
+,
+"west": {
+"vnum": 31808,
+"door": false,
+"closed": false,
+"locked": false
+}
+}
+},
+"31808": {
+"name": "Mossy Timber Run",
+"area": "Whispering Timberlands",
+"exits": {"east": {
+"vnum": 31809,
+"door": false,
+"closed": false,
+"locked": false
+}
+,
+"south": {
+"vnum": 31816,
+"door": false,
+"closed": false,
+"locked": false
+}
+,
+"west": {
+"vnum": 31807,
+"door": false,
+"closed": false,
+"locked": false
+}
+}
+},
+"31807": {
+"name": "Fernshadow Track",
+"area": "Whispering Timberlands",
+"exits": {"east": {
+"vnum": 31808,
+"door": false,
+"closed": false,
+"locked": false
+}
+,
+"south": {
+"vnum": 31815,
+"door": false,
+"closed": false,
+"locked": false
+}
+,
+"west": {
+"vnum": 31806,
+"door": false,
+"closed": false,
+"locked": false
+}
+}
+},
+"31806": {
+"name": "Pine Needle Floor",
+"area": "Whispering Timberlands",
+"exits": {"east": {
+"vnum": 31807,
+"door": false,
+"closed": false,
+"locked": false
+}
+,
+"south": {
+"vnum": 31814,
+"door": false,
+"closed": false,
+"locked": false
+}
+}
+},
+"31805": {
+"name": "North Reach of the Old Ranger Road",
+"area": "Whispering Timberlands",
+"exits": {"east": {
+"vnum": 31804,
+"door": false,
+"closed": false,
+"locked": false
+}
+,
+"south": {
+"vnum": 31810,
+"door": false,
+"closed": false,
+"locked": false
+}
+}
+},
+"31804": {
+"name": "Old Ranger Road",
+"area": "Whispering Timberlands",
+"exits": {"east": {
+"vnum": 31803,
+"door": false,
+"closed": false,
+"locked": false
+}
+,
+"south": {
+"vnum": 31811,
+"door": false,
+"closed": false,
+"locked": false
+}
+,
+"west": {
+"vnum": 31805,
+"door": false,
+"closed": false,
+"locked": false
+}
+}
+},
+"31803": {
+"name": "Broken Waymarker",
+"area": "Whispering Timberlands",
+"exits": {"east": {
+"vnum": 31802,
+"door": false,
+"closed": false,
+"locked": false
+}
+,
+"south": {
+"vnum": 31812,
+"door": false,
+"closed": false,
+"locked": false
+}
+,
+"west": {
+"vnum": 31804,
+"door": false,
+"closed": false,
+"locked": false
+}
+}
+},
+"31802": {
+"name": "Stone Marker Bend",
+"area": "Whispering Timberlands",
+"exits": {"east": {
+"vnum": 31801,
+"door": false,
+"closed": false,
+"locked": false
+}
+,
+"south": {
+"vnum": 31813,
+"door": false,
+"closed": false,
+"locked": false
+}
+,
+"west": {
+"vnum": 31803,
+"door": false,
+"closed": false,
+"locked": false
+}
+}
+},
+"31801": {
+"name": "Old Ranger Road",
+"area": "Whispering Timberlands",
+"exits": {"east": {
+"vnum": 31800,
+"door": false,
+"closed": false,
+"locked": false
+}
+,
+"west": {
+"vnum": 31802,
+"door": false,
+"closed": false,
+"locked": false
+}
+}
+},
+"31800": {
+"name": "South Reach of the Old Ranger Road",
+"area": "Whispering Timberlands",
+"exits": {"east": {
+"vnum": 693,
+"door": false,
+"closed": false,
+"locked": false
+}
+,
+"west": {
+"vnum": 31801,
+"door": false,
+"closed": false,
+"locked": false
+}
+}
+},
+"33385": {
+"name": "West Observation Post",
+"area": "The Landshark Breeding Grounds",
+"exits": {"east": {
+"vnum": 33382,
+"door": false,
+"closed": false,
+"locked": false
+}
+,
+"south": {
+"vnum": 33331,
+"door": false,
+"closed": false,
+"locked": false
+}
+}
+},
+"33384": {
+"name": "West Yard Gate",
+"area": "The Landshark Breeding Grounds",
+"exits": {"north": {
+"vnum": 33383,
+"door": false,
+"closed": false,
+"locked": false
+}
+,
+"west": {
+"vnum": 33332,
+"door": false,
+"closed": false,
+"locked": false
+}
+}
+},
+"33383": {
+"name": "Main Corridor - West",
+"area": "The Landshark Breeding Grounds",
+"exits": {"north": {
+"vnum": 33382,
+"door": false,
+"closed": false,
+"locked": false
+}
+,
+"east": {
+"vnum": 33381,
+"door": false,
+"closed": false,
+"locked": false
+}
+,
+"south": {
+"vnum": 33384,
+"door": false,
+"closed": false,
+"locked": false
+}
+,
+"west": {
+"vnum": 33331,
+"door": false,
+"closed": false,
+"locked": false
+}
+}
+},
+"33382": {
+"name": "Northwest Yard Approach",
+"area": "The Landshark Breeding Grounds",
+"exits": {"south": {
+"vnum": 33383,
+"door": false,
+"closed": false,
+"locked": false
+}
+,
+"west": {
+"vnum": 33385,
+"door": false,
+"closed": false,
+"locked": false
+}
+}
+},
+"33381": {
+"name": "Main Corridor - West-Center",
+"area": "The Landshark Breeding Grounds",
+"exits": {"east": {
+"vnum": 33380,
+"door": false,
+"closed": false,
+"locked": false
+}
+,
+"west": {
+"vnum": 33383,
+"door": false,
+"closed": false,
+"locked": false
+}
+}
+},
+"33380": {
+"name": "Main Corridor - Center-West",
+"area": "The Landshark Breeding Grounds",
+"exits": {"east": {
+"vnum": 33379,
+"door": false,
+"closed": false,
+"locked": false
+}
+,
+"west": {
+"vnum": 33381,
+"door": false,
+"closed": false,
+"locked": false
+}
+}
+},
+"33379": {
+"name": "Main Corridor - Center",
+"area": "The Landshark Breeding Grounds",
+"exits": {"east": {
+"vnum": 33378,
+"door": false,
+"closed": false,
+"locked": false
+}
+,
+"west": {
+"vnum": 33380,
+"door": false,
+"closed": false,
+"locked": false
+}
+}
+},
+"33378": {
+"name": "Main Corridor - Center-East",
+"area": "The Landshark Breeding Grounds",
+"exits": {"east": {
+"vnum": 33316,
+"door": false,
+"closed": false,
+"locked": false
+}
+,
+"west": {
+"vnum": 33379,
+"door": false,
+"closed": false,
+"locked": false
+}
+}
+},
+"33377": {
+"name": "Main Corridor - East-Center",
+"area": "The Landshark Breeding Grounds",
+"exits": {"east": {
+"vnum": 33376,
+"door": false,
+"closed": false,
+"locked": false
+}
+,
+"west": {
+"vnum": 33316,
+"door": false,
+"closed": false,
+"locked": false
+}
+}
+},
+"33376": {
+"name": "Main Corridor - East",
+"area": "The Landshark Breeding Grounds",
+"exits": {"east": {
+"vnum": 33375,
+"door": false,
+"closed": false,
+"locked": false
+}
+,
+"west": {
+"vnum": 33377,
+"door": false,
+"closed": false,
+"locked": false
+}
+}
+},
+"33375": {
+"name": "Main Corridor - East End",
+"area": "The Landshark Breeding Grounds",
+"exits": {"east": {
+"vnum": 33360,
+"door": false,
+"closed": false,
+"locked": false
+}
+,
+"west": {
+"vnum": 33376,
+"door": false,
+"closed": false,
+"locked": false
+}
+}
+},
+"33374": {
+"name": "Northeast Pasture - Far West",
+"area": "The Landshark Breeding Grounds",
+"exits": {"east": {
+"vnum": 33373,
+"door": false,
+"closed": false,
+"locked": false
+}
+,
+"south": {
+"vnum": 33371,
+"door": false,
+"closed": false,
+"locked": false
+}
+}
+},
+"33373": {
+"name": "Northeast Pasture - North Row",
+"area": "The Landshark Breeding Grounds",
+"exits": {"east": {
+"vnum": 33372,
+"door": false,
+"closed": false,
+"locked": false
+}
+,
+"south": {
+"vnum": 33370,
+"door": false,
+"closed": false,
+"locked": false
+}
+,
+"west": {
+"vnum": 33374,
+"door": false,
+"closed": false,
+"locked": false
+}
+}
+},
+"33372": {
+"name": "Northeast Pasture - Far Corner",
+"area": "The Landshark Breeding Grounds",
+"exits": {"south": {
+"vnum": 33369,
+"door": false,
+"closed": false,
+"locked": false
+}
+,
+"west": {
+"vnum": 33373,
+"door": false,
+"closed": false,
+"locked": false
+}
+}
+},
+"33371": {
+"name": "Northeast Pasture - West Side",
+"area": "The Landshark Breeding Grounds",
+"exits": {"north": {
+"vnum": 33374,
+"door": false,
+"closed": false,
+"locked": false
+}
+,
+"east": {
+"vnum": 33370,
+"door": false,
+"closed": false,
+"locked": false
+}
+}
+},
+"33370": {
+"name": "Northeast Pasture - Center",
+"area": "The Landshark Breeding Grounds",
+"exits": {"north": {
+"vnum": 33373,
+"door": false,
+"closed": false,
+"locked": false
+}
+,
+"east": {
+"vnum": 33369,
+"door": false,
+"closed": false,
+"locked": false
+}
+,
+"south": {
+"vnum": 33368,
+"door": false,
+"closed": false,
+"locked": false
+}
+,
+"west": {
+"vnum": 33371,
+"door": false,
+"closed": false,
+"locked": false
+}
+}
+},
+"33369": {
+"name": "Northeast Pasture - Northeast Corner",
+"area": "The Landshark Breeding Grounds",
+"exits": {"north": {
+"vnum": 33372,
+"door": false,
+"closed": false,
+"locked": false
+}
+,
+"west": {
+"vnum": 33370,
+"door": false,
+"closed": false,
+"locked": false
+}
+}
+},
+"33368": {
+"name": "Hatchling Pasture Entrance",
+"area": "The Landshark Breeding Grounds",
+"exits": {"north": {
+"vnum": 33370,
+"door": false,
+"closed": false,
+"locked": false
+}
+,
+"south": {
+"vnum": 33367,
+"door": false,
+"closed": false,
+"locked": false
+}
+}
+},
+"33367": {
+"name": "Pasture Access Corridor",
+"area": "The Landshark Breeding Grounds",
+"exits": {"north": {
+"vnum": 33368,
+"door": false,
+"closed": false,
+"locked": false
+}
+,
+"south": {
+"vnum": 33365,
+"door": false,
+"closed": false,
+"locked": false
+}
+}
+},
+"33366": {
+"name": "Hatchling Pen Row - Northeast End",
+"area": "The Landshark Breeding Grounds",
+"exits": {"south": {
+"vnum": 33363,
+"door": false,
+"closed": false,
+"locked": false
+}
+,
+"west": {
+"vnum": 33365,
+"door": false,
+"closed": false,
+"locked": false
+}
+}
+},
+"33365": {
+"name": "Hatchling Pen Row - Northeast Mid",
+"area": "The Landshark Breeding Grounds",
+"exits": {"north": {
+"vnum": 33367,
+"door": false,
+"closed": false,
+"locked": false
+}
+,
+"east": {
+"vnum": 33366,
+"door": false,
+"closed": false,
+"locked": false
+}
+,
+"south": {
+"vnum": 33362,
+"door": false,
+"closed": false,
+"locked": false
+}
+,
+"west": {
+"vnum": 33364,
+"door": false,
+"closed": false,
+"locked": false
+}
+}
+},
+"33364": {
+"name": "Hatchling Pen Row - Northeast Entry",
+"area": "The Landshark Breeding Grounds",
+"exits": {"east": {
+"vnum": 33365,
+"door": false,
+"closed": false,
+"locked": false
+}
+,
+"south": {
+"vnum": 33361,
+"door": false,
+"closed": false,
+"locked": false
+}
+}
+},
+"33363": {
+"name": "Hatchling Pen Row - East End",
+"area": "The Landshark Breeding Grounds",
+"exits": {"north": {
+"vnum": 33366,
+"door": false,
+"closed": false,
+"locked": false
+}
+,
+"south": {
+"vnum": 33358,
+"door": false,
+"closed": false,
+"locked": false
+}
+,
+"west": {
+"vnum": 33362,
+"door": false,
+"closed": false,
+"locked": false
+}
+}
+},
+"33362": {
+"name": "Hatchling Pen Row - East Mid",
+"area": "The Landshark Breeding Grounds",
+"exits": {"north": {
+"vnum": 33365,
+"door": false,
+"closed": false,
+"locked": false
+}
+,
+"east": {
+"vnum": 33363,
+"door": false,
+"closed": false,
+"locked": false
+}
+,
+"south": {
+"vnum": 33359,
+"door": false,
+"closed": false,
+"locked": false
+}
+,
+"west": {
+"vnum": 33361,
+"door": false,
+"closed": false,
+"locked": false
+}
+}
+},
+"33361": {
+"name": "Hatchling Pen Row - East Entry",
+"area": "The Landshark Breeding Grounds",
+"exits": {"north": {
+"vnum": 33364,
+"door": false,
+"closed": false,
+"locked": false
+}
+,
+"east": {
+"vnum": 33362,
+"door": false,
+"closed": false,
+"locked": false
+}
+,
+"south": {
+"vnum": 33360,
+"door": false,
+"closed": false,
+"locked": false
+}
+}
+},
+"33360": {
+"name": "East Corridor Junction",
+"area": "The Landshark Breeding Grounds",
+"exits": {"north": {
+"vnum": 33361,
+"door": false,
+"closed": false,
+"locked": false
+}
+,
+"east": {
+"vnum": 33359,
+"door": false,
+"closed": false,
+"locked": false
+}
+,
+"south": {
+"vnum": 33357,
+"door": false,
+"closed": false,
+"locked": false
+}
+,
+"west": {
+"vnum": 33375,
+"door": false,
+"closed": false,
+"locked": false
+}
+}
+},
+"33359": {
+"name": "Adult Pen Row - East Mid",
+"area": "The Landshark Breeding Grounds",
+"exits": {"north": {
+"vnum": 33362,
+"door": false,
+"closed": false,
+"locked": false
+}
+,
+"east": {
+"vnum": 33358,
+"door": false,
+"closed": false,
+"locked": false
+}
+,
+"west": {
+"vnum": 33360,
+"door": false,
+"closed": false,
+"locked": false
+}
+}
+},
+"33358": {
+"name": "Adult Pen Row - East End",
+"area": "The Landshark Breeding Grounds",
+"exits": {"north": {
+"vnum": 33363,
+"door": false,
+"closed": false,
+"locked": false
+}
+,
+"west": {
+"vnum": 33359,
+"door": false,
+"closed": false,
+"locked": false
+}
+}
+},
+"33357": {
+"name": "East Pen Access - North",
+"area": "The Landshark Breeding Grounds",
+"exits": {"north": {
+"vnum": 33360,
+"door": false,
+"closed": false,
+"locked": false
+}
+,
+"south": {
+"vnum": 33356,
+"door": false,
+"closed": false,
+"locked": false
+}
+}
+},
+"33356": {
+"name": "East Pen Access - Mid",
+"area": "The Landshark Breeding Grounds",
+"exits": {"north": {
+"vnum": 33357,
+"door": false,
+"closed": false,
+"locked": false
+}
+,
+"south": {
+"vnum": 33355,
+"door": false,
+"closed": false,
+"locked": false
+}
+}
+},
+"33355": {
+"name": "East Pen Row Entry",
+"area": "The Landshark Breeding Grounds",
+"exits": {"north": {
+"vnum": 33356,
+"door": false,
+"closed": false,
+"locked": false
+}
+,
+"east": {
+"vnum": 33354,
+"door": false,
+"closed": false,
+"locked": false
+}
+}
+},
+"33354": {
+"name": "Adult Pen Row - East",
+"area": "The Landshark Breeding Grounds",
+"exits": {"east": {
+"vnum": 33353,
+"door": false,
+"closed": false,
+"locked": false
+}
+,
+"west": {
+"vnum": 33355,
+"door": false,
+"closed": false,
+"locked": false
+}
+}
+},
+"33353": {
+"name": "Adult Pen Row - Center",
+"area": "The Landshark Breeding Grounds",
+"exits": {"south": {
+"vnum": 33352,
+"door": false,
+"closed": false,
+"locked": false
+}
+,
+"west": {
+"vnum": 33354,
+"door": false,
+"closed": false,
+"locked": false
+}
+}
+},
+"33352": {
+"name": "Sale Holding Pen - North",
+"area": "The Landshark Breeding Grounds",
+"exits": {"north": {
+"vnum": 33353,
+"door": false,
+"closed": false,
+"locked": false
+}
+,
+"south": {
+"vnum": 33351,
+"door": false,
+"closed": false,
+"locked": false
+}
+}
+},
+"33351": {
+"name": "Sale Processing Approach",
+"area": "The Landshark Breeding Grounds",
+"exits": {"north": {
+"vnum": 33352,
+"door": false,
+"closed": false,
+"locked": false
+}
+,
+"south": {
+"vnum": 33350,
+"door": false,
+"closed": false,
+"locked": false
+}
+}
+},
+"33350": {
+"name": "Sale Holding Pen - South",
+"area": "The Landshark Breeding Grounds",
+"exits": {"north": {
+"vnum": 33351,
+"door": false,
+"closed": false,
+"locked": false
+}
+,
+"south": {
+"vnum": 33347,
+"door": false,
+"closed": false,
+"locked": false
+}
+,
+"west": {
+"vnum": 33349,
+"door": false,
+"closed": false,
+"locked": false
+}
+}
+},
+"33349": {
+"name": "Sale Processing Office",
+"area": "The Landshark Breeding Grounds",
+"exits": {"east": {
+"vnum": 33350,
+"door": false,
+"closed": false,
+"locked": false
+}
+,
+"south": {
+"vnum": 33346,
+"door": false,
+"closed": false,
+"locked": false
+}
+,
+"west": {
+"vnum": 33348,
+"door": false,
+"closed": false,
+"locked": false
+}
+}
+},
+"33348": {
+"name": "Sale Processing Lobby",
+"area": "The Landshark Breeding Grounds",
+"exits": {"east": {
+"vnum": 33349,
+"door": false,
+"closed": false,
+"locked": false
+}
+,
+"south": {
+"vnum": 33345,
+"door": false,
+"closed": false,
+"locked": false
+}
+}
+},
+"33347": {
+"name": "Loading Dock",
+"area": "The Landshark Breeding Grounds",
+"exits": {"north": {
+"vnum": 33350,
+"door": false,
+"closed": false,
+"locked": false
+}
+,
+"south": {
+"vnum": 33344,
+"door": false,
+"closed": false,
+"locked": false
+}
+,
+"west": {
+"vnum": 33346,
+"door": false,
+"closed": false,
+"locked": false
+}
+}
+},
+"33346": {
+"name": "Transport Staging Area",
+"area": "The Landshark Breeding Grounds",
+"exits": {"north": {
+"vnum": 33349,
+"door": false,
+"closed": false,
+"locked": false
+}
+,
+"east": {
+"vnum": 33347,
+"door": false,
+"closed": false,
+"locked": false
+}
+,
+"south": {
+"vnum": 33343,
+"door": false,
+"closed": false,
+"locked": false
+}
+,
+"west": {
+"vnum": 33345,
+"door": false,
+"closed": false,
+"locked": false
+}
+}
+},
+"33345": {
+"name": "East Loading Approach",
+"area": "The Landshark Breeding Grounds",
+"exits": {"north": {
+"vnum": 33348,
+"door": false,
+"closed": false,
+"locked": false
+}
+,
+"east": {
+"vnum": 33346,
+"door": false,
+"closed": false,
+"locked": false
+}
+,
+"south": {
+"vnum": 33342,
+"door": false,
+"closed": false,
+"locked": false
+}
+,
+"west": {
+"vnum": 33341,
+"door": false,
+"closed": false,
+"locked": false
+}
+}
+},
+"33344": {
+"name": "Delivery Gate",
+"area": "The Landshark Breeding Grounds",
+"exits": {"north": {
+"vnum": 33347,
+"door": false,
+"closed": false,
+"locked": false
+}
+,
+"west": {
+"vnum": 33343,
+"door": false,
+"closed": false,
+"locked": false
+}
+}
+},
+"33343": {
+"name": "Loading Dock - South",
+"area": "The Landshark Breeding Grounds",
+"exits": {"north": {
+"vnum": 33346,
+"door": false,
+"closed": false,
+"locked": false
+}
+,
+"east": {
+"vnum": 33344,
+"door": false,
+"closed": false,
+"locked": false
+}
+,
+"west": {
+"vnum": 33342,
+"door": false,
+"closed": false,
+"locked": false
+}
+}
+},
+"33342": {
+"name": "Southeast Yard",
+"area": "The Landshark Breeding Grounds",
+"exits": {"north": {
+"vnum": 33345,
+"door": false,
+"closed": false,
+"locked": false
+}
+,
+"east": {
+"vnum": 33343,
+"door": false,
+"closed": false,
+"locked": false
+}
+}
+},
+"33341": {
+"name": "South Yard - East End",
+"area": "The Landshark Breeding Grounds",
+"exits": {"north": {
+"vnum": 33340,
+"door": false,
+"closed": false,
+"locked": false
+}
+,
+"east": {
+"vnum": 33345,
+"door": false,
+"closed": false,
+"locked": false
+}
+}
+},
+"33340": {
+"name": "South Yard - East-Center",
+"area": "The Landshark Breeding Grounds",
+"exits": {"south": {
+"vnum": 33341,
+"door": false,
+"closed": false,
+"locked": false
+}
+,
+"west": {
+"vnum": 33339,
+"door": false,
+"closed": false,
+"locked": false
+}
+}
+},
+"33339": {
+"name": "South Yard - Center-East",
+"area": "The Landshark Breeding Grounds",
+"exits": {"east": {
+"vnum": 33340,
+"door": false,
+"closed": false,
+"locked": false
+}
+,
+"west": {
+"vnum": 33338,
+"door": false,
+"closed": false,
+"locked": false
+}
+}
+},
+"33338": {
+"name": "South Yard - Center",
+"area": "The Landshark Breeding Grounds",
+"exits": {"east": {
+"vnum": 33339,
+"door": false,
+"closed": false,
+"locked": false
+}
+,
+"west": {
+"vnum": 33337,
+"door": false,
+"closed": false,
+"locked": false
+}
+}
+},
+"33337": {
+"name": "South Yard - West-Center",
+"area": "The Landshark Breeding Grounds",
+"exits": {"east": {
+"vnum": 33338,
+"door": false,
+"closed": false,
+"locked": false
+}
+,
+"west": {
+"vnum": 33336,
+"door": false,
+"closed": false,
+"locked": false
+}
+}
+},
+"33336": {
+"name": "South Yard - West End",
+"area": "The Landshark Breeding Grounds",
+"exits": {"north": {
+"vnum": 33327,
+"door": false,
+"closed": false,
+"locked": false
+}
+,
+"east": {
+"vnum": 33337,
+"door": false,
+"closed": false,
+"locked": false
+}
+,
+"west": {
+"vnum": 33330,
+"door": false,
+"closed": false,
+"locked": false
+}
+}
+},
+"33335": {
+"name": "Residential Area - East Access",
+"area": "The Landshark Breeding Grounds",
+"exits": {"north": {
+"vnum": 33330,
+"door": false,
+"closed": false,
+"locked": false
+}
+,
+"west": {
+"vnum": 33334,
+"door": false,
+"closed": false,
+"locked": false
+}
+}
+},
+"33334": {
+"name": "Residential Corridor",
+"area": "The Landshark Breeding Grounds",
+"exits": {"north": {
+"vnum": 33329,
+"door": false,
+"closed": false,
+"locked": false
+}
+,
+"east": {
+"vnum": 33335,
+"door": false,
+"closed": false,
+"locked": false
+}
+,
+"west": {
+"vnum": 33333,
+"door": false,
+"closed": false,
+"locked": false
+}
+}
+},
+"33333": {
+"name": "Handler Quarters - South",
+"area": "The Landshark Breeding Grounds",
+"exits": {"north": {
+"vnum": 33328,
+"door": false,
+"closed": false,
+"locked": false
+}
+,
+"east": {
+"vnum": 33334,
+"door": false,
+"closed": false,
+"locked": false
+}
+}
+},
+"33332": {
+"name": "West Yard - South Corner",
+"area": "The Landshark Breeding Grounds",
+"exits": {"north": {
+"vnum": 33331,
+"door": false,
+"closed": false,
+"locked": false
+}
+,
+"east": {
+"vnum": 33384,
+"door": false,
+"closed": false,
+"locked": false
+}
+}
+},
+"33331": {
+"name": "Main Corridor - West End",
+"area": "The Landshark Breeding Grounds",
+"exits": {"north": {
+"vnum": 33385,
+"door": false,
+"closed": false,
+"locked": false
+}
+,
+"east": {
+"vnum": 33383,
+"door": false,
+"closed": false,
+"locked": false
+}
+,
+"south": {
+"vnum": 33332,
+"door": false,
+"closed": false,
+"locked": false
+}
+}
+},
+"33330": {
+"name": "Mess Hall Kitchen",
+"area": "The Landshark Breeding Grounds",
+"exits": {"north": {
+"vnum": 33326,
+"door": false,
+"closed": false,
+"locked": false
+}
+,
+"east": {
+"vnum": 33336,
+"door": false,
+"closed": false,
+"locked": false
+}
+,
+"south": {
+"vnum": 33335,
+"door": false,
+"closed": false,
+"locked": false
+}
+,
+"west": {
+"vnum": 33329,
+"door": false,
+"closed": false,
+"locked": false
+}
+}
+},
+"33329": {
+"name": "Handler Mess Hall",
+"area": "The Landshark Breeding Grounds",
+"exits": {"north": {
+"vnum": 33325,
+"door": false,
+"closed": false,
+"locked": false
+}
+,
+"east": {
+"vnum": 33330,
+"door": false,
+"closed": false,
+"locked": false
+}
+,
+"south": {
+"vnum": 33334,
+"door": false,
+"closed": false,
+"locked": false
+}
+,
+"west": {
+"vnum": 33328,
+"door": false,
+"closed": false,
+"locked": false
+}
+}
+},
+"33328": {
+"name": "Handler Quarters - Southwest",
+"area": "The Landshark Breeding Grounds",
+"exits": {"east": {
+"vnum": 33329,
+"door": false,
+"closed": false,
+"locked": false
+}
+,
+"south": {
+"vnum": 33333,
+"door": false,
+"closed": false,
+"locked": false
+}
+}
+},
+"33327": {
+"name": "Handler Quarters - East",
+"area": "The Landshark Breeding Grounds",
+"exits": {"south": {
+"vnum": 33336,
+"door": false,
+"closed": false,
+"locked": false
+}
+,
+"west": {
+"vnum": 33326,
+"door": false,
+"closed": false,
+"locked": false
+}
+}
+},
+"33326": {
+"name": "Handler Quarters - Center",
+"area": "The Landshark Breeding Grounds",
+"exits": {"east": {
+"vnum": 33327,
+"door": false,
+"closed": false,
+"locked": false
+}
+,
+"south": {
+"vnum": 33330,
+"door": false,
+"closed": false,
+"locked": false
+}
+,
+"west": {
+"vnum": 33325,
+"door": false,
+"closed": false,
+"locked": false
+}
+}
+},
+"33325": {
+"name": "Handler Quarters - North",
+"area": "The Landshark Breeding Grounds",
+"exits": {"north": {
+"vnum": 33324,
+"door": false,
+"closed": false,
+"locked": false
+}
+,
+"east": {
+"vnum": 33326,
+"door": false,
+"closed": false,
+"locked": false
+}
+,
+"south": {
+"vnum": 33329,
+"door": false,
+"closed": false,
+"locked": false
+}
+}
+},
+"33324": {
+"name": "Conditioning Yard",
+"area": "The Landshark Breeding Grounds",
+"exits": {"north": {
+"vnum": 33323,
+"door": false,
+"closed": false,
+"locked": false
+}
+,
+"south": {
+"vnum": 33325,
+"door": false,
+"closed": false,
+"locked": false
+}
+}
+},
+"33323": {
+"name": "Adolescent Pen Row",
+"area": "The Landshark Breeding Grounds",
+"exits": {"north": {
+"vnum": 33322,
+"door": false,
+"closed": false,
+"locked": false
+}
+,
+"south": {
+"vnum": 33324,
+"door": false,
+"closed": false,
+"locked": false
+}
+}
+},
+"33322": {
+"name": "Juvenile Training Yard",
+"area": "The Landshark Breeding Grounds",
+"exits": {"north": {
+"vnum": 33321,
+"door": false,
+"closed": false,
+"locked": false
+}
+,
+"south": {
+"vnum": 33323,
+"door": false,
+"closed": false,
+"locked": false
+}
+}
+},
+"33321": {
+"name": "West Pen Access - North",
+"area": "The Landshark Breeding Grounds",
+"exits": {"east": {
+"vnum": 33320,
+"door": false,
+"closed": false,
+"locked": false
+}
+,
+"south": {
+"vnum": 33322,
+"door": false,
+"closed": false,
+"locked": false
+}
+}
+},
+"33320": {
+"name": "West Pen Access - Upper",
+"area": "The Landshark Breeding Grounds",
+"exits": {"east": {
+"vnum": 33319,
+"door": false,
+"closed": false,
+"locked": false
+}
+,
+"west": {
+"vnum": 33321,
+"door": false,
+"closed": false,
+"locked": false
+}
+}
+},
+"33319": {
+"name": "West Pen Access - Mid",
+"area": "The Landshark Breeding Grounds",
+"exits": {"east": {
+"vnum": 33318,
+"door": false,
+"closed": false,
+"locked": false
+}
+,
+"west": {
+"vnum": 33320,
+"door": false,
+"closed": false,
+"locked": false
+}
+}
+},
+"33318": {
+"name": "West Pen Access - Entry",
+"area": "The Landshark Breeding Grounds",
+"exits": {"east": {
+"vnum": 33317,
+"door": false,
+"closed": false,
+"locked": false
+}
+,
+"west": {
+"vnum": 33319,
+"door": false,
+"closed": false,
+"locked": false
+}
+}
+},
+"33317": {
+"name": "Handler Quarters Approach",
+"area": "The Landshark Breeding Grounds",
+"exits": {"north": {
+"vnum": 33316,
+"door": false,
+"closed": false,
+"locked": false
+}
+,
+"west": {
+"vnum": 33318,
+"door": false,
+"closed": false,
+"locked": false
+}
+}
+},
+"33316": {
+"name": "Main Corridor - Central Junction",
+"area": "The Landshark Breeding Grounds",
+"exits": {"north": {
+"vnum": 33315,
+"door": false,
+"closed": false,
+"locked": false
+}
+,
+"east": {
+"vnum": 33377,
+"door": false,
+"closed": false,
+"locked": false
+}
+,
+"south": {
+"vnum": 33317,
+"door": false,
+"closed": false,
+"locked": false
+}
+,
+"west": {
+"vnum": 33378,
+"door": false,
+"closed": false,
+"locked": false
+}
+}
+},
+"33315": {
+"name": "Facility Spine - South",
+"area": "The Landshark Breeding Grounds",
+"exits": {"north": {
+"vnum": 33314,
+"door": false,
+"closed": false,
+"locked": false
+}
+,
+"south": {
+"vnum": 33316,
+"door": false,
+"closed": false,
+"locked": false
+}
+}
+},
+"33314": {
+"name": "Facility Spine - North",
+"area": "The Landshark Breeding Grounds",
+"exits": {"north": {
+"vnum": 33304,
+"door": false,
+"closed": false,
+"locked": false
+}
+,
+"south": {
+"vnum": 33315,
+"door": false,
+"closed": false,
+"locked": false
+}
+}
+},
+"33313": {
+"name": "Records Storage",
+"area": "The Landshark Breeding Grounds",
+"exits": {"east": {
+"vnum": 33312,
+"door": false,
+"closed": false,
+"locked": false
+}
+}
+},
+"33312": {
+"name": "Records Office",
+"area": "The Landshark Breeding Grounds",
+"exits": {"east": {
+"vnum": 33311,
+"door": false,
+"closed": false,
+"locked": false
+}
+,
+"south": {
+"vnum": 33310,
+"door": false,
+"closed": false,
+"locked": false
+}
+,
+"west": {
+"vnum": 33313,
+"door": false,
+"closed": false,
+"locked": false
+}
+}
+},
+"33311": {
+"name": "Supply Cupboard",
+"area": "The Landshark Breeding Grounds",
+"exits": {"south": {
+"vnum": 33309,
+"door": false,
+"closed": false,
+"locked": false
+}
+,
+"west": {
+"vnum": 33312,
+"door": false,
+"closed": false,
+"locked": false
+}
+}
+},
+"33310": {
+"name": "Filing Room",
+"area": "The Landshark Breeding Grounds",
+"exits": {"north": {
+"vnum": 33312,
+"door": false,
+"closed": false,
+"locked": false
+}
+,
+"east": {
+"vnum": 33309,
+"door": false,
+"closed": false,
+"locked": false
+}
+,
+"south": {
+"vnum": 33308,
+"door": false,
+"closed": false,
+"locked": false
+}
+}
+},
+"33309": {
+"name": "Administrative Corridor - North",
+"area": "The Landshark Breeding Grounds",
+"exits": {"north": {
+"vnum": 33311,
+"door": false,
+"closed": false,
+"locked": false
+}
+,
+"south": {
+"vnum": 33307,
+"door": false,
+"closed": false,
+"locked": false
+}
+,
+"west": {
+"vnum": 33310,
+"door": false,
+"closed": false,
+"locked": false
+}
+}
+},
+"33308": {
+"name": "Administrative Corridor - Mid",
+"area": "The Landshark Breeding Grounds",
+"exits": {"north": {
+"vnum": 33310,
+"door": false,
+"closed": false,
+"locked": false
+}
+,
+"east": {
+"vnum": 33307,
+"door": false,
+"closed": false,
+"locked": false
+}
+,
+"south": {
+"vnum": 33306,
+"door": false,
+"closed": false,
+"locked": false
+}
+}
+},
+"33307": {
+"name": "Administrative Corridor - South",
+"area": "The Landshark Breeding Grounds",
+"exits": {"north": {
+"vnum": 33309,
+"door": false,
+"closed": false,
+"locked": false
+}
+,
+"south": {
+"vnum": 33305,
+"door": false,
+"closed": false,
+"locked": false
+}
+,
+"west": {
+"vnum": 33308,
+"door": false,
+"closed": false,
+"locked": false
+}
+}
+},
+"33306": {
+"name": "Break Room",
+"area": "The Landshark Breeding Grounds",
+"exits": {"north": {
+"vnum": 33308,
+"door": false,
+"closed": false,
+"locked": false
+}
+,
+"east": {
+"vnum": 33305,
+"door": false,
+"closed": false,
+"locked": false
+}
+}
+},
+"33305": {
+"name": "Staff Corridor Junction",
+"area": "The Landshark Breeding Grounds",
+"exits": {"north": {
+"vnum": 33307,
+"door": false,
+"closed": false,
+"locked": false
+}
+,
+"east": {
+"vnum": 33304,
+"door": false,
+"closed": false,
+"locked": false
+}
+,
+"west": {
+"vnum": 33306,
+"door": false,
+"closed": false,
+"locked": false
+}
+}
+},
+"33304": {
+"name": "Veterinary Station",
+"area": "The Landshark Breeding Grounds",
+"exits": {"east": {
+"vnum": 33303,
+"door": false,
+"closed": false,
+"locked": false
+}
+,
+"south": {
+"vnum": 33314,
+"door": false,
+"closed": false,
+"locked": false
+}
+,
+"west": {
+"vnum": 33305,
+"door": false,
+"closed": false,
+"locked": false
+}
+}
+},
+"33303": {
+"name": "West Wing Approach",
+"area": "The Landshark Breeding Grounds",
+"exits": {"north": {
+"vnum": 33302,
+"door": false,
+"closed": false,
+"locked": false
+}
+,
+"west": {
+"vnum": 33304,
+"door": false,
+"closed": false,
+"locked": false
+}
+}
+},
+"33302": {
+"name": "North Yard Junction",
+"area": "The Landshark Breeding Grounds",
+"exits": {"north": {
+"vnum": 33301,
+"door": false,
+"closed": false,
+"locked": false
+}
+,
+"south": {
+"vnum": 33303,
+"door": false,
+"closed": false,
+"locked": false
+}
+}
+},
+"33301": {
+"name": "Main Gate",
+"area": "The Landshark Breeding Grounds",
+"exits": {"north": {
+"vnum": 33300,
+"door": false,
+"closed": false,
+"locked": false
+}
+,
+"south": {
+"vnum": 33302,
+"door": false,
+"closed": false,
+"locked": false
+}
+}
+},
+"33300": {
+"name": "Approach Road - Facility Entrance",
+"area": "The Landshark Breeding Grounds",
+"exits": {"north": {
+"vnum": 10577,
+"door": false,
+"closed": false,
+"locked": false
+}
+,
+"south": {
+"vnum": 33301,
 "door": false,
 "closed": false,
 "locked": false
